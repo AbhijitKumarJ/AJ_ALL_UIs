@@ -1,0 +1,10 @@
+customtkinter
+requests
+pytorch
+torchvision
+torchaudio
+transformers
+google-generativeai
+anthropic
+openai
+groq

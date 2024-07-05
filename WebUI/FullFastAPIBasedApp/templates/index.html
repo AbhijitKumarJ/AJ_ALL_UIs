@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enchanted AI Chat Interface</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="sidebar sidebar-left">
+            <div class="branding">
+                <i class="fas fa-robot"></i>
+                <h2>Enchanted AI</h2>
+            </div>
+            <div class="chat-history">
+                <h3><i class="fas fa-history"></i> Chat History</h3>
+                <div class="chat-history-item"><i class="fas fa-comments"></i> Mystical Dialogues</div>
+                <div class="chat-history-item"><i class="fas fa-comments"></i> Cosmic Conversations</div>
+                <div class="chat-history-item"><i class="fas fa-comments"></i> Ethereal Exchanges</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-menu-item"><i class="fas fa-cog"></i> Settings</div>
+                <div class="sidebar-menu-item"><i class="fas fa-question-circle"></i> Help</div>
+                <div class="sidebar-menu-item"><i class="fas fa-sign-out-alt"></i> Logout</div>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1><i class="fas fa-magic"></i> Enchanted AI Chat</h1>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Whisper your thoughts here...">
+                <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <div class="sidebar sidebar-right">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-server"></i> Inference Source</h3>
+                <select id="inference-source">
+
+                </select>
+            </div>
+            <div class="sidebar-section">
+                <h3><i class="fas fa-brain"></i> Model Selection</h3>
+                <select id="model-selection">
+                    
+                </select>
+            </div>
+            <div class="sidebar-section">
+                <h3><i class="fas fa-key"></i> API Keys</h3>
+                <label for="openai-key">OpenAI Key:</label>
+                <input type="password" id="openai-key" placeholder="Enter OpenAI API Key">
+                <label for="groq-key">Groq Key:</label>
+                <input type="password" id="groq-key" placeholder="Enter Groq API Key">
+            </div>
+            <div class="sidebar-section">
+                <h3><i class="fas fa-sliders-h"></i> Inference Parameters</h3>
+                <label for="temperature">Temperature: <span id="temperature-value">0.7</span></label>
+                <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                <label for="max-tokens">Max Tokens: <span id="max-tokens-value">1024</span></label>
+                <input type="range" id="max-tokens" min="1" max="2048" value="1024">
+                <label for="top-p">Top P: <span id="top-p-value">0.9</span></label>
+                <input type="range" id="top-p" min="0" max="1" step="0.1" value="0.9">
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+        providers = ["Ollama", "Groq", "Claude", "OpenAI", "Gemini"];
+        models = {
+            "Ollama": [
+                {
+                    "name": "qwen2:1.5b"
+                }
+            ],
+            "Groq": [
+                {
+                    "name": "llama3-8b-8192"
+                },
+                {
+                    "name": "gemma2-9b-it"
+                },
+                {
+                    "name": "gemma-7b-it"
+                },
+                {
+                    "name": "llama3-70b-8192"
+                },
+                {
+                    "name": "mixtral-8x7b-32768"
+                }
+            ],
+            "Claude": [
+                {
+                    "name": "claude-3-haiku-20240307"
+                },
+                {
+                    "name": "claude-3-sonnet-20240229"
+                },
+                {
+                    "name": "claude-3-opus-20240229"
+                }
+            ],
+            "OpenAI": [
+                {
+                    "name": "gpt-3.5-turbo"
+                },
+                {
+                    "name": "gpt-3.5-turbo-1106"
+                },
+                {
+                    "name": "gpt-4-turbo"
+                },
+                {
+                    "name": "gpt-4"
+                },
+                {
+                    "name": "gpt-4o"
+                }
+            ],
+            "Gemini": [
+                {
+                    "name": "gemini-1.5-flash"
+                },
+                {
+                    "name": "gemini-1.0-pro"
+                }
+            ]
+        }
+
+        // <option value="ollama">Ollama</option>
+        // <option value="transformers">Transformers</option>
+        // <option value="openai">OpenAI</option>
+        // <option value="groq">Groq</option>
+        for (let index = 0; index < providers.length; index++) {
+            let provider = providers[index];
+            $('#inference-source').append('<option value="' + provider + '">' + provider + '</option>')
+        }
+
+        //<option value="llama-8b">Llama 8B</option>
+        // <option value="qwen-7b">Qwen 7B</option>
+        // <option value="gpt-3.5">GPT-3.5</option>
+        // <option value="gpt-4">GPT-4</option>
+        for (let index = 0; index < models["Ollama"].length; index++) {
+            let model_name = models["Ollama"][index]["name"];
+            $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
+        }
+
+        $(function(){
+
+
+            $( "#inference-source" ).on( "change", function() {
+                selectedProvider=$( "#inference-source" ).val();
+                $('#model-selection').html('');
+                for (let index = 0; index < models[selectedProvider].length; index++) {
+                    let model_name = models[selectedProvider][index]["name"];
+                    $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
+                }
+            } );
+
+            $.get('/api/providers/ollama/models', function(data, textStatus, jqXHR){
+                ollamaModels=data.data;
+                $('#model-selection').html('');
+                for (let index = 0; index < ollamaModels.length; index++) {
+                    let model_name = ollamaModels[index]["name"];
+                    $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
+                }
+
+            })
+
+        });
+
+        
+    </script>
+
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
+</body>
+
+</html>

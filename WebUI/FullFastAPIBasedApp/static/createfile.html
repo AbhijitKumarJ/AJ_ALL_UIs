@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Files</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <a href="/">back to home</a>
+    <h1>Create Files</h1>
+    <div id="file-inputs">
+        <div class="file-input">
+            <input type="text" class="filename" placeholder="Filename">
+            <textarea class="content" placeholder="File content"></textarea>
+        </div>
+    </div>
+    <button id="add-file">Add Another File</button>
+    <button id="submit">Create Files</button>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#add-file').click(function() {
+                $('#file-inputs').append(`
+                    <div class="file-input">
+                        <input type="text" class="filename" placeholder="Filename">
+                        <textarea class="content" placeholder="File content"></textarea>
+                    </div>
+                `);
+            });
+
+            $('#submit').click(function() {
+                var files = [];
+                $('.file-input').each(function() {
+                    files.push({
+                        filename: $(this).find('.filename').val(),
+                        content: $(this).find('.content').val()
+                    });
+                });
+
+                $.ajax({
+                    url: '/create_files',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(files),
+                    success: function(response) {
+                        $('#result').text(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#result').text('Error: ' + xhr.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

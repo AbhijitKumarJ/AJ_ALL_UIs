@@ -1,18 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
-    const chatMessages = document.getElementById('chat-messages');
-    const userInput = document.getElementById('user-input');
-    const sendButton = document.getElementById('send-button');
-    const inferenceSource = document.getElementById('inference-source');
-    const modelSelection = document.getElementById('model-selection');
-    const openAIKey = document.getElementById('openai-key');
-    const groqKey = document.getElementById('groq-key');
-    const temperatureSlider = document.getElementById('temperature');
-    const temperatureValue = document.getElementById('temperature-value');
-    const maxTokensSlider = document.getElementById('max-tokens');
-    const maxTokensValue = document.getElementById('max-tokens-value');
-    const topPSlider = document.getElementById('top-p');
-    const topPValue = document.getElementById('top-p-value');
+    const chatMessages = document.getElementById("chat-messages");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const inferenceSource = document.getElementById("inference-source");
+    const modelSelection = document.getElementById("model-selection");
+    const openAIKey = document.getElementById("openai-key");
+    const groqKey = document.getElementById("groq-key");
+    const temperatureSlider = document.getElementById("temperature");
+    const temperatureValue = document.getElementById("temperature-value");
+    const maxTokensSlider = document.getElementById("max-tokens");
+    const maxTokensValue = document.getElementById("max-tokens-value");
+    const topPSlider = document.getElementById("top-p");
+    const topPValue = document.getElementById("top-p-value");
 
     // Enchanted responses
     const enchantedResponses = [
@@ -25,13 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add message to chat
     function addMessage(message, isUser) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', isUser ? 'user-message' : 'bot-message');
+        const messageElement = document.createElement("div");
+        messageElement.classList.add(
+            "message",
+            isUser ? "user-message" : "bot-message"
+        );
         messageElement.textContent = message;
-        
+
         // Add a magical sparkling effect to bot messages
         if (!isUser) {
-            messageElement.style.animation = 'sparkle 1s ease-in-out';
+            messageElement.style.animation = "sparkle 1s ease-in-out";
         }
 
         chatMessages.appendChild(messageElement);
@@ -50,38 +53,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleUserInput() {
         const message = userInput.value.trim();
         if (message) {
-            getChatResponseFromAPI(message);            
+            getChatResponseFromAPI(message);
         }
     }
 
-    function getChatResponseFromAPI(message){
-        var request = $.ajax({
-            url: "/api/chat/get_response",
-            method: "POST",
-            data: { item:{
-                provider:$( "#inference-source" ).val(),
-                model: $( "#model-selection" ).val(),
-                message: message
-            }},
-            contentType:"application/json",
-            dataType: "json",
-            success: function(data){
-                console.log(data);
-                addMessage(data.data.message, true);
-                userInput.value = '';
-                simulateBotResponse(data.data.message);
-            }
-          });           
-          request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
-          });
+    function getChatResponseFromAPI(message) {
+        
+        let chatMessage = {
+            user_id: "1",
+            message: message,
+            timestamp: new Date().toISOString()
+        };
+        $.ajax({
+            url: "/log_chat",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(chatMessage),
+            success: function (response) {
+                console.log(response);
+                addMessage(message, true);
+                //addMessage(response.message, true);
+                userInput.value = "";
+                simulateBotResponse(response.message);
+                //simulateBotResponse(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + xhr.responseJSON.error);
+            },
+        });
     }
 
     // Simulate bot response
     function simulateBotResponse(userMessage) {
-        const loadingMessage = enchantedResponses[Math.floor(Math.random() * enchantedResponses.length)];
-        const loadingElement = document.createElement('div');
-        loadingElement.classList.add('message', 'bot-message', 'loading');
+        const loadingMessage =
+            enchantedResponses[
+                Math.floor(Math.random() * enchantedResponses.length)
+            ];
+        const loadingElement = document.createElement("div");
+        loadingElement.classList.add("message", "bot-message", "loading");
         chatMessages.appendChild(loadingElement);
 
         typeMessage(loadingMessage, loadingElement);
@@ -89,28 +98,28 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             chatMessages.removeChild(loadingElement);
             const botMessage = `Greetings, seeker of knowledge! I have pondered your message: "${userMessage}". What arcane insights may I offer in return?`;
-            const botElement = document.createElement('div');
-            botElement.classList.add('message', 'bot-message');
+            const botElement = document.createElement("div");
+            botElement.classList.add("message", "bot-message");
             chatMessages.appendChild(botElement);
             typeMessage(botMessage, botElement);
         }, 2000);
     }
 
     // Event listeners
-    sendButton.addEventListener('click', handleUserInput);
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
+    sendButton.addEventListener("click", handleUserInput);
+    userInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
             handleUserInput();
         }
     });
 
     // Update slider values with magical transitions
     function updateSliderValue(slider, valueElement) {
-        slider.addEventListener('input', () => {
+        slider.addEventListener("input", () => {
             valueElement.textContent = slider.value;
-            valueElement.style.transform = 'scale(1.2)';
+            valueElement.style.transform = "scale(1.2)";
             setTimeout(() => {
-                valueElement.style.transform = 'scale(1)';
+                valueElement.style.transform = "scale(1)";
             }, 200);
         });
     }
@@ -121,13 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Magical background effect
     function createMagicalBackground() {
-        const magicalBg = document.createElement('div');
-        magicalBg.className = 'magical-background';
+        const magicalBg = document.createElement("div");
+        magicalBg.className = "magical-background";
         document.body.appendChild(magicalBg);
 
         for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
+            const star = document.createElement("div");
+            star.className = "star";
             star.style.left = `${Math.random() * 100}%`;
             star.style.top = `${Math.random() * 100}%`;
             star.style.animationDuration = `${Math.random() * 3 + 2}s`;
@@ -139,20 +148,20 @@ document.addEventListener('DOMContentLoaded', () => {
     createMagicalBackground();
 
     // Enchanted input field effect
-    userInput.addEventListener('focus', () => {
-        userInput.style.boxShadow = '0 0 10px var(--secondary-color)';
+    userInput.addEventListener("focus", () => {
+        userInput.style.boxShadow = "0 0 10px var(--secondary-color)";
     });
 
-    userInput.addEventListener('blur', () => {
-        userInput.style.boxShadow = '';
+    userInput.addEventListener("blur", () => {
+        userInput.style.boxShadow = "";
     });
 
     // Model and source selection effect
     function addSelectionEffect(selectElement) {
-        selectElement.addEventListener('change', () => {
-            selectElement.style.transform = 'scale(1.05)';
+        selectElement.addEventListener("change", () => {
+            selectElement.style.transform = "scale(1.05)";
             setTimeout(() => {
-                selectElement.style.transform = 'scale(1)';
+                selectElement.style.transform = "scale(1)";
             }, 200);
         });
     }
@@ -162,11 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // API Key security effect
     function addSecurityEffect(inputElement) {
-        inputElement.addEventListener('input', () => {
+        inputElement.addEventListener("input", () => {
             if (inputElement.value.length > 0) {
-                inputElement.style.border = '2px solid var(--secondary-color)';
+                inputElement.style.border = "2px solid var(--secondary-color)";
             } else {
-                inputElement.style.border = '';
+                inputElement.style.border = "";
             }
         });
     }
@@ -175,10 +184,21 @@ document.addEventListener('DOMContentLoaded', () => {
     addSecurityEffect(groqKey);
 
     // Easter egg: Konami code
-    let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiCode = [
+        "ArrowUp",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowLeft",
+        "ArrowRight",
+        "b",
+        "a",
+    ];
     let konamiIndex = 0;
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
         if (e.key === konamiCode[konamiIndex]) {
             konamiIndex++;
             if (konamiIndex === konamiCode.length) {
@@ -191,9 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function activateEasterEgg() {
-        document.body.style.animation = 'rainbow-bg 5s linear infinite';
+        document.body.style.animation = "rainbow-bg 5s linear infinite";
         setTimeout(() => {
-            document.body.style.animation = '';
+            document.body.style.animation = "";
         }, 5000);
     }
 });

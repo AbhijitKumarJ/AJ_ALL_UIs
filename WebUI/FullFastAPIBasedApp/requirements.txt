@@ -8,3 +8,4 @@ anthropic
 openai
 groq
 fastapi[all]
+httpx

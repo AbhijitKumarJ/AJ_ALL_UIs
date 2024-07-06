@@ -16,4 +16,5 @@ class ExecutionLogManager(LogManager):
             "content": log_entry.content,
             "timestamp": log_entry.timestamp or datetime.now(),
         }
-        self.log_entry(log_entry.user_id, data)
+        self.log_entry(log_entry.user_id, log_entry.session_folder, data)
+

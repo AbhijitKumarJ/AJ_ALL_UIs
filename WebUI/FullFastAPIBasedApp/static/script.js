@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleUserInput() {
         const message = userInput.value.trim();
         if (message) {
+            addMessage(message, true);
             getChatResponseFromAPI(message);
         }
     }
@@ -60,7 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function getChatResponseFromAPI(message) {
         
         let chatMessage = {
-            user_id: "1",
+            user_id: "abhijit",
+            session_name:"random thoughts1",
+            session_folder:"",
             message: message,
             timestamp: new Date().toISOString()
         };
@@ -71,14 +74,15 @@ document.addEventListener("DOMContentLoaded", () => {
             data: JSON.stringify(chatMessage),
             success: function (response) {
                 console.log(response);
-                addMessage(message, true);
+                
                 //addMessage(response.message, true);
                 userInput.value = "";
-                simulateBotResponse(response.message);
+                simulateBotResponse(response.response);
                 //simulateBotResponse(response.message);
             },
             error: function (xhr, status, error) {
                 console.log("Error: " + xhr.responseJSON.error);
+                simulateBotResponse("There seems to be some issue with bot, please retry.");
             },
         });
     }

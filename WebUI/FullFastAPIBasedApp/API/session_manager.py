@@ -1,6 +1,7 @@
 # session_manager.py
 from datetime import datetime
-from user_manager import UserManager
+from typing import Optional
+from .user_manager import UserManager
 
 class SessionManager:
     def __init__(self, user_manager: UserManager):

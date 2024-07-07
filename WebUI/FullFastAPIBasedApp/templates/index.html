@@ -19,7 +19,11 @@
             <div class="chat-history">
                 <h3><i class="fas fa-history"></i> Links</h3>
                 <div class="chat-history-item"><i class="fas fa-comments"></i>
-                    <a href="{{ url_for('static', path='/createfile.html') }}"> Create Files</a></div>
+                    <a href="{{ url_for('static', path='/createfile.html') }}"> Create Files</a>
+                </div>
+                <div class="chat-history-item"><i class="fas fa-comments"></i>
+                    <a href="{{ url_for('static', path='/taskanalyser/index.html') }}"> Task Analyser</a>
+                </div>
             </div>
             <div class="chat-history">
                 <h3><i class="fas fa-history"></i> Chat History</h3>
@@ -53,7 +57,7 @@
             <div class="sidebar-section">
                 <h3><i class="fas fa-brain"></i> Model Selection</h3>
                 <select id="model-selection">
-                    
+
                 </select>
             </div>
             <div class="sidebar-section">
@@ -158,20 +162,20 @@
             $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
         }
 
-        $(function(){
+        $(function () {
 
 
-            $( "#inference-source" ).on( "change", function() {
-                selectedProvider=$( "#inference-source" ).val();
+            $("#inference-source").on("change", function () {
+                selectedProvider = $("#inference-source").val();
                 $('#model-selection').html('');
                 for (let index = 0; index < models[selectedProvider].length; index++) {
                     let model_name = models[selectedProvider][index]["name"];
                     $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
                 }
-            } );
+            });
 
-            $.get('/api/providers/ollama/models', function(data, textStatus, jqXHR){
-                ollamaModels=data.data;
+            $.get('/api/providers/ollama/models', function (data, textStatus, jqXHR) {
+                ollamaModels = data.data;
                 $('#model-selection').html('');
                 for (let index = 0; index < ollamaModels.length; index++) {
                     let model_name = ollamaModels[index]["name"];
@@ -182,7 +186,7 @@
 
         });
 
-        
+
     </script>
 
     <script src="{{ url_for('static', path='/script.js') }}"></script>

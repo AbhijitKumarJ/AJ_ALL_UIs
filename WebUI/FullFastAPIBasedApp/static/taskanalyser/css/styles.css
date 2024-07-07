@@ -1,0 +1,86 @@
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.task-node {
+    background-color: #2c2c2c;
+    border: 1px solid #4a4a4a;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.node-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.node-text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.node-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.node-children {
+    margin-left: 20px;
+    position: relative;
+}
+
+.node-children::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -10px;
+    border-left: 1px solid #4a4a4a;
+}
+
+.node-children .task-node::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    width: 10px;
+    height: 1px;
+    background-color: #4a4a4a;
+}
+
+.action-icon {
+    cursor: pointer;
+    color: #007bff;
+}
+
+.editable {
+    background-color: #3c3c3c;
+    border: none;
+    color: #ffffff;
+    width: 100%;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+    background-color: #2c2c2c;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}

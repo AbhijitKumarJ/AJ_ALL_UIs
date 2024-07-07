@@ -31,6 +31,11 @@ async def read_root(request: Request):
         "index.html", {"request": request, "title": "FastAPI Example"}
     )
 
+@app.get("/TaskAnalyser", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse(
+        "taskanalyser/index.html", {"request": request, "title": "FastAPI Example"}
+    )
 
 llm_manager = AdvancedLLMChatManager()
 
@@ -128,3 +133,14 @@ async def get_execution_log(session: SessionCreate):
         raise HTTPException(status_code=404, detail="Session not found")
     log = execution_manager.get_log(session.user_id, folder_name)
     return {"user_id": session.user_id, "session_name": session.session_name, "execution_log": log}
+
+
+@app.post("/get_task_steps")
+async def get_task_steps(message: ChatMessage):
+    message.session_folder = session_manager.get_session_folder(message.user_id, message.session_name)
+    if not message.session_folder:
+        raise HTTPException(status_code=404, detail="Session not found")
+    await chat_manager.log_chat(message.user_id, "User", message.session_folder, message.message, message.timestamp)
+    response = await chat_manager.get_ollama_task_steps(message.user_id, message.session_folder, message.message)
+    await chat_manager.log_chat(message.user_id, "Bot", message.session_folder, response)
+    return {"status": "success", "message": "Chat message logged", "response": response}

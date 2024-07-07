@@ -1,5 +1,6 @@
 # chat_log_manager.py
 from datetime import datetime
+import json
 from .log_manager import LogManager
 from .api_entities import ChatMessage
 import httpx
@@ -29,6 +30,23 @@ class ChatLogManager(LogManager):
                     "messages": context,
                     "stream":False
                 }
+            )
+            response_data = response.json()
+            return response_data["message"]["content"]
+    
+    async def get_ollama_task_steps(self, user_id: str, session_folder: str, message: str) -> str:
+        #chat_log = self.get_log(user_id, session_folder)
+        context = json.loads(message)
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "http://localhost:11434/api/chat",
+                json={
+                    "model": "qwen2:1.5b",
+                    "messages": context,
+                    "stream":False
+                },
+                timeout=200.0
             )
             response_data = response.json()
             return response_data["message"]["content"]

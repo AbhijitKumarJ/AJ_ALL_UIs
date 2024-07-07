@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Collapsible Sidebar Layout</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+            transition: all 0.3s;
+            background-color: #343a40;
+            display: flex;
+            flex-direction: column;
+        }
+        #leftSidebar {
+            left: 0;
+        }
+        #rightSidebar {
+            right: 0;
+        }
+        .sidebar.collapsed {
+            width: 60px;
+        }
+        .sidebar.expanded {
+            width: 250px;
+        }
+        .sidebar .nav-link {
+            color: #fff;
+            padding: 10px 15px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+        .sidebar .nav-link i {
+            width: 30px;
+            text-align: center;
+        }
+        .sidebar .nav-link span {
+            margin-left: 10px;
+            display: none;
+        }
+        .sidebar.expanded .nav-link span {
+            display: inline;
+        }
+        #content {
+            margin-left: 60px;
+            margin-right: 60px;
+            transition: all 0.3s;
+        }
+        .toggleSidebar {
+            color: #fff;
+            background: none;
+            border: none;
+            padding: 10px 15px;
+        }
+        .action-links {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="leftSidebar" class="sidebar collapsed">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+        </ul>
+        <div class="action-links">
+            <a href="#" class="nav-link">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Login</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+        <button class="toggleSidebar" data-sidebar="leftSidebar">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <div id="rightSidebar" class="sidebar collapsed">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendar</span>
+                </a>
+            </li>
+        </ul>
+        <div class="action-links">
+            <a href="#" class="nav-link">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </a>
+        </div>
+        <button class="toggleSidebar" data-sidebar="rightSidebar">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+    </div>
+
+    <div id="content">
+        <div class="container mt-4">
+            <h1>Welcome to the Main Content</h1>
+            <p>This is where your main page content would go. It remains stationary when the sidebars expand or collapse.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.toggleSidebar').click(function() {
+                var sidebarId = $(this).data('sidebar');
+                $('#' + sidebarId).toggleClass('collapsed expanded');
+                $(this).find('i').toggleClass('fa-chevron-right fa-chevron-left');
+                
+                if ($('#' + sidebarId).hasClass('expanded')) {
+                    $('#' + sidebarId + ' .nav-link span').fadeIn(300);
+                } else {
+                    $('#' + sidebarId + ' .nav-link span').fadeOut(300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

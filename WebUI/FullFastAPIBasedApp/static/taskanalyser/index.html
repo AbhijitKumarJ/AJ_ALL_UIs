@@ -10,6 +10,35 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/sidebar.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .modal-body {
+            color: #333;
+        }
+
+        .form-label {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .btn-link {
+            color: #0056b3;
+        }
+
+        #divnotLoggedIn {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        #divNotLoggedIn .card-body {
+            color: #333 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,7 +65,7 @@
             </li>
         </ul>
         <div class="action-links">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link" id="lnkLogin">
                 <i class="fas fa-sign-in-alt"></i>
                 <span>Login</span>
             </a>
@@ -86,8 +115,8 @@
         </button>
     </div>
 
-    <div id="content">        
-        <div class="container mt-4">
+    <div id="content">
+        <div id="divLoggedIn" class="container mt-4 hidden">
             <h1 class="mb-4">Advanced Task Flowchart Creator</h1>
             <div class="mb-3">
                 <label for="taskInput" class="form-label">Enter your task:</label>
@@ -98,24 +127,46 @@
             <button id="exportJson" class="btn btn-secondary mt-4">Export JSON</button>
             <button id="importJson" class="btn btn-secondary mt-4 ms-2">Import JSON</button>
         </div>
-    
-        <!-- Popup for subdivision options -->
-        <div id="subdividePopup" class="popup">
-            <div class="popup-content">
-                <h2>Subdivision Options</h2>
-                <select id="subdivideOption1" class="form-select mb-2">
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-                <select id="subdivideOption2" class="form-select mb-2">
-                    <option value="optionA">Option A</option>
-                    <option value="optionB">Option B</option>
-                    <option value="optionC">Option C</option>
-                </select>
-                <button id="subdivideSubmit" class="btn btn-primary">Submit</button>
-                <button id="subdivideCancel" class="btn btn-secondary ms-2">Cancel</button>
+        <div id="divNotLoggedIn" class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="mb-4">Welcome to Advanced Task Flowchart Creator</h2>
+                    <p class="lead mb-4">Create, manage, and visualize your tasks with our powerful flowchart tool.</p>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Why use our Flowchart Creator?</h5>
+                            <ul class="list-unstyled">
+                                <li>✅ Intuitive task breakdown</li>
+                                <li>✅ Visual representation of workflows</li>
+                                <li>✅ Easy export and import of your flowcharts</li>
+                                <li>✅ Collaborative features for team projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="mb-4">To start creating your flowcharts, please log in or register for an account.</p>
+                    <button id="openAuthModal" class="btn btn-primary btn-lg">Log In / Register</button>
+                </div>
             </div>
+        </div>
+    </div>
+
+
+    <!-- Popup for subdivision options -->
+    <div id="subdividePopup" class="popup">
+        <div class="popup-content">
+            <h2>Subdivision Options</h2>
+            <select id="subdivideOption1" class="form-select mb-2">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+            <select id="subdivideOption2" class="form-select mb-2">
+                <option value="optionA">Option A</option>
+                <option value="optionB">Option B</option>
+                <option value="optionC">Option C</option>
+            </select>
+            <button id="subdivideSubmit" class="btn btn-primary">Submit</button>
+            <button id="subdivideCancel" class="btn btn-secondary ms-2">Cancel</button>
         </div>
     </div>
 
@@ -175,6 +226,50 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="btnSaveAddNode">Add Node</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Login Form -->
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="mb-3 hidden" id="personaField">
+                            <label for="persona" class="form-label">Persona</label>
+                            <input type="text" class="form-control" id="persona">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-link" id="toggleRegister">Not registered? Sign up</button>
+                    </form>
+
+                    <!-- Topic Selection -->
+                    <div id="topicSelection" class="hidden">
+                        <h5 class="mt-3">Select a Topic</h5>
+                        <select id="topicDropdown" class="form-select mb-3">
+                            <option value="">Loading topics...</option>
+                        </select>
+                        <div class="mb-3">
+                            <label for="newTopic" class="form-label">Or create a new topic:</label>
+                            <input type="text" class="form-control" id="newTopic">
+                        </div>
+                        <button id="startSession" class="btn btn-success">Start Session</button>
+                    </div>
                 </div>
             </div>
         </div>

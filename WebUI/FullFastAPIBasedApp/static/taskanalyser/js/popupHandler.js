@@ -1,27 +1,123 @@
-// This file contains functions for handling the subdivision popup
+$(document).ready(function () {
+    const modal = new bootstrap.Modal(document.getElementById("authModal"));
+    let isRegistering = false;
+    let isLoggedIn = false;
+    let user_id=1;
+    let persona="Programmer";
+    $("#lnkLogin,#openAuthModal").click(() => modal.show());
 
-// let currentSubdivideNodeId = null;
+    $("#toggleRegister").click(function () {
+        isRegistering = !isRegistering;
+        $("#personaField").toggleClass("hidden");
+        $(this).text(
+            isRegistering
+                ? "Already registered? Log in"
+                : "Not registered? Sign up"
+        );
+        $("#authModalLabel").text(
+            isRegistering ? "Registration" : "Authentication"
+        );
+    });
 
-// function openSubdividePopup(nodeId) {
-//     currentSubdivideNodeId = nodeId;
-//     document.getElementById('subdividePopup').style.display = 'block';
-// }
+    function updateLoggedInUIState() {
+        if (isLoggedIn) {
+            $("#divLoggedIn").removeClass("hidden");
+            $("#divNotLoggedIn").addClass("hidden");
+        } else {
+            $("#divLoggedIn").addClass("hidden");
+            $("#divNotLoggedIn").removeClass("hidden");
+        }
+    }
 
-// function closeSubdividePopup() {
-//     document.getElementById('subdividePopup').style.display = 'none';
-//     currentSubdivideNodeId = null;
-// }
+    $("#loginForm").submit(function (e) {
+        e.preventDefault();
+        const username = $("#username").val();
+        const password = $("#password").val();
+        persona = $("#persona").val() || persona;
 
-// function handleSubdivideSubmit() {
-//     const option1 = document.getElementById('subdivideOption1').value;
-//     const option2 = document.getElementById('subdivideOption2').value;
-//     subdivideNode(currentSubdivideNodeId, { option1, option2 });
-//     closeSubdividePopup();
-// }
+        // Simulated authentication
+        if (isRegistering) {
+            console.log("Registering:", { username, password, persona });
+            window.serverCalls.register(username, password, persona, function(resp){
 
-// // Add event listeners for popup buttons
-// document.getElementById('subdivideSubmit').addEventListener('click', handleSubdivideSubmit);
-// document.getElementById('subdivideCancel').addEventListener('click', closeSubdividePopup);
+            }, function(){
+                
+            });
+            // Here you would typically send a registration request to your server
+        } else {
+            console.log("Logging in:", { username, password });
+            if (username == "a" && password == "a") {
+                isLoggedIn = true;
+
+                window.serverCalls.login(username, password, function(response){
+                    if (response.status === "success") {
+                        alert('Login successful!');
+                        console.log('User data:', response.data);
+                        user_id=response.data.id,
+                        persona=response.data.persona
+                    } else {
+                        alert('Login failed: ' + response.message);
+                    }
+                }, function(){
+
+                });
+
+                // Simulated successful authentication
+                $('#loginForm').addClass('hidden');
+                $("#topicSelection").removeClass("hidden");
+
+                // Simulated topic fetching
+                setTimeout(() => {
+                    // const topics = [
+                    //     "Create an html, jquery, css based front end for an ecommerce website", 
+                    //     "Create a FastAPI implementation to handle login, transactions,reports management for ecommerce website", 
+                    //     "Create an angular front end for for an ecommerce website."];
+                
+                    const topics = [
+                        {id:1, topic_name:"General"},
+                        {id:2, topic_name:"Web application"}, 
+                        {id:3, topic_name:"Native desktop application"}, 
+                        {id:4, topic_name:"Native mobile application"},
+                        {id:5, topic_name:"Hybrid mobile application"}
+                    ];
+                        
+                    $("#topicDropdown").empty();
+                    topics.forEach((topic) => {
+                        $("#topicDropdown").append(
+                            `<option value="${topic.id.toString()}">${topic.topic_name}</option>`
+                        );
+                    });
+                    // $("#topicDropdown").prepend(
+                    //     '<option value="0" selected>Choose a topic</option>'
+                    // );
+                }, 1000);
+            } else {
+                window.alert("In correct credentials");
+            }
+            // Here you would typically send a login request to your server
+        }
+    });
+
+    $("#startSession").click(function () {
+        const selectedTopic = $("#topicDropdown").val();
+        const newTopic = $("#newTopic").val();
+        const topic = selectedTopic || newTopic;
+        var session_name="test session";
+        if (topic) {
+            console.log("Starting session with topic:", topic);
+            // Here you would typically send a request to your server to start a new session
+            window.serverCalls.createSession(user_id, parseInt(topic), session_name, function(resp){
+
+            }, function(){
+                
+            });
+            modal.hide();
+            updateLoggedInUIState();
+        } else {
+            alert("Please select a topic");
+        }
+    });
+});
 
 $(function () {
     // Global variables to store modal instances

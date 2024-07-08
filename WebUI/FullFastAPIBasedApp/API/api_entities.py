@@ -20,6 +20,30 @@ class LogEntry(BaseModel):
     timestamp: Optional[datetime] = None
 
 
-class SessionCreate(BaseModel):
-    user_id: str
+class UserSessionCreate(BaseModel):
+    user_id: int
+    topic_id: int
     session_name: str
+
+
+# Pydantic models
+class UserCreate(BaseModel):
+    username: str
+    password: str
+    persona: str
+
+class UserInDB(BaseModel):
+    id: int
+    username: str
+    persona: str
+
+class TopicCreate(BaseModel):
+    title: str
+
+class TopicInDB(BaseModel):
+    id: int
+    title: str
+
+class UserLoginCreate(BaseModel):
+    username: str
+    password: str

@@ -1,14 +1,15 @@
 from datetime import datetime
 from typing import Optional
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
+from sqlalchemy import orm
 import os
 
-from API.api_entities import ChatMessage, LogEntry, SessionCreate
+from API.api_entities import ChatMessage, LogEntry, UserSessionCreate, UserInDB, UserCreate, TopicInDB, UserLoginCreate
 
 from API.AdvancedLLMChatManager import AdvancedLLMChatManager
 
@@ -16,6 +17,7 @@ from API.chat_log_manager import  ChatLogManager
 from API.execution_log_manager import ExecutionLogManager
 from API.session_manager import SessionManager
 from API.user_manager import UserManager
+from API.db_manager import db_create_user_session, db_get_user_sessions, db_register_user, get_db, db_authenticate_user, db_get_user, db_get_topics
 
 app = FastAPI()
 
@@ -81,24 +83,43 @@ async def get_ollama_models():
 
 # cmd> uvicorn main:app --reload
 
+@app.post("/register")
+def register_user(user: UserCreate, db: orm.Session = Depends(get_db)):
+    db_user = db_get_user(db, user.username)
+    if db_user:
+        raise { "status":"failure", "message":"Username already registered", "data":{}}
+    db_user=db_register_user(db, user.username, user.password, user.persona)
+    return {"status":"success", "message":"", "data": db_user}
 
+@app.post("/login")
+def login(form_data: UserLoginCreate, db: orm.Session = Depends(get_db)):
+    db_user = db_authenticate_user(db, form_data.username, form_data.password)
+    if not db_user:
+        raise { "status":"failure", "message":"Incorrect username or password", "data":{}}
+    return {"status":"success", "message":"", "data": db_user}
 
+@app.get("/get_topics")
+def get_topics(db: orm.Session = Depends(get_db)):
+    topics = db_get_topics()
+    return {"status":"success", "message":"", "data": topics}
 
 @app.post("/create_session")
-async def create_session(session: SessionCreate):
-    folder_name = session_manager.create_session(session.user_id, session.session_name)
-    return {"status": "success", "message": f"Session '{session.session_name}' created", "folder_name": folder_name}
+async def create_session(session: UserSessionCreate, db:orm.Session=Depends(get_db)):
+    folder_name = session_manager.create_session(str(session.user_id), session.session_name)
+    db_session=db_create_user_session(db, session.user_id, session.topic_id, session.session_name, folder_name)
+    return {"status": "success", "message": f"Session '{session.session_name}' created", "db":db_session}
 
 @app.get("/users")
 async def get_users():
     return user_manager.get_users()
 
 @app.get("/user_sessions/{user_id}")
-async def get_user_sessions(user_id: str):
-    sessions = user_manager.get_user_sessions(user_id)
-    if sessions is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return sessions
+async def get_user_sessions(user_id: int, db:orm.Session=Depends(get_db)):
+    db_user_sessions=db_get_user_sessions(db, user_id)
+    session_logs = user_manager.get_user_sessions(str(user_id))
+    if db_user_sessions is None:
+        return {"status":"failure", "message":"error fetching sessions"}
+    return {"status":"success", "message":"", "data": {"db":db_user_sessions, "logs":session_logs}}
 
 @app.post("/log_chat")
 async def log_chat(message: ChatMessage):
@@ -118,21 +139,21 @@ async def log_execution(log_entry: LogEntry):
     execution_manager.log_execution(log_entry)
     return {"status": "success", "message": "Execution log entry added"}
 
-@app.post("/get_chat_log")
-async def get_chat_log(session: SessionCreate):
-    folder_name = session_manager.get_session_folder(session.user_id, session.session_name)
-    if not folder_name:
-        raise HTTPException(status_code=404, detail="Session not found")
-    log = chat_manager.get_log(session.user_id, folder_name)
-    return {"user_id": session.user_id, "session_name": session.session_name, "chat_log": log}
+# @app.post("/get_chat_log")
+# async def get_chat_log(session: SessionCreate):
+#     folder_name = session_manager.get_session_folder(session.user_id, session.session_name)
+#     if not folder_name:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     log = chat_manager.get_log(session.user_id, folder_name)
+#     return {"user_id": session.user_id, "session_name": session.session_name, "chat_log": log}
 
-@app.post("/get_execution_log")
-async def get_execution_log(session: SessionCreate):
-    folder_name = session_manager.get_session_folder(session.user_id, session.session_name)
-    if not folder_name:
-        raise HTTPException(status_code=404, detail="Session not found")
-    log = execution_manager.get_log(session.user_id, folder_name)
-    return {"user_id": session.user_id, "session_name": session.session_name, "execution_log": log}
+# @app.post("/get_execution_log")
+# async def get_execution_log(session: SessionCreate):
+#     folder_name = session_manager.get_session_folder(session.user_id, session.session_name)
+#     if not folder_name:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     log = execution_manager.get_log(session.user_id, folder_name)
+#     return {"user_id": session.user_id, "session_name": session.session_name, "execution_log": log}
 
 
 @app.post("/get_task_steps")

@@ -9,3 +9,5 @@ openai
 groq
 fastapi[all]
 httpx
+sqlalchemy 
+passlib[bcrypt]

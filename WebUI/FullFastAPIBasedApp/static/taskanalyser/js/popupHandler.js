@@ -1,9 +1,66 @@
 $(document).ready(function () {
     const modal = new bootstrap.Modal(document.getElementById("authModal"));
-    let isRegistering = false;
-    let isLoggedIn = false;
-    let user_id=1;
-    let persona="Programmer";
+    var isRegistering = false;
+    var isLoggedIn = false;
+    var user_id=0;
+    var topic_id=0;
+    var sub_topic_id=0;
+    var project_id=0;
+    var project_name="";
+    var project_desc="";
+
+    const topics = [
+        { id: 1, topic_name: "General" },
+        { id: 2, topic_name: "Web Application UI" },
+        { id: 3, topic_name: "Rest API" },
+        { id: 4, topic_name: "Database" },
+        { id: 5, topic_name: "Native desktop application" },
+        { id: 6, topic_name: "Native mobile application" },
+        { id: 7, topic_name: "Hybrid mobile application" },
+    ];
+
+    const subTopics = [
+        { id: 1, topic_id:1, sub_topic_name: "General" },
+        { id: 2, topic_id:2, sub_topic_name: "Angular Web Application UI" },
+        { id: 3, topic_id:2, sub_topic_name: "React Web Application UI" },
+        { id: 4, topic_id:2, sub_topic_name: "Jquery bootstrap Web Application UI" },
+        { id: 5, topic_id:3, sub_topic_name: "Python FastAPI" },
+        { id: 6, topic_id:3, sub_topic_name: ".Net Web API" },
+        { id: 7, topic_id:3, sub_topic_name: "Nodejs API" },
+        { id: 8, topic_id:4, sub_topic_name: "sqlite" },
+        { id: 9, topic_id:4, sub_topic_name: "mysql" },
+        { id: 10, topic_id:5, sub_topic_name: "Tkinter Native desktop application" },
+        { id: 11, topic_id:6, sub_topic_name: "General Native mobile application" },
+        { id: 12, topic_id:7, sub_topic_name: "General Hybrid mobile application" }
+    ];
+
+
+    var userProjects = [
+        // { 
+        //     id: 1, 
+        //     sub_topic_id:2, 
+        //     project_name: "Modern Web App for an Ecommerce website with login, orders and billing",
+        //     project_description:`Need to create a modern looking web application user interface for an ecommerce website. 
+        //     This site should have a landing page that shows the company purpose and ways to login and register for customers.
+        //     Also, on login it should redirect to customer specific dashboard where he or she can see running orders, completed orders, wishlist, cart etc.
+        //     `
+        //  },
+        //  { 
+        //     id: 2, 
+        //     sub_topic_id:3, 
+        //     project_name: "Modern Web App for an Hotel booking website with login, bookings and billing",
+        //     project_description:`Need to create a modern looking web application user interface for a  hotel booking website. 
+        //     This site should have a landing page that shows our enterprize purpose with some lucrative views and ways to login and register for customers.
+        //     Also, on login it should redirect to customer specific dashboard where he or she can see current bookings, past bookings, suggested hotels etc.
+        //     `
+        //  }
+    ];
+
+    var userSessions=[];
+
+
+    var persona="Programmer";
+
     $("#lnkLogin,#openAuthModal").click(() => modal.show());
 
     $("#toggleRegister").click(function () {
@@ -29,6 +86,106 @@ $(document).ready(function () {
         }
     }
 
+    function onLoginSuccess(response) {
+        isLoggedIn = true;
+
+        user_id = response.data.id;
+        persona = response.data.persona;
+
+        // Simulated successful authentication
+        $("#loginForm").addClass("hidden");
+        $("#topicSelection").removeClass("hidden");
+
+        // const topics = [
+        //     "Create an html, jquery, css based front end for an ecommerce website",
+        //     "Create a FastAPI implementation to handle login, transactions,reports management for ecommerce website",
+        //     "Create an angular front end for for an ecommerce website."];
+
+
+        $("#ddlTopic").empty();
+        topics.forEach((topic) => {
+            $("#ddlTopic").append(
+                `<option value="${topic.id.toString()}">${
+                    topic.topic_name
+                }</option>`
+            );
+        });
+        $("#ddlTopic")[0].selectedIndex=0;
+
+        $("#ddlSubTopic").empty();
+        $("#ddlSubTopic").append(
+            `<option value="${subTopics[0].id.toString()}">${
+                subTopics[0].sub_topic_name
+            }</option>`
+        );
+        $("#ddlSubTopic")[0].selectedIndex=0;
+
+        $("#ddlTopic").on('change', function(){
+            $("#ddlSubTopic").empty();
+            let selected_topic_id=parseInt($("#ddlTopic").val());
+            subTopics.filter(x=>x.topic_id==selected_topic_id).forEach((subtopic) => {
+                $("#ddlSubTopic").append(
+                    `<option value="${subtopic.id.toString()}">${
+                        subtopic.sub_topic_name
+                    }</option>`
+                );
+            });
+            $("#ddlSubTopic")[0].selectedIndex=0;
+        })
+
+        $("#ddlSubTopic").on('change', function(){
+            $("#ddlUserProject").empty();
+            $("#ddlUserProject").append(
+                `<option value="0"> --- </option>`
+            );
+            let selected_sub_topic_id=parseInt($("#ddlSubTopic").val());
+            userProjects.filter(x=>x.sub_topic_id==selected_sub_topic_id).forEach((project) => {
+                $("#ddlUserProject").append(
+                    `<option value="${project.id.toString()}">${
+                        project.project_name
+                    }</option>`
+                );
+            });
+            $("#ddlUserProject")[0].selectedIndex=0;
+        });
+
+        window.serverCalls.getUserProjects(user_id, function(response){
+            if (response.status === "success") {
+                console.log("projects:", response.data);
+                userProjects=response.data;
+            }
+            else{
+                alert("Error: " + response.message);
+            }
+
+        }, function(){
+            alert("Failed: " + response.message);
+        });
+        
+        window.serverCalls.getUserSessions(user_id, function(response){
+            if (response.status === "success") {
+                console.log("sessions:", response.data);
+                userSessions=response.data.db;
+            }
+            else{
+                alert("Error: " + response.message);
+            }
+
+        }, function(){
+            alert("Failed: " + response.message);
+        });
+    }
+
+    function onSessionStart(response){
+        project_id=response.data.id;
+        topic_id=response.data.topic_id;
+        sub_topic_id=response.data.sub_topic_id;
+        project_name=response.data.project_name;
+        project_desc=response.data.project_desc;
+        modal.hide();
+        updateLoggedInUIState();
+    }
+
     $("#loginForm").submit(function (e) {
         e.preventDefault();
         const username = $("#username").val();
@@ -38,83 +195,77 @@ $(document).ready(function () {
         // Simulated authentication
         if (isRegistering) {
             console.log("Registering:", { username, password, persona });
-            window.serverCalls.register(username, password, persona, function(resp){
+            window.serverCalls.register_user(username, password, persona, function(resp){
+                if (response.status === "success") {
+                    alert("Registration successful!");
+                    console.log("User data:", response.data);
+                    onLoginSuccess(response);
+                }
+                else{
+                    alert("Registration failed: " + response.message);
+                }
 
             }, function(){
-                
+                alert("Registration failed: " + response.message);
             });
             // Here you would typically send a registration request to your server
         } else {
             console.log("Logging in:", { username, password });
-            if (username == "a" && password == "a") {
-                isLoggedIn = true;
 
-                window.serverCalls.login(username, password, function(response){
+            window.serverCalls.login_user(
+                username,
+                password,
+                function (response) {
                     if (response.status === "success") {
-                        alert('Login successful!');
-                        console.log('User data:', response.data);
-                        user_id=response.data.id,
-                        persona=response.data.persona
+                        //alert("Login successful!");
+                        console.log("User data:", response.data);
+                        onLoginSuccess(response)
                     } else {
-                        alert('Login failed: ' + response.message);
+                        alert("Login failed: " + response.message);
                     }
-                }, function(){
-
-                });
-
-                // Simulated successful authentication
-                $('#loginForm').addClass('hidden');
-                $("#topicSelection").removeClass("hidden");
-
-                // Simulated topic fetching
-                setTimeout(() => {
-                    // const topics = [
-                    //     "Create an html, jquery, css based front end for an ecommerce website", 
-                    //     "Create a FastAPI implementation to handle login, transactions,reports management for ecommerce website", 
-                    //     "Create an angular front end for for an ecommerce website."];
-                
-                    const topics = [
-                        {id:1, topic_name:"General"},
-                        {id:2, topic_name:"Web application"}, 
-                        {id:3, topic_name:"Native desktop application"}, 
-                        {id:4, topic_name:"Native mobile application"},
-                        {id:5, topic_name:"Hybrid mobile application"}
-                    ];
-                        
-                    $("#topicDropdown").empty();
-                    topics.forEach((topic) => {
-                        $("#topicDropdown").append(
-                            `<option value="${topic.id.toString()}">${topic.topic_name}</option>`
-                        );
-                    });
-                    // $("#topicDropdown").prepend(
-                    //     '<option value="0" selected>Choose a topic</option>'
-                    // );
-                }, 1000);
-            } else {
-                window.alert("In correct credentials");
-            }
-            // Here you would typically send a login request to your server
+                },
+                function () {}
+            );
         }
     });
 
     $("#startSession").click(function () {
-        const selectedTopic = $("#topicDropdown").val();
-        const newTopic = $("#newTopic").val();
-        const topic = selectedTopic || newTopic;
-        var session_name="test session";
-        if (topic) {
-            console.log("Starting session with topic:", topic);
+        var selectedTopic = parseInt($("#ddlTopic").val());       
+        var selectedSubTopic = parseInt($("#ddlSubTopic").val());
+        var selectedProject = parseInt($("#ddlUserProject").val());
+        var newProject = $("#txtUserProject").val().trim();
+        var newProjectDesc=$('#txtUserProjectDesc').val();
+        if (selectedProject == 0) {
+            if (newProject == "") {
+                alert("Please select a project or give a new project name");
+                return;
+            }
+        }
+        var session_name= $("#txtUserSession").val().trim();
+        if (session_name) {
+            console.log("Starting session :", session_name);
             // Here you would typically send a request to your server to start a new session
-            window.serverCalls.createSession(user_id, parseInt(topic), session_name, function(resp){
-
-            }, function(){
-                
-            });
-            modal.hide();
-            updateLoggedInUIState();
+            window.serverCalls.createSession(
+                user_id, 
+                selectedTopic,
+                selectedSubTopic,
+                selectedProject,
+                newProject,
+                newProjectDesc,
+                session_name, 
+                function(response){
+                    if (response.status === "success") {
+                        alert("Session created successful!");
+                        console.log("User Session data:", response.data);
+                        onSessionStart(response)
+                    } else {
+                        alert("Session creation failed: " + response.message);
+                    }
+                }, 
+                function(){}
+            );
         } else {
-            alert("Please select a topic");
+            alert("Please enter a purpose for this session");
         }
     });
 });

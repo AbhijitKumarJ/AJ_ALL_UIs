@@ -261,12 +261,28 @@
                     <!-- Topic Selection -->
                     <div id="topicSelection" class="hidden">
                         <h5 class="mt-3">Select a Topic</h5>
-                        <select id="topicDropdown" class="form-select mb-3">
-                            <option value="">Loading topics...</option>
+                        <select id="ddlTopic" class="form-select mb-3">
+                            <option value="0"> --- </option>
+                        </select>
+                        <h5 class="mt-3">Select a Sub-Topic</h5>
+                        <select id="ddlSubTopic" class="form-select mb-3">
+                            <option value="0"> --- </option>
+                        </select>
+                        <h5 class="mt-3">Select an Existing Project</h5>
+                        <select id="ddlUserProject" class="form-select mb-3">
+                            <option value="0"> --- </option>
                         </select>
                         <div class="mb-3">
-                            <label for="newTopic" class="form-label">Or create a new topic:</label>
-                            <input type="text" class="form-control" id="newTopic">
+                            <label for="txtUserProject" class="form-label">Or Enter new project name</label>
+                            <input type="text" class="form-control" id="txtUserProject">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtUserProjectDesc" class="form-label">Enter new project description</label>
+                            <textarea class="form-control" id="txtUserProjectDesc" ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtUserSession" class="form-label">Purpose for current session</label>
+                            <input type="text" class="form-control" id="txtUserSession">
                         </div>
                         <button id="startSession" class="btn btn-success">Start Session</button>
                     </div>

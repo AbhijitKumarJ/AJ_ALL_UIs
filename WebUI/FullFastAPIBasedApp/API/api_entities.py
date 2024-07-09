@@ -23,6 +23,10 @@ class LogEntry(BaseModel):
 class UserSessionCreate(BaseModel):
     user_id: int
     topic_id: int
+    sub_topic_id:int
+    project_id: int
+    project_name: str
+    project_desc: str
     session_name: str
 
 

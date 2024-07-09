@@ -17,7 +17,7 @@ from API.chat_log_manager import  ChatLogManager
 from API.execution_log_manager import ExecutionLogManager
 from API.session_manager import SessionManager
 from API.user_manager import UserManager
-from API.db_manager import db_create_user_session, db_get_user_sessions, db_register_user, get_db, db_authenticate_user, db_get_user, db_get_topics
+from API.db_manager import db_get_user_projects, db_get_sub_topics, db_create_user_session, db_get_user_sessions, db_register_user, get_db, db_authenticate_user, db_get_user, db_get_topics
 
 app = FastAPI()
 
@@ -83,7 +83,29 @@ async def get_ollama_models():
 
 # cmd> uvicorn main:app --reload
 
-@app.post("/register")
+@app.get("/get_topics")
+def get_topics(db: orm.Session = Depends(get_db)):
+    topics = db_get_topics()
+    return {"status":"success", "message":"", "data": topics}
+
+@app.get("/get_sub_topics")
+def get_sub_topics(db: orm.Session = Depends(get_db)):
+    subtopics = db_get_sub_topics()
+    return {"status":"success", "message":"", "data": subtopics}
+
+
+@app.get("/users")
+async def get_users():
+    return user_manager.get_users()
+
+
+@app.get("/get_user_projects/{user_id}")
+def get_user_projects(user_id: int, db: orm.Session = Depends(get_db)):
+    user_projects = db_get_user_projects(db, user_id)
+    return {"status":"success", "message":"", "data": user_projects}
+
+
+@app.post("/register_user")
 def register_user(user: UserCreate, db: orm.Session = Depends(get_db)):
     db_user = db_get_user(db, user.username)
     if db_user:
@@ -91,29 +113,20 @@ def register_user(user: UserCreate, db: orm.Session = Depends(get_db)):
     db_user=db_register_user(db, user.username, user.password, user.persona)
     return {"status":"success", "message":"", "data": db_user}
 
-@app.post("/login")
+@app.post("/login_user")
 def login(form_data: UserLoginCreate, db: orm.Session = Depends(get_db)):
     db_user = db_authenticate_user(db, form_data.username, form_data.password)
     if not db_user:
         raise { "status":"failure", "message":"Incorrect username or password", "data":{}}
     return {"status":"success", "message":"", "data": db_user}
 
-@app.get("/get_topics")
-def get_topics(db: orm.Session = Depends(get_db)):
-    topics = db_get_topics()
-    return {"status":"success", "message":"", "data": topics}
-
-@app.post("/create_session")
-async def create_session(session: UserSessionCreate, db:orm.Session=Depends(get_db)):
+@app.post("/create_user_session")
+async def create_user_session(session: UserSessionCreate, db:orm.Session=Depends(get_db)):
     folder_name = session_manager.create_session(str(session.user_id), session.session_name)
-    db_session=db_create_user_session(db, session.user_id, session.topic_id, session.session_name, folder_name)
-    return {"status": "success", "message": f"Session '{session.session_name}' created", "db":db_session}
+    db_session=db_create_user_session(db, session.user_id, session.topic_id, session.sub_topic_id, session.project_id, session.project_desc, session.project_name, session.session_name, folder_name)
+    return {"status": "success", "message": f"Session '{session.session_name}' created", "data": db_session}
 
-@app.get("/users")
-async def get_users():
-    return user_manager.get_users()
-
-@app.get("/user_sessions/{user_id}")
+@app.get("/get_user_sessions/{user_id}")
 async def get_user_sessions(user_id: int, db:orm.Session=Depends(get_db)):
     db_user_sessions=db_get_user_sessions(db, user_id)
     session_logs = user_manager.get_user_sessions(str(user_id))

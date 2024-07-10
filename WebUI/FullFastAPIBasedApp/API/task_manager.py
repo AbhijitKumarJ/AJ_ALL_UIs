@@ -35,6 +35,12 @@ class AdvancedTaskManager():
     def get_sub_tasks(self, input: TaskInput):
         #prompt = f"Divide the following task into smaller sub-tasks:\n\nTask: {input.task}\n\nSub-tasks:"
         
+        if input.provider=="" or input.provider == None:
+            input.provider=config.get("default_provider","Ollama")
+
+        if input.model=="" or input.model == None:
+            input.model=config.get("default_model","qwen2:1.5b")        
+
         if input.provider=="Ollama":
             is_success, resp_message=self.llmManager.ollama_provider.get_response(input.prompt, input.model)
 

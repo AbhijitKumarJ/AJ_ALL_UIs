@@ -1,0 +1,12 @@
+/*
+rename this file to config.json and add your keys
+*/
+
+{
+  "openai_api_key": "xxx",
+  "groq_api_key": "xxx",
+  "anthropic_api_key": "xxx",
+  "google_api_key": "xxx",
+  "default_provider": "Ollama",
+  "default_model": "qwen2:1.5b"
+}

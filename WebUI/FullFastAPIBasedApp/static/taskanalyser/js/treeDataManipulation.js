@@ -271,13 +271,13 @@ $(document).ready(function () {
         }
 
         try {
-            const apiResponse = subdivideTask(
+            const apiResponse = window.serverCalls.subDivideTask(
                 parentNode.id,
                 parentNode.text,
                 parentNode.properties,
                 function (response) {
                     //   alert(response.response) 
-                    resp_json=JSON.parse(response.response)
+                    resp_json=JSON.parse(response.data)
                     subtasks=resp_json["task_steps"]
                     subtasks.forEach((subtask) => {
                         const newChildId = addChildNode(nodeId, subtask.summary);

@@ -20,7 +20,7 @@ $(function () {
             password: password,
         };
         $.ajax({
-            url: "/get_topics",
+            url: "/master/get_topics",
             type: "GET",
             success: function (response) {
                 console.log(response);
@@ -36,7 +36,7 @@ $(function () {
 
     function getUserProjects(user_id, success_callback, error_callback) {
         $.ajax({
-            url: "/get_user_projects/" + user_id.toString(),
+            url: "/user/get_user_projects/" + user_id.toString(),
             type: "GET",
             success: function (response) {
                 console.log(response);
@@ -52,7 +52,7 @@ $(function () {
 
     function getUserSessions(user_id, success_callback, error_callback) {
         $.ajax({
-            url: "/get_user_sessions/" + user_id.toString(),
+            url: "/user/get_user_sessions/" + user_id.toString(),
             type: "GET",
             success: function (response) {
                 console.log(response);
@@ -72,7 +72,7 @@ $(function () {
             password: password,
         };
         $.ajax({
-            url: "/login_user",
+            url: "/user/login_user",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(msg),
@@ -101,7 +101,7 @@ $(function () {
             persona: persona,
         };
         $.ajax({
-            url: "/register_user",
+            url: "/user/register_user",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(msg),
@@ -138,7 +138,7 @@ $(function () {
             session_name: session_name,
         };
         $.ajax({
-            url: "/create_user_session",
+            url: "/user/create_user_session",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(msg),
@@ -165,25 +165,32 @@ $(function () {
             {
                 role: "system",
                 content:
-                    "You are an expert assistant. Please provide responses to user queries in step by step manner as json object which has one property for summary, another for description and last one as task steps which should be child json array with each element having two properties namely summary, description",
+                    "You are an expert assistant. Please provide responses to user queries in step by step manner as json object which has one property for summary, another for description and last one as task_steps which should be child json array with each element having two properties namely summary, description",
             },
             {
                 role: "user",
                 content:
-                    "Please provide step by step actions to accomplish this task: " +
+                    "Must provide output in json only without extra characters or extra text. Please provide step by step actions to accomplish this task as json output only with no extra text or character in output: " +
                     taskText,
             },
         ];
 
-        let chatMessage = {
-            user_id: "abhijit",
-            session_name: "random thoughts1",
-            session_folder: "",
-            message: JSON.stringify(prompt),
-            timestamp: new Date().toISOString(),
-        };
+        // let chatMessage = {
+        //     user_id: "abhijit",
+        //     session_name: "random thoughts1",
+        //     session_folder: "",
+        //     message: JSON.stringify(prompt),
+        //     timestamp: new Date().toISOString(),
+        // };
+
+        let chatMessage={
+            "prompt": JSON.stringify(prompt),
+            "provider": "Groq",
+            "model": "llama3-70b-8192"
+          }
+
         $.ajax({
-            url: "/get_task_steps",
+            url: "/task/get_sub_tasks",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(chatMessage),
@@ -210,6 +217,57 @@ $(function () {
         return Promise.resolve({ id: "root", text: "Root Task", children: [] });
     }
 
+
+    function get_chat_response(
+        user_message,
+        success_callback,
+        error_callback
+    ) {
+        prompt = [
+            {
+                role: "system",
+                content:
+                    "You are an expert assistant. Please provide responses to user queries in step by step manner as json object which has one property for summary, another for description and last one as task steps which should be child json array with each element having two properties namely summary, description",
+            },
+            {
+                role: "user",
+                content:
+                    "Please provide step by step actions to accomplish this task: " +
+                    user_message,
+            },
+        ];
+
+        // let chatMessage = {
+        //     user_id: "abhijit",
+        //     session_name: "random thoughts1",
+        //     session_folder: "",
+        //     message: JSON.stringify(prompt),
+        //     timestamp: new Date().toISOString(),
+        // };
+
+        let chatMessage={
+            "prompt": JSON.stringify(prompt),
+            "provider": "Ollama",
+            "model": ""
+          }
+
+        $.ajax({
+            url: "/task/get_sub_tasks",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(chatMessage),
+            success: function (response) {
+                console.log(response);
+                success_callback(response);
+                //simulateBotResponse(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + xhr.responseJSON.error);
+                error_callback();
+            },
+        });
+    }
+
     serverCalls = {};
 
     serverCalls.getTopics = getTopics;
@@ -218,9 +276,9 @@ $(function () {
     serverCalls.register_user = register_user;
     serverCalls.login_user = login_user;
     serverCalls.createSession = createSession;
-    serverCalls.subdivideTask = subDivideTask;
+    serverCalls.subDivideTask = subDivideTask;
     serverCalls.saveTaskTree = saveTaskTree;
     serverCalls.loadTaskTree = loadTaskTree;
-
+    serverCalls.get_chat_response=get_chat_response;
     window.serverCalls = serverCalls;
 });

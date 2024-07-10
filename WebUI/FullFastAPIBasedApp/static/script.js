@@ -61,14 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function getChatResponseFromAPI(message) {
         
         let chatMessage = {
-            user_id: "abhijit",
-            session_name:"random thoughts1",
-            session_folder:"",
-            message: message,
-            timestamp: new Date().toISOString()
+            prompt: message,
+            provider: $(inferenceSource).val(),//"Ollama",
+            model:$(modelSelection).val()//""
         };
         $.ajax({
-            url: "/log_chat",
+            url: "/chat/get_bot_response",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(chatMessage),
@@ -77,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 //addMessage(response.message, true);
                 userInput.value = "";
-                simulateBotResponse(response.response);
+                simulateBotResponse(response.data);
                 //simulateBotResponse(response.message);
             },
             error: function (xhr, status, error) {

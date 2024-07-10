@@ -13,7 +13,7 @@ taskManager = AdvancedTaskManager()
 @router.post("/get_sub_tasks")
 async def divide_task(input: TaskInput):
     divided_tasks = taskManager.get_sub_tasks(input)
-    return {"status":"success", "message":"", "data": divided_tasks}
+    return divided_tasks
 
 
 # @router.post("/plan", response_model=ActionPlan)

@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from typing import List
 
 # Database setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./db/app.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -77,17 +77,17 @@ def get_db():
 
 
 # Helper functions
+def db_get_users(db: Session):
+    return db.query(User).all()
+
 def db_get_user(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
-
 
 def db_verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-
 def db_get_password_hash(password):
     return pwd_context.hash(password)
-
 
 def db_authenticate_user(db: Session, username: str, password: str):
     user = db_get_user(db, username)
@@ -95,16 +95,13 @@ def db_authenticate_user(db: Session, username: str, password: str):
         return False
     return user
 
-
 def db_register_user(db: Session, username: str, password: str, persona: str):
-
     hashed_password = db_get_password_hash(password)
     db_user = User(username=username, hashed_password=hashed_password, persona=persona)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
-
 
 def db_create_topic(db: Session, topic_name: str):
     topic = Topic()
@@ -114,14 +111,11 @@ def db_create_topic(db: Session, topic_name: str):
     db.refresh(topic)
     return topic
 
-
 def db_get_topics(db: Session):
     return db.query(Topic).all()
 
-
 def db_get_sub_topics(db: Session):
     return db.query(SubTopic).all()
-
 
 def db_create_user_project(
     db: Session,
@@ -143,10 +137,8 @@ def db_create_user_project(
     db.refresh(user_project)
     return user_project
 
-
 def db_get_user_projects(db: Session, user_id: int):
     return db.query(UserProject).filter(UserProject.user_id == user_id).all()
-
 
 def db_create_user_session(
     db: Session,
@@ -179,7 +171,6 @@ def db_create_user_session(
     db.commit()
     db.refresh(user_session)
     return user_session
-
 
 def db_get_user_sessions(db: Session, user_id: int):
     return db.query(UserSession).filter(UserSession.user_id == user_id).all()

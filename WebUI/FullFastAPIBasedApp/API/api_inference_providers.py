@@ -7,22 +7,20 @@ import openai
 from groq import Groq
 from .base_inference_provider import BaseProvider
 
-
-
 class OllamaProvider(BaseProvider):
     def __init__(self, base_url="http://localhost:11434"):
         self.base_url = base_url
 
-    def get_response(self, message, model, callback):
+    def get_response(self, message, model):
         try:
             response = requests.post(
                 f"{self.base_url}/api/generate",
                 json={"model": model, "prompt": message, "stream": False},
             )
             response_text = response.json()["response"]
-            callback(response_text)
+            return True, response_text
         except requests.RequestException:
-            callback("Error: Failed to get response from Ollama.")
+            return False, "Error: Failed to get response from Ollama."
 
     def get_models(self):
         try:
@@ -36,14 +34,14 @@ class OpenAIProvider(BaseProvider):
     def __init__(self, api_key):
         self.client = openai.OpenAI(api_key=api_key)
 
-    def get_response(self, message, model, callback):
+    def get_response(self, message, model):
         try:
             response = self.client.chat.completions.create(
                 model=model, messages=[{"role": "user", "content": message}]
             )
-            callback(response.choices[0].message.content)
+            return True, response.choices[0].message.content
         except Exception as e:
-            callback(f"Error: {str(e)}")
+            return False, f"Error: {str(e)}"
 
     def get_models(self):
         try:
@@ -63,14 +61,14 @@ class GroqProvider(BaseProvider):
     def __init__(self, api_key):
         self.client = Groq(api_key=api_key)
 
-    def get_response(self, message, model, callback):
+    def get_response(self, message, model):
         try:
             response = self.client.chat.completions.create(
                 model=model, messages=[{"role": "user", "content": message}]
             )
-            callback(response.choices[0].message.content)
+            return True, response.choices[0].message.content
         except Exception as e:
-            callback(f"Error: {str(e)}")
+            return False, f"Error: {str(e)}"
 
     def get_models(self):
         try:
@@ -92,14 +90,14 @@ class ClaudeProvider(BaseProvider):
     def __init__(self, api_key):
         self.client = Anthropic(api_key=api_key)
 
-    def get_response(self, message, model, callback):
+    def get_response(self, message, model):
         try:
             response = self.client.completions.create(
                 model=model, prompt=message, max_tokens_to_sample=1000
             )
-            callback(response.completion)
+            return True, response.completion
         except Exception as e:
-            callback(f"Error: {str(e)}")
+            return False, f"Error: {str(e)}"
 
     def get_models(self):
         try:
@@ -116,13 +114,13 @@ class GeminiProvider(BaseProvider):
     def __init__(self, api_key):
         genai.configure(api_key=api_key)
 
-    def get_response(self, message, model, callback):
+    def get_response(self, message, model):
         try:
             model = genai.GenerativeModel(model)
             response = model.generate_content(message)
-            callback(response.text)
+            return True, response.text
         except Exception as e:
-            callback(f"Error: {str(e)}")
+            return False, f"Error: {str(e)}"
 
     def get_models(self):
         try:

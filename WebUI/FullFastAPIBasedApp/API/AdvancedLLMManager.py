@@ -3,20 +3,12 @@ from .api_inference_providers import OllamaProvider, OpenAIProvider, GroqProvide
 import json
 import os
 
-class AdvancedLLMChatManager():
-    def __init__(self):
-        self.config = self.load_config()
+class AdvancedLLMManager():
+    def __init__(self, config):
+        self.config = config
         self.initialize_providers()
-
         #self.transformer_inference = TransformerInference()
         #self.ollama_model_manager = OllamaModelManager(self.ollama_provider)
-
-    def load_config(self):
-        config_file = "config.json"
-        if os.path.exists(config_file):
-            with open(config_file, 'r') as f:
-                return json.load(f)
-        return {}
 
     def initialize_providers(self):
         self.ollama_provider = OllamaProvider()
@@ -27,3 +19,4 @@ class AdvancedLLMChatManager():
 
     def get_providers(self):
         return ["Ollama", "Groq", "Claude", "OpenAI", "Gemini"]
+    

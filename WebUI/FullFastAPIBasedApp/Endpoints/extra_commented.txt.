@@ -1,0 +1,68 @@
+
+#work_folder="./userfiles/"
+
+
+
+# @app.post("/log_chat")
+# async def log_chat(message: ChatMessage):
+#     chat_manager.log_chat(message)
+#     return {"status": "success", "message": "Chat message logged"}
+
+# @app.post("/log_execution")
+# async def log_execution(log_entry: LogEntry):
+#     execution_manager.log_execution(log_entry)
+#     return {"status": "success", "message": "Execution log entry added"}
+
+# @app.get("/get_chat_log/{user_id}")
+# async def get_chat_log(user_id: str):
+#     log = chat_manager.get_log(user_id)
+#     if log is None:
+#         raise HTTPException(status_code=404, detail="Chat log not found for this user")
+#     return log
+
+# @app.get("/get_execution_log/{user_id}")
+# async def get_execution_log(user_id: str):
+#     log = execution_manager.get_log(user_id)
+#     if log is None:
+#         raise HTTPException(status_code=404, detail="Execution log not found for this user")
+#     return log
+
+
+# cmd> uvicorn main:app --reload
+
+# @app.post("/log_chat")
+# async def log_chat(message: ChatMessage):
+#     message.session_folder = session_manager.get_session_folder(message.user_id, message.session_name)
+#     if not message.session_folder:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     await chat_manager.log_chat(message.user_id, "User", message.session_folder, message.message, message.timestamp)
+#     response = await chat_manager.get_ollama_response(message.user_id, message.session_folder, message.message)
+#     await chat_manager.log_chat(message.user_id, "Bot", message.session_folder, response)
+#     return {"status": "success", "message": "Chat message logged", "response": response}
+
+# @app.post("/log_execution")
+# async def log_execution(log_entry: LogEntry):
+#     log_entry.session_folder = session_manager.get_session_folder(log_entry.user_id, log_entry.session_name)
+#     if not log_entry.session_folder:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     execution_manager.log_execution(log_entry)
+#     return {"status": "success", "message": "Execution log entry added"}
+
+# @app.post("/get_chat_log")
+# async def get_chat_log(session: SessionCreate):
+#     folder_name = session_manager.get_session_folder(session.user_id, session.session_name)
+#     if not folder_name:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     log = chat_manager.get_log(session.user_id, folder_name)
+#     return {"user_id": session.user_id, "session_name": session.session_name, "chat_log": log}
+
+# @app.post("/get_task_steps")
+# async def get_task_steps(message: ChatMessage):
+#     message.session_folder = session_manager.get_session_folder(message.user_id, message.session_name)
+#     if not message.session_folder:
+#         raise HTTPException(status_code=404, detail="Session not found")
+#     await chat_manager.log_chat(message.user_id, "User", message.session_folder, message.message, message.timestamp)
+#     response = await chat_manager.get_ollama_task_steps(message.user_id, message.session_folder, message.message)
+#     await chat_manager.log_chat(message.user_id, "Bot", message.session_folder, response)
+#     return {"status": "success", "message": "Chat message logged", "response": response}
+

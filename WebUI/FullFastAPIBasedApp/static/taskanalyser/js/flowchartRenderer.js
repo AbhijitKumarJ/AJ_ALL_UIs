@@ -45,11 +45,11 @@ $(function () {
         }
     }
 
-    // window.openSubdividePopup=function(nodeid){
+    // window.AJ_GPT.openSubdividePopup=function(nodeid){
     //     treeDataManipulation.createSubnodesFromTaskDivision(nodeid, false);
     // }
-    // window.subdivideNodeDefault=function(nodeid){
+    // window.AJ_GPT.subdivideNodeDefault=function(nodeid){
     //     treeDataManipulation.promptForTaskDivision(nodeid);
     // }
-    window.renderFlowchart = renderFlowchart;
+    window.AJ_GPT.renderFlowchart = renderFlowchart;
 });

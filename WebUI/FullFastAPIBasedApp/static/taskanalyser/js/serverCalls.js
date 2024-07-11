@@ -1,5 +1,6 @@
 // This file contains functions for making server calls
 $(function () {
+    
     function simulateApiCall(task, options = {}) {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -154,26 +155,41 @@ $(function () {
         });
     }
 
-    function subDivideTask(
-        taskId,
-        taskText,
-        options = {},
-        success_callback,
-        error_callback
+
+    function createPrompt(
+        task_type,
+        is_root,
+        task_summary,
+        task_description,
+        project_desc,
+        parent_task_desc,
+        siblings_desc,
+        options = {}
     ) {
-        prompt = [
-            {
-                role: "system",
-                content:
-                    "You are an expert assistant. Please provide responses to user queries in step by step manner as json object which has one property for summary, another for description and last one as task_steps which should be child json array with each element having two properties namely summary, description",
-            },
-            {
-                role: "user",
-                content:
-                    "Must provide output in json only without extra characters or extra text. Please provide step by step actions to accomplish this task as json output only with no extra text or character in output: " +
-                    taskText,
-            },
-        ];
+
+        var taskLeafNode=window[task_type[0]];
+        for (let index = 1; index < task_type.length; index++) {
+            taskLeafNode = taskLeafNode[task_type[index]];            
+        }
+
+        
+
+        var content = "";
+        if (is_root) {
+            content=taskLeafNode.Task.replace('{{Task_Summary}}', task_summary);
+            content=taskLeafNode.Task.replace('{{Task_Description}}', task_description);            
+        }
+        else
+        {
+            content=taskLeafNode.Task.replace('{{Task_Summary}}', task_summary);
+            content=taskLeafNode.Task.replace('{{Task_Description}}', task_description);
+            content=taskLeafNode.Task.replace('{{Project_Context}}', project_desc);
+            content=taskLeafNode.Task.replace('{{Parent_Task}}', parent_task_desc);
+            content=taskLeafNode.Task.replace('{{Sibling_Tasks}}', siblings_desc);            
+        }
+
+        console.log(content)
+
 
         // let chatMessage = {
         //     user_id: "abhijit",
@@ -182,12 +198,51 @@ $(function () {
         //     message: JSON.stringify(prompt),
         //     timestamp: new Date().toISOString(),
         // };
+        
+        prompt = [
+            // {
+            //     role: "system",
+            //     content:
+            //         "You are an expert assistant. Please provide responses to user queries in step by step manner as json object which has one property for summary, another for description and last one as task_steps which should be child json array with each element having two properties namely summary, description",
+            // },
+            {
+                role: "user",
+                content: content
+            }
+        ];
 
-        let chatMessage={
-            "prompt": JSON.stringify(prompt),
-            "provider": "Groq",
-            "model": "llama3-70b-8192"
-          }
+        return prompt;
+    }
+
+    function subDivideTask(
+        task_type,
+        is_root,
+        task_summary,
+        task_description,
+        project_desc,
+        parent_task_desc,
+        siblings_desc,
+        options = {},
+        success_callback,
+        error_callback
+    ) {
+        prompt = createPrompt(
+            task_type,
+            is_root,
+            task_summary,
+            task_description,
+            project_desc,
+            parent_task_desc,
+            siblings_desc,
+            options
+        );
+
+
+        let chatMessage = {
+            prompt: JSON.stringify(prompt),
+            provider: "Groq",
+            model: "llama3-70b-8192",
+        };
 
         $.ajax({
             url: "/task/get_sub_tasks",
@@ -217,12 +272,7 @@ $(function () {
         return Promise.resolve({ id: "root", text: "Root Task", children: [] });
     }
 
-
-    function get_chat_response(
-        user_message,
-        success_callback,
-        error_callback
-    ) {
+    function get_chat_response(user_message, success_callback, error_callback) {
         prompt = [
             {
                 role: "system",
@@ -245,11 +295,11 @@ $(function () {
         //     timestamp: new Date().toISOString(),
         // };
 
-        let chatMessage={
-            "prompt": JSON.stringify(prompt),
-            "provider": "Ollama",
-            "model": ""
-          }
+        let chatMessage = {
+            prompt: JSON.stringify(prompt),
+            provider: "Ollama",
+            model: "",
+        };
 
         $.ajax({
             url: "/task/get_sub_tasks",
@@ -271,14 +321,14 @@ $(function () {
     serverCalls = {};
 
     serverCalls.getTopics = getTopics;
-    serverCalls.getUserProjects=getUserProjects;
-    serverCalls.getUserSessions=getUserSessions;
+    serverCalls.getUserProjects = getUserProjects;
+    serverCalls.getUserSessions = getUserSessions;
     serverCalls.register_user = register_user;
     serverCalls.login_user = login_user;
     serverCalls.createSession = createSession;
     serverCalls.subDivideTask = subDivideTask;
     serverCalls.saveTaskTree = saveTaskTree;
     serverCalls.loadTaskTree = loadTaskTree;
-    serverCalls.get_chat_response=get_chat_response;
-    window.serverCalls = serverCalls;
+    serverCalls.get_chat_response = get_chat_response;
+    window.AJ_GPT.serverCalls = serverCalls;
 });

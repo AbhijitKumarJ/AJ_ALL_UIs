@@ -1,0 +1,28 @@
+You are an expert in Angular development and project management. I need you to break down the task of "Frontend UI Development using Angular" into its main high-level components. Please provide the first-level nodes of this task breakdown.
+
+For each first-level node, include the following properties:
+
+1. id: A unique identifier for the node
+2. text: A brief, descriptive title for the task
+3. description: A more detailed explanation of what the task entails
+4. level: Should be 1 for all first-level nodes
+5. is_actionable: Boolean (true/false) indicating if this node represents an action item or just a category
+6. execution_category: The type of task (e.g., "planning", "development", "testing", "documentation")
+7. state: The current status ("not_started", "in_progress", "completed")
+8. needs_revision: Boolean indicating if the task needs to be reviewed or updated
+9. llm_prompt: A suggested prompt to generate subtasks or get more details about this task
+10. associated_files: List of files that are related to this task
+11. estimated_time: An approximate time to complete this task
+12. dependencies: List of tasks (if any) that need to be completed before this one can start
+13. assigned_to: The role responsible for this task
+14. review_required: Boolean indicating if the task output needs review
+15. priority: Task priority ("high", "medium", "low")
+16. complexity: Task difficulty ("simple", "moderate", "complex")
+17. tags: Array of relevant keywords
+18. acceptance_criteria: List of criteria that define task completion
+19. resources: Links or references to helpful documentation or tools
+20. subtask_strategy: Approach for breaking down this task further
+
+Please provide the result as a JSON array, where each object in the array represents a first-level node with all the properties listed above.
+
+Focus on creating a comprehensive but manageable set of first-level tasks that cover all major aspects of Angular frontend UI development, including but not limited to project setup, component development, routing, state management, API integration, testing, and deployment.

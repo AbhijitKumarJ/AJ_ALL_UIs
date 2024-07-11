@@ -1,0 +1,49 @@
+You are an expert in Angular development and project management. We are working on a frontend UI development project using Angular. I need you to break down a specific task into its subtasks. Here's the context and the task to break down:
+
+[Project Context]
+{Insert a brief description of the overall project here}
+
+[Parent Task]
+{Insert the full details of the parent task here, including all its properties}
+
+[Sibling Tasks]
+{List the titles of sibling tasks here for context}
+
+[Task to Break Down]
+{Insert the full details of the specific task to break down}
+
+Please provide the next level of subtasks for the [Task to Break Down]. For each subtask, include the following properties:
+
+1. id: A unique identifier for the subtask
+2. text: A brief, descriptive title for the subtask
+3. description: A more detailed explanation of what the subtask entails
+4. level: The level of this subtask (parent task level + 1)
+5. is_actionable: Boolean (true/false) indicating if this subtask represents an action item
+6. execution_category: The type of task (e.g., "development", "testing", "documentation")
+7. state: The current status ("not_started")
+8. needs_revision: Boolean (initially set to false)
+9. llm_prompt: A suggested prompt to generate further subtasks or get more details
+10. associated_files: List of files that are likely to be related to this subtask
+11. estimated_time: An approximate time to complete this subtask
+12. dependencies: List of other subtasks (if any) that need to be completed before this one
+13. assigned_to: The role responsible for this subtask
+14. review_required: Boolean indicating if the subtask output needs review
+15. priority: Subtask priority ("high", "medium", "low")
+16. complexity: Subtask difficulty ("simple", "moderate", "complex")
+17. tags: Array of relevant keywords
+18. acceptance_criteria: List of criteria that define subtask completion
+19. resources: Links or references to helpful documentation or tools
+20. subtask_strategy: Approach for potentially breaking down this subtask further
+
+Please provide the result as a JSON array, where each object in the array represents a subtask with all the properties listed above.
+
+Focus on creating a comprehensive but manageable set of subtasks that directly contribute to completing the [Task to Break Down]. Ensure that the subtasks are specific, actionable, and aligned with Angular development best practices.
+
+Remember to consider the following in your breakdown:
+1. The specific requirements of the [Task to Break Down]
+2. The context provided by the [Parent Task] and [Sibling Tasks]
+3. The overall project context
+4. Standard Angular development workflows and best practices
+5. Potential dependencies between subtasks
+
+Aim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.

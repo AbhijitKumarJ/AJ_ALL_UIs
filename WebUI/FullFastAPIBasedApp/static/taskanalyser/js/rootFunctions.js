@@ -1,22 +1,13 @@
 // This file contains functions for initializing the application
 
-window.taskTree = { id: 'root', text: '', children: [], properties: {} };
-
 $(function () {
 
     function createInitialFlowchart() {
         const task = $('#taskInput').val();
+
         if (task.trim() === '') return;
 
         taskTree = { id: 'root', text: task, children: [] };
-        // subdivideTask(taskTree.id, task).then(subtasks => {
-        //     taskTree.children = subtasks.map((subtask, index) => ({
-        //         id: `child-${index}`,
-        //         text: subtask,
-        //         children: []
-        //     }));
-        //     renderFlowchart();
-        // });
         renderFlowchart();
         treeDataManipulation.createSubnodesFromTaskDivision('root', false)
     }

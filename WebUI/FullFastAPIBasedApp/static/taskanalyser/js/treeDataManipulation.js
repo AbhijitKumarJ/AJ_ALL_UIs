@@ -179,7 +179,7 @@ $(document).ready(function () {
     }
 
     // Helper function to find a node by ID
-    function findNodeById(id, node = window.taskTree) {
+    function findNodeById(id, node = window.AJ_GPT.taskTree) {
         console.log(node);
         if (node.id === id) {
             return node;
@@ -192,7 +192,7 @@ $(document).ready(function () {
     }
 
     // Helper function to find the parent of a node
-    function findParentNode(id, node = window.taskTree, parent = null) {
+    function findParentNode(id, node = window.AJ_GPT.taskTree, parent = null) {
         console.log(node);
         if (node.id === id) {
             return parent;
@@ -264,23 +264,30 @@ $(document).ready(function () {
         nodeId,
         useCustomOption = false
     ) {
-        const parentNode = findNodeById(nodeId);
-        if (!parentNode) {
-            console.error("Parent node not found");
-            return false;
+        var is_root = nodeId == "root";
+        var parentNode = null;
+        if (!is_root) {
+            parentNode = findNodeById(nodeId);
+            if (!parentNode) {
+                console.error("Parent node not found");
+                return false;
+            }
         }
 
         try {
-            const apiResponse = window.serverCalls.subDivideTask(
+            const apiResponse = window.AJ_GPT.serverCalls.subDivideTask(
                 parentNode.id,
                 parentNode.text,
                 parentNode.properties,
                 function (response) {
-                    //   alert(response.response) 
-                    resp_json=JSON.parse(response.data)
-                    subtasks=resp_json["task_steps"]
+                    //   alert(response.response)
+                    resp_json = JSON.parse(response.data);
+                    subtasks = resp_json["task_steps"];
                     subtasks.forEach((subtask) => {
-                        const newChildId = addChildNode(nodeId, subtask.summary);
+                        const newChildId = addChildNode(
+                            nodeId,
+                            subtask.summary
+                        );
                         if (newChildId) {
                             addProperty(
                                 newChildId,
@@ -294,18 +301,15 @@ $(document).ready(function () {
                             // );
                         }
                     });
-        
+
                     updateTreeView();
                 },
-                function (xhr, status, error) {
-
-                }
+                function (xhr, status, error) {}
             );
             // const subtasks = useCustomOption
             //     ? apiResponse.custom
             //     : apiResponse.default;
 
-            
             return true;
         } catch (error) {
             console.error("Error in task division:", error);
@@ -323,16 +327,16 @@ $(document).ready(function () {
 
     // Function to update the tree view (placeholder for UI update)
     function updateTreeView() {
-        //console.log("Tree structure updated:", JSON.stringify(window.taskTree, null, 2));
+        //console.log("Tree structure updated:", JSON.stringify(window.AJ_GPT.taskTree, null, 2));
         // Here you would update your UI to reflect the new tree structure
 
-        window.renderFlowchart();
+        window.AJ_GPT.renderFlowchart();
         //saveTaskTree(taskTree);
     }
 
     // These functions are now available globally
     treeDataManipulation = {};
-    treeDataManipulation.findNodeById=findNodeById;
+    treeDataManipulation.findNodeById = findNodeById;
     treeDataManipulation.addChildNode = addChildNode;
     treeDataManipulation.addSiblingNodeBelow = addSiblingNodeBelow;
     treeDataManipulation.addSiblingNodeAbove = addSiblingNodeAbove;
@@ -345,5 +349,5 @@ $(document).ready(function () {
     treeDataManipulation.createSubnodesFromTaskDivision =
         createSubnodesFromTaskDivision;
     treeDataManipulation.promptForTaskDivision = promptForTaskDivision;
-    window.treeDataManipulation = treeDataManipulation;
+    window.AJ_GPT.treeDataManipulation = treeDataManipulation;
 });

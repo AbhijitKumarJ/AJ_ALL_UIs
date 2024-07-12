@@ -7,13 +7,13 @@ $(function () {
 
         if (task.trim() === '') return;
 
-        taskTree = { id: 'root', text: task, children: [] };
-        renderFlowchart();
-        treeDataManipulation.createSubnodesFromTaskDivision('root', false)
+        window.AJ_GPT.taskTree = { id: 'root', text: task, desc: "Please try to give the instructions carefully and precisely to accomplish the full scope as given in the task." , children: [], properties:{} };
+        window.AJ_GPT.renderFlowchart();
+        window.AJ_GPT.treeDataManipulation.createSubnodesFromTaskDivision('root', false)
     }
 
     function exportJson() {
-        const jsonString = JSON.stringify(taskTree, null, 2);
+        const jsonString = JSON.stringify(window.AJ_GPT.taskTree, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -33,7 +33,7 @@ $(function () {
             reader.onload = readerEvent => {
                 try {
                     const content = readerEvent.target.result;
-                    taskTree = JSON.parse(content);
+                    window.AJ_GPT.taskTree = JSON.parse(content);
                     renderFlowchart();
                 } catch (error) {
                     console.error('Error parsing JSON:', error);

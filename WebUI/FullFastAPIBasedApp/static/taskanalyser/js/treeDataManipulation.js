@@ -15,6 +15,7 @@ $(document).ready(function () {
         const newNode = {
             id: newId,
             text: text,
+            desc: "",
             children: [],
             properties: {},
         };
@@ -36,6 +37,7 @@ $(document).ready(function () {
         const newNode = {
             id: newId,
             text: text,
+            desc: "",
             children: [],
             properties: {},
         };
@@ -66,6 +68,7 @@ $(document).ready(function () {
         const newNode = {
             id: newId,
             text: text,
+            desc: "",
             children: [],
             properties: {},
         };
@@ -223,41 +226,41 @@ $(document).ready(function () {
         }
     }
 
-    // Mock API call for task division
-    function mockApiCallForTaskDivision(task) {
-        // Simulate API delay
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Mock response
-                resolve({
-                    default: [
-                        {
-                            text: "Subtask 1 for " + task,
-                            properties: { priority: "High" },
-                        },
-                        {
-                            text: "Subtask 2 for " + task,
-                            properties: { priority: "Medium" },
-                        },
-                        {
-                            text: "Subtask 3 for " + task,
-                            properties: { priority: "Low" },
-                        },
-                    ],
-                    custom: [
-                        {
-                            text: "Custom Subtask A for " + task,
-                            properties: { type: "Research" },
-                        },
-                        {
-                            text: "Custom Subtask B for " + task,
-                            properties: { type: "Implementation" },
-                        },
-                    ],
-                });
-            }, 1000); // 1 second delay to simulate API call
-        });
-    }
+    // // Mock API call for task division
+    // function mockApiCallForTaskDivision(task) {
+    //     // Simulate API delay
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             // Mock response
+    //             resolve({
+    //                 default: [
+    //                     {
+    //                         text: "Subtask 1 for " + task,
+    //                         properties: { priority: "High" },
+    //                     },
+    //                     {
+    //                         text: "Subtask 2 for " + task,
+    //                         properties: { priority: "Medium" },
+    //                     },
+    //                     {
+    //                         text: "Subtask 3 for " + task,
+    //                         properties: { priority: "Low" },
+    //                     },
+    //                 ],
+    //                 custom: [
+    //                     {
+    //                         text: "Custom Subtask A for " + task,
+    //                         properties: { type: "Research" },
+    //                     },
+    //                     {
+    //                         text: "Custom Subtask B for " + task,
+    //                         properties: { type: "Implementation" },
+    //                     },
+    //                 ],
+    //             });
+    //         }, 1000); // 1 second delay to simulate API call
+    //     });
+    // }
 
     // Function to create subnodes based on task division
     async function createSubnodesFromTaskDivision(
@@ -265,19 +268,28 @@ $(document).ready(function () {
         useCustomOption = false
     ) {
         var is_root = nodeId == "root";
-        var parentNode = null;
-        if (!is_root) {
-            parentNode = findNodeById(nodeId);
-            if (!parentNode) {
-                console.error("Parent node not found");
-                return false;
-            }
+        var parentNode = findNodeById(nodeId);
+        if (!parentNode) {
+            console.error("Parent node not found");
+            return false;
         }
-
+        // task_type,
+        // is_root,
+        // task_summary,
+        // task_description,
+        // project_desc,
+        // parent_task_desc,
+        // siblings_desc,
+        // options = {},
         try {
             const apiResponse = window.AJ_GPT.serverCalls.subDivideTask(
-                parentNode.id,
+                window.AJ_GPT.userData.taskType,
+                is_root,
                 parentNode.text,
+                parentNode.desc,
+                window.AJ_GPT.userData.projectName,
+                window.AJ_GPT.userData.projectDesc,
+                "",
                 parentNode.properties,
                 function (response) {
                     //   alert(response.response)
@@ -304,7 +316,9 @@ $(document).ready(function () {
 
                     updateTreeView();
                 },
-                function (xhr, status, error) {}
+                function (xhr, status, error) {
+                    
+                }
             );
             // const subtasks = useCustomOption
             //     ? apiResponse.custom

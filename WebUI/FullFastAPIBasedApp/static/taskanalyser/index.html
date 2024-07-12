@@ -119,10 +119,18 @@
         <div id="divLoggedIn" class="container mt-4 hidden">
             <h1 class="mb-4">Advanced Task Flowchart Creator</h1>
             <div class="mb-3">
-                <label for="taskInput" class="form-label">Enter your task:</label>
+                <!-- <label for="txtCurrentProject" class="form-label">Project Name:</label> -->
+                <textarea class="form-control bg-dark text-light" id="txtCurrentProject" readonly="true" rows="1"></textarea>
+            </div>
+            <div class="mb-3">
+                <!-- <label for="txtCurrentProjectDesc" class="form-label">Project Desc:</label> -->
+                <textarea class="form-control bg-dark text-light" id="txtCurrentProjectDesc" readonly="true" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="taskInput" class="form-label text-light">Enter overall task summary:</label>
                 <textarea class="form-control bg-dark text-light" id="taskInput" rows="3"></textarea>
             </div>
-            <button id="submitTask" class="btn btn-primary mb-4">Create Flowchart</button>
+            <button id="submitTask" class="btn btn-primary mb-4">Start dissembling :)</button>
             <div id="flowchart"></div>
             <button id="exportJson" class="btn btn-secondary mt-4">Export JSON</button>
             <button id="importJson" class="btn btn-secondary mt-4 ms-2">Import JSON</button>
@@ -130,8 +138,8 @@
         <div id="divNotLoggedIn" class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <h2 class="mb-4">Welcome to Advanced Task Flowchart Creator</h2>
-                    <p class="lead mb-4">Create, manage, and visualize your tasks with our powerful flowchart tool.</p>
+                    <h2 class="mb-4">Welcome to Advanced Project Dissembler</h2>
+                    <p class="lead mb-4">Create, manage, divide and visualize tasks for your projects as planned steps/sub-steps with full control and integrated actions.</p>
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Why use our Flowchart Creator?</h5>
@@ -139,11 +147,11 @@
                                 <li>✅ Intuitive task breakdown</li>
                                 <li>✅ Visual representation of workflows</li>
                                 <li>✅ Easy export and import of your flowcharts</li>
-                                <li>✅ Collaborative features for team projects</li>
+                                <li>✅ Collaborative features for team projects coming soon</li>
                             </ul>
                         </div>
                     </div>
-                    <p class="mb-4">To start creating your flowcharts, please log in or register for an account.</p>
+                    <p class="mb-4">To start breaking down your projects, please log in or register for an account.</p>
                     <button id="openAuthModal" class="btn btn-primary btn-lg">Log In / Register</button>
                 </div>
             </div>
@@ -262,15 +270,15 @@
                     <div id="topicSelection" class="hidden">
                         <h5 class="mt-3">Select a Topic</h5>
                         <select id="ddlTopic" class="form-select mb-3">
-                            <option value="0"> --- </option>
+                            <option value="0"> ---Select--- </option>
                         </select>
                         <h5 class="mt-3">Select a Sub-Topic</h5>
                         <select id="ddlSubTopic" class="form-select mb-3">
-                            <option value="0"> --- </option>
+                            <option value="0"> ---Select--- </option>
                         </select>
                         <h5 class="mt-3">Select an Existing Project</h5>
                         <select id="ddlUserProject" class="form-select mb-3">
-                            <option value="0"> --- </option>
+                            <option value="0"> ---Select--- </option>
                         </select>
                         <div class="mb-3">
                             <label for="txtUserProject" class="form-label">Or Enter new project name</label>

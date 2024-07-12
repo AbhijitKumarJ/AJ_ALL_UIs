@@ -42,7 +42,7 @@ def login(form_data: UserLoginCreate, db: orm.Session = Depends(get_db)):
 @router.post("/create_user_session")
 async def create_user_session(session: UserSessionCreate, db:orm.Session=Depends(get_db)):
     folder_name = session_manager.create_session(str(session.user_id), session.session_name)
-    db_session=db_create_user_session(db, session.user_id, session.topic_id, session.sub_topic_id, session.project_id, session.project_desc, session.project_name, session.session_name, folder_name)
+    db_session=db_create_user_session(db, session.user_id, session.topic_id, session.sub_topic_id, session.project_id, session.project_name, session.project_desc, session.session_name, folder_name)
     return {"status": "success", "message": f"Session '{session.session_name}' created", "data": db_session}
 
 @router.get("/get_user_sessions/{user_id}")

@@ -167,7 +167,7 @@ $(function () {
         options = {}
     ) {
 
-        var taskLeafNode=window[task_type[0]];
+        var taskLeafNode=window.AJ_GPT.llm_prompts[task_type[0]];
         for (let index = 1; index < task_type.length; index++) {
             taskLeafNode = taskLeafNode[task_type[index]];            
         }
@@ -177,15 +177,15 @@ $(function () {
         var content = "";
         if (is_root) {
             content=taskLeafNode.Task.replace('{{Task_Summary}}', task_summary);
-            content=taskLeafNode.Task.replace('{{Task_Description}}', task_description);            
+            content=content.replace('{{Task_Description}}', task_description);            
         }
         else
         {
-            content=taskLeafNode.Task.replace('{{Task_Summary}}', task_summary);
-            content=taskLeafNode.Task.replace('{{Task_Description}}', task_description);
-            content=taskLeafNode.Task.replace('{{Project_Context}}', project_desc);
-            content=taskLeafNode.Task.replace('{{Parent_Task}}', parent_task_desc);
-            content=taskLeafNode.Task.replace('{{Sibling_Tasks}}', siblings_desc);            
+            content=taskLeafNode.SubTask.replace('{{Task_Summary}}', task_summary);
+            content=content.replace('{{Task_Description}}', task_description);
+            content=content.replace('{{Project_Context}}', project_desc);
+            content=content.replace('{{Parent_Task}}', parent_task_desc);
+            content=content.replace('{{Sibling_Tasks}}', siblings_desc);            
         }
 
         console.log(content)
@@ -256,7 +256,7 @@ $(function () {
             },
             error: function (xhr, status, error) {
                 console.log("Error: " + xhr.responseJSON.error);
-                error_callback();
+                error_callback(xhr, status, error);
             },
         });
     }

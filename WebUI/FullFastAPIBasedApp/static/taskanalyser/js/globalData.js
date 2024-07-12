@@ -1,6 +1,6 @@
 window.AJ_GPT = {};
 
-window.AJ_GPT.taskTree = { id: "root", text: "", children: [], properties: {} };
+window.AJ_GPT.taskTree = { id: "root", text: "", desc: "", children: [], properties: {} };
 
 var userProjects = [
     // {
@@ -51,7 +51,7 @@ window.AJ_GPT.userData = {
 };
 
 window.AJ_GPT.topics = [
-    { id: 0, topic_name: "" },
+    { id: 0, topic_name: " ---Select--- " },
     { id: 1, topic_name: "General" },
     { id: 2, topic_name: "Web Application UI" },
     { id: 3, topic_name: "Rest API" },
@@ -62,7 +62,7 @@ window.AJ_GPT.topics = [
 ];
 
 window.AJ_GPT.subTopics = [
-    { id: 0, topic_id: 0, sub_topic_name: "" , task_type:[]},
+    { id: 0, topic_id: 0, sub_topic_name: " ---Select--- " , task_type:[]},
     { id: 1, topic_id: 1, sub_topic_name: "General", task_type:['General'] },
     { id: 2, topic_id: 2, sub_topic_name: "Angular Web Application UI", task_type:['UI','Angular'] },
     { id: 3, topic_id: 2, sub_topic_name: "React Web Application UI", task_type:['UI','React'] },

@@ -3,7 +3,7 @@ $(function () {
     function renderFlowchart() {
         const flowchart = document.getElementById('flowchart');
         flowchart.innerHTML = '';
-        createNode(taskTree, flowchart, null);
+        createNode(window.AJ_GPT.taskTree, flowchart, null);
     }
 
     function createNode(node, parentElement, parentNode) {

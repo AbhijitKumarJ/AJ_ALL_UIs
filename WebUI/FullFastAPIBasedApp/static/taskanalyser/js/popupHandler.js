@@ -22,9 +22,16 @@ $(document).ready(function () {
         if (window.AJ_GPT.userData.isLoggedIn) {
             $("#divLoggedIn").removeClass("hidden");
             $("#divNotLoggedIn").addClass("hidden");
+
+            $('#txtCurrentProject').val(window.AJ_GPT.userData.projectName);
+            $('#txtCurrentProjectDesc').val(window.AJ_GPT.userData.projectDesc);
+            $('#taskInput').val(window.AJ_GPT.userData.projectDesc);
         } else {
             $("#divLoggedIn").addClass("hidden");
             $("#divNotLoggedIn").removeClass("hidden");
+            $('#txtCurrentProject').val('');
+            $('#txtCurrentProjectDesc').val('');
+            $('#taskInput').val('');
         }
     }
 
@@ -130,11 +137,20 @@ $(document).ready(function () {
 
     $("#ddlUserProject").on("change", function () {
         let selectedOption=$("#ddlUserProject")[0].selectedOptions[0];
+
+        let elUserProject$=$('#txtUserProject');
+        let elUserProjectDesc$=$('#txtUserProjectDesc');
+
         if(selectedOption.value=='0')
             {
                 window.AJ_GPT.userData.projectId=0;
                 window.AJ_GPT.userData.projectName = "";
                 window.AJ_GPT.userData.projectDesc="";
+                elUserProject$.val('');
+                elUserProjectDesc$.val('');
+
+                elUserProject$.attr('readonly', false);
+                elUserProjectDesc$.attr('readonly', false);
             }
             else
             {
@@ -143,6 +159,12 @@ $(document).ready(function () {
                 window.AJ_GPT.userData.userProjects.filter(x=>x.id==window.AJ_GPT.userData.projectId)[0];
                 window.AJ_GPT.userData.projectName = selectedProject.project_name;
                 window.AJ_GPT.userData.projectDesc=selectedProject.project_desc;
+
+                elUserProject$.val(window.AJ_GPT.userData.projectName);
+                elUserProjectDesc$.val(window.AJ_GPT.userData.projectDesc);
+
+                elUserProject$.attr('readonly', true);
+                elUserProjectDesc$.attr('readonly', true);
             }
     });
 
@@ -151,12 +173,14 @@ $(document).ready(function () {
         var selectedSubTopic = parseInt($("#ddlSubTopic").val());
         var selectedProject = parseInt($("#ddlUserProject").val());
         var newProject = $("#txtUserProject").val().trim();
-        var newProjectDesc = $("#txtUserProjectDesc").val();
+        var newProjectDesc = $("#txtUserProjectDesc").val().trim();
         if (selectedProject == 0) {
             if (newProject == "") {
                 alert("Please select a project or give a new project name");
                 return;
             }
+            window.AJ_GPT.userData.projectName=newProject;
+            window.AJ_GPT.userData.projectDesc=newProjectDesc;            
         }
         var session_name = $("#txtUserSession").val().trim();
         if (session_name) {
@@ -238,6 +262,10 @@ $(document).ready(function () {
         window.AJ_GPT.userData.topicId = response.data.topic_id;
         window.AJ_GPT.userData.subTopicId = response.data.sub_topic_id;
         
+        selectedSubTopics=window.AJ_GPT.subTopics.filter(x=>x.id==window.AJ_GPT.userData.subTopicId);
+        console.log(selectedSubTopics);
+
+        window.AJ_GPT.userData.taskType=selectedSubTopics[0].task_type;
         // window.AJ_GPT.userData.projectName = response.data.project_name;
         // window.AJ_GPT.userData.projectDesc = response.data.project_desc;
 

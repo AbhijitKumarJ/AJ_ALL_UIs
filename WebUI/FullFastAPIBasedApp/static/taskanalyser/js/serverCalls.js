@@ -251,7 +251,7 @@ $(function () {
             data: JSON.stringify(chatMessage),
             success: function (response) {
                 console.log(response);
-                success_callback(response);
+                success_callback(response, chatMessage);
                 //simulateBotResponse(response.message);
             },
             error: function (xhr, status, error) {

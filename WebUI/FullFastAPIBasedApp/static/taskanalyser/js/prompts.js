@@ -92,6 +92,7 @@ For each first-level node, include the following properties:
 Please provide the result as a JSON array, where each object in the array represents a first-level node with all the properties listed above.
 
 Focus on creating a comprehensive but manageable set of first-level tasks that cover all major aspects of Angular frontend UI development, including but not limited to project setup, component development, routing, state management, API integration, testing, and deployment.
+Please provide output only in json and don't add any extra text or character outside json.
 `;
 
 window.AJ_GPT.llm_prompts.UI.Angular.SubTask=`
@@ -160,6 +161,7 @@ Remember to consider the following in your breakdown:
 5. Potential dependencies between subtasks
 
 Aim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.
+Please provide output only in json and don't add any extra text or character outside json.
 `;
 
 
@@ -228,6 +230,7 @@ Focus on creating a comprehensive but manageable set of first-level tasks that c
 13. Monitoring and analytics setup
 
 Ensure that the tasks align with FastAPI best practices and common patterns in production-ready web API development. Consider aspects like async programming, dependency injection, and the use of Pydantic for data modeling.
+Please provide output only in json and don't add any extra text or character outside json.
 `;
 
 window.AJ_GPT.llm_prompts.API.Python.FastAPI.SubTask=`
@@ -299,6 +302,7 @@ Remember to consider the following in your breakdown:
 8. API security and performance best practices
 
 Aim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.
+Please provide output only in json and don't add any extra text or character outside json.
 `;
 
 window.AJ_GPT.llm_prompts.API.CSharp.Task=``;

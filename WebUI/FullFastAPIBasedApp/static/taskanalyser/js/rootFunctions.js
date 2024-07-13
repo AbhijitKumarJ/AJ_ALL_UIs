@@ -7,7 +7,7 @@ $(function () {
 
         if (task.trim() === '') return;
 
-        window.AJ_GPT.taskTree = { id: 'root', text: task, desc: "Please try to give the instructions carefully and precisely to accomplish the full scope as given in the task." , children: [], properties:{} };
+        window.AJ_GPT.taskTree = window.AJ_GPT.treeDataManipulation.getNewNode('root', task, "Please try to create as many subtasks as possible which are quite reasonable and practical for the accomplishment of task", null);
         window.AJ_GPT.renderFlowchart();
         window.AJ_GPT.treeDataManipulation.createSubnodesFromTaskDivision('root', false)
     }

@@ -9,16 +9,42 @@ $(document).ready(function () {
         return `node-${nodeCounter}`;
     }
 
-    // Function to add a child node
-    function addChildNode(parentId, text) {
-        const newId = generateUniqueId();
-        const newNode = {
-            id: newId,
+    function getNewNode(id, text, desc, prompt_and_response) {
+        var taskobj = {
+            id: id,
             text: text,
-            desc: "",
+            description: desc,
+            // level: 1,
+            // is_actionable: false,
+            // execution_category: "planning",
+            // state: "not_started",
+            // needs_revision: false,
+            // llm_prompt: "",
+            // associated_files: [],
+            // estimated_time: "2 days",
+            // dependencies: [],
+            // assigned_to: "User",
+            // review_required: false,
+            // priority: "medium",
+            // complexity: "simple",
+            // tags: [],
+            // acceptance_criteria: [],
+            // resources: [],
+            // subtask_strategy: "",
             children: [],
             properties: {},
+            prompts_and_responses: [],
         };
+        if (prompt_and_response) {
+            taskobj.prompts_and_responses.push(prompt_and_response);
+        }
+        return taskobj;
+    }
+
+    // Function to add a child node
+    function addChildNode(parentId, text, desc, prompt_and_response) {
+        const newId = generateUniqueId();
+        const newNode = getNewNode(newId, text, desc, prompt_and_response);
 
         const parentNode = findNodeById(parentId);
         if (parentNode) {
@@ -32,15 +58,9 @@ $(document).ready(function () {
     }
 
     // Function to add a sibling node below
-    function addSiblingNodeBelow(siblingId, text) {
+    function addSiblingNodeBelow(siblingId, text, desc, prompt_and_response) {
         const newId = generateUniqueId();
-        const newNode = {
-            id: newId,
-            text: text,
-            desc: "",
-            children: [],
-            properties: {},
-        };
+        const newNode = getNewNode(newId, text, desc, prompt_and_response);
 
         const siblingNode = findNodeById(siblingId);
         if (siblingNode) {
@@ -63,15 +83,9 @@ $(document).ready(function () {
     }
 
     // Function to add a sibling node above
-    function addSiblingNodeAbove(siblingId, text) {
+    function addSiblingNodeAbove(siblingId, text, desc, prompt_and_response) {
         const newId = generateUniqueId();
-        const newNode = {
-            id: newId,
-            text: text,
-            desc: "",
-            children: [],
-            properties: {},
-        };
+        const newNode = getNewNode(newId, text, desc, prompt_and_response);
 
         const siblingNode = findNodeById(siblingId);
         if (siblingNode) {
@@ -226,42 +240,6 @@ $(document).ready(function () {
         }
     }
 
-    // // Mock API call for task division
-    // function mockApiCallForTaskDivision(task) {
-    //     // Simulate API delay
-    //     return new Promise((resolve) => {
-    //         setTimeout(() => {
-    //             // Mock response
-    //             resolve({
-    //                 default: [
-    //                     {
-    //                         text: "Subtask 1 for " + task,
-    //                         properties: { priority: "High" },
-    //                     },
-    //                     {
-    //                         text: "Subtask 2 for " + task,
-    //                         properties: { priority: "Medium" },
-    //                     },
-    //                     {
-    //                         text: "Subtask 3 for " + task,
-    //                         properties: { priority: "Low" },
-    //                     },
-    //                 ],
-    //                 custom: [
-    //                     {
-    //                         text: "Custom Subtask A for " + task,
-    //                         properties: { type: "Research" },
-    //                     },
-    //                     {
-    //                         text: "Custom Subtask B for " + task,
-    //                         properties: { type: "Implementation" },
-    //                     },
-    //                 ],
-    //             });
-    //         }, 1000); // 1 second delay to simulate API call
-    //     });
-    // }
-
     // Function to create subnodes based on task division
     async function createSubnodesFromTaskDivision(
         nodeId,
@@ -273,14 +251,7 @@ $(document).ready(function () {
             console.error("Parent node not found");
             return false;
         }
-        // task_type,
-        // is_root,
-        // task_summary,
-        // task_description,
-        // project_desc,
-        // parent_task_desc,
-        // siblings_desc,
-        // options = {},
+
         try {
             const apiResponse = window.AJ_GPT.serverCalls.subDivideTask(
                 window.AJ_GPT.userData.taskType,
@@ -291,14 +262,19 @@ $(document).ready(function () {
                 window.AJ_GPT.userData.projectDesc,
                 "",
                 parentNode.properties,
-                function (response) {
+                function (response, prompt) {
                     //   alert(response.response)
                     resp_json = JSON.parse(response.data);
-                    subtasks = resp_json["task_steps"];
+                    subtasks = resp_json; //resp_json["task_steps"];
+                    parentNode.prompts_and_responses.push(
+                        {prompt:prompt, response:response.data}
+                    );
                     subtasks.forEach((subtask) => {
                         const newChildId = addChildNode(
                             nodeId,
-                            subtask.summary
+                            subtask.text,
+                            subtask.description,
+                            null
                         );
                         if (newChildId) {
                             addProperty(
@@ -306,19 +282,17 @@ $(document).ready(function () {
                                 "taskDivisionType",
                                 useCustomOption ? "custom" : "default"
                             );
-                            // Object.entries(subtask.properties).forEach(
-                            //     ([key, value]) => {
-                            //         addProperty(newChildId, key, value);
-                            //     }
-                            // );
+                            Object.entries(subtask).forEach(
+                                ([key, value]) => {
+                                    addProperty(newChildId, key, value);
+                                }
+                            );
                         }
                     });
 
                     updateTreeView();
                 },
-                function (xhr, status, error) {
-                    
-                }
+                function (xhr, status, error) {}
             );
             // const subtasks = useCustomOption
             //     ? apiResponse.custom
@@ -363,5 +337,6 @@ $(document).ready(function () {
     treeDataManipulation.createSubnodesFromTaskDivision =
         createSubnodesFromTaskDivision;
     treeDataManipulation.promptForTaskDivision = promptForTaskDivision;
+    treeDataManipulation.getNewNode = getNewNode;
     window.AJ_GPT.treeDataManipulation = treeDataManipulation;
 });

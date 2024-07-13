@@ -1,0 +1,1032 @@
+{
+  "id": "root",
+  "text": "create a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features",
+  "description": "Please try to create as many subtasks as possible which are quite reasonable and practical for the accomplishment of task",
+  "children": [
+    {
+      "id": "node-1",
+      "text": "Project Setup and Configuration",
+      "description": "Set up a new Angular project with necessary configurations, including environment settings, dependencies, and build configurations.",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 1,
+        "text": "Project Setup and Configuration",
+        "description": "Set up a new Angular project with necessary configurations, including environment settings, dependencies, and build configurations.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "planning",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "What are the necessary configurations for an Angular project?",
+        "associated_files": [
+          "angular.json",
+          "package.json"
+        ],
+        "estimated_time": 2,
+        "dependencies": [],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "simple",
+        "tags": [
+          "project setup",
+          "configuration"
+        ],
+        "acceptance_criteria": [
+          "Angular project is created",
+          "Configurations are set up correctly"
+        ],
+        "resources": [
+          "https://angular.io/cli"
+        ],
+        "subtask_strategy": "decompose into smaller config tasks"
+      },
+      "prompts_and_responses": []
+    },
+    {
+      "id": "node-2",
+      "text": "Component Development",
+      "description": "Develop reusable UI components for the ecommerce website, including landing page, login/register, user profile, dashboard, orders, and billing features.",
+      "children": [
+        {
+          "id": "node-8",
+          "text": "Create Component Hierarchy",
+          "description": "Determine the component structure and organization for the ecommerce application, including top-level components, feature modules, and reusable UI components.",
+          "children": [],
+          "properties": {
+            "taskDivisionType": "default",
+            "id": 1,
+            "text": "Create Component Hierarchy",
+            "description": "Determine the component structure and organization for the ecommerce application, including top-level components, feature modules, and reusable UI components.",
+            "level": 2,
+            "is_actionable": true,
+            "execution_category": "development",
+            "state": "not_started",
+            "needs_revision": false,
+            "llm_prompt": "What are the key features and UI components required for an ecommerce application?",
+            "associated_files": [
+              "component-hierarchy.md"
+            ],
+            "estimated_time": 2,
+            "dependencies": [],
+            "assigned_to": "Angular Developer",
+            "review_required": true,
+            "priority": "high",
+            "complexity": "moderate",
+            "tags": [
+              "component-hierarchy",
+              "angular-architecture"
+            ],
+            "acceptance_criteria": [
+              "A clear component hierarchy is defined",
+              "The hierarchy is aligned with Angular best practices"
+            ],
+            "resources": [
+              "https://angular.io/guide/component-hierarchy"
+            ],
+            "subtask_strategy": "Divide into smaller tasks for each feature module"
+          },
+          "prompts_and_responses": []
+        },
+        {
+          "id": "node-9",
+          "text": "Develop Header and Footer Components",
+          "description": "Create reusable header and footer components that can be used throughout the application, including navigation, logo, and other essential elements.",
+          "children": [],
+          "properties": {
+            "taskDivisionType": "default",
+            "id": 2,
+            "text": "Develop Header and Footer Components",
+            "description": "Create reusable header and footer components that can be used throughout the application, including navigation, logo, and other essential elements.",
+            "level": 2,
+            "is_actionable": true,
+            "execution_category": "development",
+            "state": "not_started",
+            "needs_revision": false,
+            "llm_prompt": "What are the essential elements required in the header and footer components?",
+            "associated_files": [
+              "header.component.ts",
+              "footer.component.ts"
+            ],
+            "estimated_time": 4,
+            "dependencies": [
+              1
+            ],
+            "assigned_to": "Angular Developer",
+            "review_required": true,
+            "priority": "high",
+            "complexity": "moderate",
+            "tags": [
+              "header-component",
+              "footer-component",
+              "angular-ui"
+            ],
+            "acceptance_criteria": [
+              "The header and footer components are implemented correctly",
+              "They are reusable across the application"
+            ],
+            "resources": [
+              "https://angular.io/api/common/NgComponent"
+            ],
+            "subtask_strategy": "Break down into smaller tasks for each component"
+          },
+          "prompts_and_responses": []
+        },
+        {
+          "id": "node-10",
+          "text": "Implement Landing Page Component",
+          "description": "Create a landing page component that displays essential information to users, including a hero section, features, and call-to-action buttons.",
+          "children": [
+            {
+              "id": "node-12",
+              "text": "Create Landing Page Component Structure",
+              "description": "Create the basic structure for the landing page component, including the HTML and CSS files.",
+              "children": [
+                {
+                  "id": "node-17",
+                  "text": "Define Landing Page Requirements",
+                  "description": "Identify and document the necessary components, features, and functionalities for the landing page based on the project context and ecommerce portal requirements",
+                  "children": [
+                    {
+                      "id": "node-20",
+                      "text": "Determine Landing Page Goals and Objectives",
+                      "description": "Identify the primary purpose and Key Performance Indicators (KPIs) for the landing page, aligning with the overall ecommerce website goals.",
+                      "children": [],
+                      "properties": {
+                        "taskDivisionType": "default",
+                        "id": 1,
+                        "text": "Determine Landing Page Goals and Objectives",
+                        "description": "Identify the primary purpose and Key Performance Indicators (KPIs) for the landing page, aligning with the overall ecommerce website goals.",
+                        "level": 2,
+                        "is_actionable": true,
+                        "execution_category": "development",
+                        "state": "not_started",
+                        "needs_revision": false,
+                        "llm_prompt": "What are the key metrics to track for the landing page?",
+                        "associated_files": [],
+                        "estimated_time": 2,
+                        "dependencies": [],
+                        "assigned_to": "UI/UX Designer",
+                        "review_required": true,
+                        "priority": "high",
+                        "complexity": "simple",
+                        "tags": [
+                          "Landing Page",
+                          "Goals",
+                          "Objectives"
+                        ],
+                        "acceptance_criteria": [
+                          "Clearly defined landing page goals and objectives"
+                        ],
+                        "resources": [
+                          "https://www.landingpage.co/guides/goals-and-objectives/"
+                        ],
+                        "subtask_strategy": "Brainstorming"
+                      },
+                      "prompts_and_responses": []
+                    },
+                    {
+                      "id": "node-21",
+                      "text": "Define Landing Page Content Requirements",
+                      "description": "Determine the necessary content elements, such as headlines, images, Call-to-Actions (CTAs), and informational sections, to achieve the identified goals and objectives.",
+                      "children": [],
+                      "properties": {
+                        "taskDivisionType": "default",
+                        "id": 2,
+                        "text": "Define Landing Page Content Requirements",
+                        "description": "Determine the necessary content elements, such as headlines, images, Call-to-Actions (CTAs), and informational sections, to achieve the identified goals and objectives.",
+                        "level": 2,
+                        "is_actionable": true,
+                        "execution_category": "development",
+                        "state": "not_started",
+                        "needs_revision": false,
+                        "llm_prompt": "What types of content will engage our target audience?",
+                        "associated_files": [],
+                        "estimated_time": 3,
+                        "dependencies": [
+                          1
+                        ],
+                        "assigned_to": "UI/UX Designer",
+                        "review_required": true,
+                        "priority": "high",
+                        "complexity": "moderate",
+                        "tags": [
+                          "Landing Page",
+                          "Content Requirements"
+                        ],
+                        "acceptance_criteria": [
+                          "Completed content requirements document"
+                        ],
+                        "resources": [
+                          "https://www.contentmarketinginstitute.com/2019/02/content-requirements-document/"
+                        ],
+                        "subtask_strategy": "Content mapping"
+                      },
+                      "prompts_and_responses": []
+                    },
+                    {
+                      "id": "node-22",
+                      "text": "Design Low-Fidelity Wireframes for Landing Page",
+                      "description": "Create simple, low-fidelity wireframes to visualize the landing page layout, structure, and content organization.",
+                      "children": [],
+                      "properties": {
+                        "taskDivisionType": "default",
+                        "id": 3,
+                        "text": "Design Low-Fidelity Wireframes for Landing Page",
+                        "description": "Create simple, low-fidelity wireframes to visualize the landing page layout, structure, and content organization.",
+                        "level": 2,
+                        "is_actionable": true,
+                        "execution_category": "development",
+                        "state": "not_started",
+                        "needs_revision": false,
+                        "llm_prompt": "How can we effectively layout the landing page content?",
+                        "associated_files": [],
+                        "estimated_time": 4,
+                        "dependencies": [
+                          2
+                        ],
+                        "assigned_to": "UI/UX Designer",
+                        "review_required": true,
+                        "priority": "high",
+                        "complexity": "moderate",
+                        "tags": [
+                          "Landing Page",
+                          "Wireframes",
+                          "Design"
+                        ],
+                        "acceptance_criteria": [
+                          "Completed low-fidelity wireframes"
+                        ],
+                        "resources": [
+                          "https://www.sketch.com/wireframing/"
+                        ],
+                        "subtask_strategy": "Wireframing"
+                      },
+                      "prompts_and_responses": []
+                    },
+                    {
+                      "id": "node-23",
+                      "text": "Document Landing Page Technical Requirements",
+                      "description": "Outline the technical specifications, such as responsive design, accessibility, and potential integrations, required to develop the landing page.",
+                      "children": [],
+                      "properties": {
+                        "taskDivisionType": "default",
+                        "id": 4,
+                        "text": "Document Landing Page Technical Requirements",
+                        "description": "Outline the technical specifications, such as responsive design, accessibility, and potential integrations, required to develop the landing page.",
+                        "level": 2,
+                        "is_actionable": true,
+                        "execution_category": "development",
+                        "state": "not_started",
+                        "needs_revision": false,
+                        "llm_prompt": "What are the technical constraints for the landing page?",
+                        "associated_files": [],
+                        "estimated_time": 2,
+                        "dependencies": [
+                          3
+                        ],
+                        "assigned_to": "Angular Developer",
+                        "review_required": true,
+                        "priority": "high",
+                        "complexity": "moderate",
+                        "tags": [
+                          "Landing Page",
+                          "Technical Requirements"
+                        ],
+                        "acceptance_criteria": [
+                          "Completed technical requirements document"
+                        ],
+                        "resources": [
+                          "https://angular.io/guide/architecture"
+                        ],
+                        "subtask_strategy": "Technical research"
+                      },
+                      "prompts_and_responses": []
+                    }
+                  ],
+                  "properties": {
+                    "taskDivisionType": "default",
+                    "id": "LP-CS-01",
+                    "text": "Define Landing Page Requirements",
+                    "description": "Identify and document the necessary components, features, and functionalities for the landing page based on the project context and ecommerce portal requirements",
+                    "level": 2,
+                    "is_actionable": true,
+                    "execution_category": "development",
+                    "state": "not_started",
+                    "needs_revision": false,
+                    "llm_prompt": "What are the must-have elements for an ecommerce landing page?",
+                    "associated_files": [],
+                    "estimated_time": 2,
+                    "dependencies": [],
+                    "assigned_to": "Angular Developer",
+                    "review_required": true,
+                    "priority": "high",
+                    "complexity": "moderate",
+                    "tags": [
+                      "requirements",
+                      "ecommerce",
+                      "landing page"
+                    ],
+                    "acceptance_criteria": [
+                      "well-documented requirements",
+                      "alignment with project context"
+                    ],
+                    "resources": [
+                      "Ecommerce Portal Requirements Document"
+                    ],
+                    "subtask_strategy": "Divide into component-level requirements"
+                  },
+                  "prompts_and_responses": [
+                    {
+                      "prompt": {
+                        "prompt": "[{\"role\":\"user\",\"content\":\"\\nYou are an expert in Angular development and project management. We are working on a frontend UI development project using Angular. I need you to break down a specific task into its subtasks. Here's the context and the task to break down:\\n\\n\\n[Project Context]\\nWeb Application for generic ECommerce portal\\n\\n\\n\\n[Parent Task]\\ncreate a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features\\n\\n\\n\\n[Sibling Tasks]\\n\\n\\n\\n\\n[Task to Break Down]\\nDefine Landing Page Requirements}\\n\\n\\n\\n[Task Description]\\nundefined\\n\\n\\n\\nPlease provide the next level of subtasks for the [Task to Break Down] using [Task Description] to get more details on task. \\n\\nFor each subtask, include the following properties:\\n\\n1. id: A unique identifier for the subtask\\n2. text: A brief, descriptive title for the subtask\\n3. description: A more detailed explanation of what the subtask entails\\n4. level: The level of this subtask (parent task level + 1)\\n5. is_actionable: Boolean (true/false) indicating if this subtask represents an action item\\n6. execution_category: The type of task (e.g., \\\"development\\\", \\\"testing\\\", \\\"documentation\\\")\\n7. state: The current status (\\\"not_started\\\")\\n8. needs_revision: Boolean (initially set to false)\\n9. llm_prompt: A suggested prompt to generate further subtasks or get more details\\n10. associated_files: List of files that are likely to be related to this subtask\\n11. estimated_time: An approximate time to complete this subtask\\n12. dependencies: List of other subtasks (if any) that need to be completed before this one\\n13. assigned_to: The role responsible for this subtask\\n14. review_required: Boolean indicating if the subtask output needs review\\n15. priority: Subtask priority (\\\"high\\\", \\\"medium\\\", \\\"low\\\")\\n16. complexity: Subtask difficulty (\\\"simple\\\", \\\"moderate\\\", \\\"complex\\\")\\n17. tags: Array of relevant keywords\\n18. acceptance_criteria: List of criteria that define subtask completion\\n19. resources: Links or references to helpful documentation or tools\\n20. subtask_strategy: Approach for potentially breaking down this subtask further\\n\\nPlease provide the result as a JSON array, where each object in the array represents a subtask with all the properties listed above.\\n\\nFocus on creating a comprehensive but manageable set of subtasks that directly contribute to completing the [Task to Break Down]. Ensure that the subtasks are specific, actionable, and aligned with Angular development best practices.\\n\\nRemember to consider the following in your breakdown:\\n1. The specific requirements of the [Task to Break Down]\\n2. The context provided by the [Parent Task] and [Sibling Tasks]\\n3. The overall project context\\n4. Standard Angular development workflows and best practices\\n5. Potential dependencies between subtasks\\n\\nAim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.\\nPlease provide output only in json and don't add any extra text or character outside json.\\n\"}]",
+                        "provider": "Groq",
+                        "model": "llama3-70b-8192"
+                      },
+                      "response": "[\n  {\n    \"id\": 1,\n    \"text\": \"Determine Landing Page Goals and Objectives\",\n    \"description\": \"Identify the primary purpose and Key Performance Indicators (KPIs) for the landing page, aligning with the overall ecommerce website goals.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the key metrics to track for the landing page?\",\n    \"associated_files\": [],\n    \"estimated_time\": 2,\n    \"dependencies\": [],\n    \"assigned_to\": \"UI/UX Designer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"simple\",\n    \"tags\": [\"Landing Page\", \"Goals\", \"Objectives\"],\n    \"acceptance_criteria\": [\"Clearly defined landing page goals and objectives\"],\n    \"resources\": [\"https://www.landingpage.co/guides/goals-and-objectives/\"],\n    \"subtask_strategy\": \"Brainstorming\"\n  },\n  {\n    \"id\": 2,\n    \"text\": \"Define Landing Page Content Requirements\",\n    \"description\": \"Determine the necessary content elements, such as headlines, images, Call-to-Actions (CTAs), and informational sections, to achieve the identified goals and objectives.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What types of content will engage our target audience?\",\n    \"associated_files\": [],\n    \"estimated_time\": 3,\n    \"dependencies\": [1],\n    \"assigned_to\": \"UI/UX Designer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"Landing Page\", \"Content Requirements\"],\n    \"acceptance_criteria\": [\"Completed content requirements document\"],\n    \"resources\": [\"https://www.contentmarketinginstitute.com/2019/02/content-requirements-document/\"],\n    \"subtask_strategy\": \"Content mapping\"\n  },\n  {\n    \"id\": 3,\n    \"text\": \"Design Low-Fidelity Wireframes for Landing Page\",\n    \"description\": \"Create simple, low-fidelity wireframes to visualize the landing page layout, structure, and content organization.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"How can we effectively layout the landing page content?\",\n    \"associated_files\": [],\n    \"estimated_time\": 4,\n    \"dependencies\": [2],\n    \"assigned_to\": \"UI/UX Designer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"Landing Page\", \"Wireframes\", \"Design\"],\n    \"acceptance_criteria\": [\"Completed low-fidelity wireframes\"],\n    \"resources\": [\"https://www.sketch.com/wireframing/\"],\n    \"subtask_strategy\": \"Wireframing\"\n  },\n  {\n    \"id\": 4,\n    \"text\": \"Document Landing Page Technical Requirements\",\n    \"description\": \"Outline the technical specifications, such as responsive design, accessibility, and potential integrations, required to develop the landing page.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the technical constraints for the landing page?\",\n    \"associated_files\": [],\n    \"estimated_time\": 2,\n    \"dependencies\": [3],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"Landing Page\", \"Technical Requirements\"],\n    \"acceptance_criteria\": [\"Completed technical requirements document\"],\n    \"resources\": [\"https://angular.io/guide/architecture\"],\n    \"subtask_strategy\": \"Technical research\"\n  }\n]"
+                    }
+                  ]
+                },
+                {
+                  "id": "node-18",
+                  "text": "Create Landing Page Component Structure",
+                  "description": "Design and implement the Angular component structure for the landing page, including modules, components, and services",
+                  "children": [],
+                  "properties": {
+                    "taskDivisionType": "default",
+                    "id": "LP-CS-02",
+                    "text": "Create Landing Page Component Structure",
+                    "description": "Design and implement the Angular component structure for the landing page, including modules, components, and services",
+                    "level": 2,
+                    "is_actionable": true,
+                    "execution_category": "development",
+                    "state": "not_started",
+                    "needs_revision": false,
+                    "llm_prompt": "What is the ideal component structure for an Angular landing page?",
+                    "associated_files": [
+                      "landing-page.component.ts",
+                      "landing-page.module.ts"
+                    ],
+                    "estimated_time": 4,
+                    "dependencies": [
+                      "LP-CS-01"
+                    ],
+                    "assigned_to": "Angular Developer",
+                    "review_required": true,
+                    "priority": "high",
+                    "complexity": "moderate",
+                    "tags": [
+                      "Angular",
+                      "component structure",
+                      "landing page"
+                    ],
+                    "acceptance_criteria": [
+                      "well-structured component tree",
+                      "correct module and component organization"
+                    ],
+                    "resources": [
+                      "Angular Component Structure Guidelines"
+                    ],
+                    "subtask_strategy": "Break down into module, component, and service creation"
+                  },
+                  "prompts_and_responses": []
+                },
+                {
+                  "id": "node-19",
+                  "text": "Implement Landing Page Routing",
+                  "description": "Configure Angular routing for the landing page, including navigation and parameter passing",
+                  "children": [],
+                  "properties": {
+                    "taskDivisionType": "default",
+                    "id": "LP-CS-03",
+                    "text": "Implement Landing Page Routing",
+                    "description": "Configure Angular routing for the landing page, including navigation and parameter passing",
+                    "level": 2,
+                    "is_actionable": true,
+                    "execution_category": "development",
+                    "state": "not_started",
+                    "needs_revision": false,
+                    "llm_prompt": "How do I implement routing for an Angular landing page?",
+                    "associated_files": [
+                      "app-routing.module.ts"
+                    ],
+                    "estimated_time": 2,
+                    "dependencies": [
+                      "LP-CS-02"
+                    ],
+                    "assigned_to": "Angular Developer",
+                    "review_required": true,
+                    "priority": "high",
+                    "complexity": "simple",
+                    "tags": [
+                      "Angular",
+                      "routing",
+                      "landing page"
+                    ],
+                    "acceptance_criteria": [
+                      "correct routing configuration",
+                      "proper parameter passing"
+                    ],
+                    "resources": [
+                      "Angular Routing Documentation"
+                    ],
+                    "subtask_strategy": "Focus on configuring route modules and paths"
+                  },
+                  "prompts_and_responses": []
+                }
+              ],
+              "properties": {
+                "taskDivisionType": "default",
+                "id": "LP-1",
+                "text": "Create Landing Page Component Structure",
+                "description": "Create the basic structure for the landing page component, including the HTML and CSS files.",
+                "level": 2,
+                "is_actionable": true,
+                "execution_category": "development",
+                "state": "not_started",
+                "needs_revision": false,
+                "llm_prompt": "What are the essential sections of an ecommerce landing page?",
+                "associated_files": [
+                  "landing-page.component.html",
+                  "landing-page.component.css"
+                ],
+                "estimated_time": 2,
+                "dependencies": [],
+                "assigned_to": "Angular Developer",
+                "review_required": true,
+                "priority": "high",
+                "complexity": "simple",
+                "tags": [
+                  "landing-page",
+                  "component-structure"
+                ],
+                "acceptance_criteria": [
+                  "The component structure is created",
+                  "The HTML file has the basic layout",
+                  "The CSS file is linked to the component"
+                ],
+                "resources": [
+                  "Angular documentation on component structure"
+                ],
+                "subtask_strategy": "Separate into smaller tasks for each section of the landing page"
+              },
+              "prompts_and_responses": [
+                {
+                  "prompt": {
+                    "prompt": "[{\"role\":\"user\",\"content\":\"\\nYou are an expert in Angular development and project management. We are working on a frontend UI development project using Angular. I need you to break down a specific task into its subtasks. Here's the context and the task to break down:\\n\\n\\n[Project Context]\\nWeb Application for generic ECommerce portal\\n\\n\\n\\n[Parent Task]\\ncreate a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features\\n\\n\\n\\n[Sibling Tasks]\\n\\n\\n\\n\\n[Task to Break Down]\\nCreate Landing Page Component Structure}\\n\\n\\n\\n[Task Description]\\nundefined\\n\\n\\n\\nPlease provide the next level of subtasks for the [Task to Break Down] using [Task Description] to get more details on task. \\n\\nFor each subtask, include the following properties:\\n\\n1. id: A unique identifier for the subtask\\n2. text: A brief, descriptive title for the subtask\\n3. description: A more detailed explanation of what the subtask entails\\n4. level: The level of this subtask (parent task level + 1)\\n5. is_actionable: Boolean (true/false) indicating if this subtask represents an action item\\n6. execution_category: The type of task (e.g., \\\"development\\\", \\\"testing\\\", \\\"documentation\\\")\\n7. state: The current status (\\\"not_started\\\")\\n8. needs_revision: Boolean (initially set to false)\\n9. llm_prompt: A suggested prompt to generate further subtasks or get more details\\n10. associated_files: List of files that are likely to be related to this subtask\\n11. estimated_time: An approximate time to complete this subtask\\n12. dependencies: List of other subtasks (if any) that need to be completed before this one\\n13. assigned_to: The role responsible for this subtask\\n14. review_required: Boolean indicating if the subtask output needs review\\n15. priority: Subtask priority (\\\"high\\\", \\\"medium\\\", \\\"low\\\")\\n16. complexity: Subtask difficulty (\\\"simple\\\", \\\"moderate\\\", \\\"complex\\\")\\n17. tags: Array of relevant keywords\\n18. acceptance_criteria: List of criteria that define subtask completion\\n19. resources: Links or references to helpful documentation or tools\\n20. subtask_strategy: Approach for potentially breaking down this subtask further\\n\\nPlease provide the result as a JSON array, where each object in the array represents a subtask with all the properties listed above.\\n\\nFocus on creating a comprehensive but manageable set of subtasks that directly contribute to completing the [Task to Break Down]. Ensure that the subtasks are specific, actionable, and aligned with Angular development best practices.\\n\\nRemember to consider the following in your breakdown:\\n1. The specific requirements of the [Task to Break Down]\\n2. The context provided by the [Parent Task] and [Sibling Tasks]\\n3. The overall project context\\n4. Standard Angular development workflows and best practices\\n5. Potential dependencies between subtasks\\n\\nAim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.\\nPlease provide output only in json and don't add any extra text or character outside json.\\n\"}]",
+                    "provider": "Groq",
+                    "model": "llama3-70b-8192"
+                  },
+                  "response": "[\n  {\n    \"id\": \"LP-CS-01\",\n    \"text\": \"Define Landing Page Requirements\",\n    \"description\": \"Identify and document the necessary components, features, and functionalities for the landing page based on the project context and ecommerce portal requirements\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the must-have elements for an ecommerce landing page?\",\n    \"associated_files\": [],\n    \"estimated_time\": 2,\n    \"dependencies\": [],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"requirements\", \"ecommerce\", \"landing page\"],\n    \"acceptance_criteria\": [\"well-documented requirements\", \"alignment with project context\"],\n    \"resources\": [\"Ecommerce Portal Requirements Document\"],\n    \"subtask_strategy\": \"Divide into component-level requirements\"\n  },\n  {\n    \"id\": \"LP-CS-02\",\n    \"text\": \"Create Landing Page Component Structure\",\n    \"description\": \"Design and implement the Angular component structure for the landing page, including modules, components, and services\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What is the ideal component structure for an Angular landing page?\",\n    \"associated_files\": [\"landing-page.component.ts\", \"landing-page.module.ts\"],\n    \"estimated_time\": 4,\n    \"dependencies\": [\"LP-CS-01\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"Angular\", \"component structure\", \"landing page\"],\n    \"acceptance_criteria\": [\"well-structured component tree\", \"correct module and component organization\"],\n    \"resources\": [\"Angular Component Structure Guidelines\"],\n    \"subtask_strategy\": \"Break down into module, component, and service creation\"\n  },\n  {\n    \"id\": \"LP-CS-03\",\n    \"text\": \"Implement Landing Page Routing\",\n    \"description\": \"Configure Angular routing for the landing page, including navigation and parameter passing\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"How do I implement routing for an Angular landing page?\",\n    \"associated_files\": [\"app-routing.module.ts\"],\n    \"estimated_time\": 2,\n    \"dependencies\": [\"LP-CS-02\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"simple\",\n    \"tags\": [\"Angular\", \"routing\", \"landing page\"],\n    \"acceptance_criteria\": [\"correct routing configuration\", \"proper parameter passing\"],\n    \"resources\": [\"Angular Routing Documentation\"],\n    \"subtask_strategy\": \"Focus on configuring route modules and paths\"\n  }\n]"
+                }
+              ]
+            },
+            {
+              "id": "node-13",
+              "text": "Implement Hero Section",
+              "description": "Implement the hero section of the landing page, including the background image, headline, and call-to-action button.",
+              "children": [],
+              "properties": {
+                "taskDivisionType": "default",
+                "id": "LP-2",
+                "text": "Implement Hero Section",
+                "description": "Implement the hero section of the landing page, including the background image, headline, and call-to-action button.",
+                "level": 2,
+                "is_actionable": true,
+                "execution_category": "development",
+                "state": "not_started",
+                "needs_revision": false,
+                "llm_prompt": "What are the key elements of a compelling hero section?",
+                "associated_files": [
+                  "landing-page.component.html",
+                  "landing-page.component.css"
+                ],
+                "estimated_time": 4,
+                "dependencies": [
+                  "LP-1"
+                ],
+                "assigned_to": "Angular Developer",
+                "review_required": true,
+                "priority": "high",
+                "complexity": "moderate",
+                "tags": [
+                  "hero-section",
+                  "landing-page"
+                ],
+                "acceptance_criteria": [
+                  "The hero section is implemented",
+                  "The background image is displayed correctly",
+                  "The call-to-action button is functional"
+                ],
+                "resources": [
+                  "Angular documentation on image handling",
+                  "CSS styling guides"
+                ],
+                "subtask_strategy": "Break down into smaller tasks for each element of the hero section"
+              },
+              "prompts_and_responses": []
+            },
+            {
+              "id": "node-14",
+              "text": "Implement Featured Products Section",
+              "description": "Implement the featured products section of the landing page, including the product grid and carousel.",
+              "children": [],
+              "properties": {
+                "taskDivisionType": "default",
+                "id": "LP-3",
+                "text": "Implement Featured Products Section",
+                "description": "Implement the featured products section of the landing page, including the product grid and carousel.",
+                "level": 2,
+                "is_actionable": true,
+                "execution_category": "development",
+                "state": "not_started",
+                "needs_revision": false,
+                "llm_prompt": "What is the ideal layout for featured products on an ecommerce landing page?",
+                "associated_files": [
+                  "landing-page.component.html",
+                  "landing-page.component.css"
+                ],
+                "estimated_time": 6,
+                "dependencies": [
+                  "LP-1"
+                ],
+                "assigned_to": "Angular Developer",
+                "review_required": true,
+                "priority": "high",
+                "complexity": "moderate",
+                "tags": [
+                  "featured-products",
+                  "landing-page"
+                ],
+                "acceptance_criteria": [
+                  "The featured products section is implemented",
+                  "The product grid is displayed correctly",
+                  "The carousel is functional"
+                ],
+                "resources": [
+                  "Angular documentation on grid layout",
+                  "CSS styling guides"
+                ],
+                "subtask_strategy": "Break down into smaller tasks for each element of the featured products section"
+              },
+              "prompts_and_responses": []
+            },
+            {
+              "id": "node-15",
+              "text": "Implement Call-to-Action Button",
+              "description": "Implement the call-to-action button on the landing page, including the button styling and click event handling.",
+              "children": [],
+              "properties": {
+                "taskDivisionType": "default",
+                "id": "LP-4",
+                "text": "Implement Call-to-Action Button",
+                "description": "Implement the call-to-action button on the landing page, including the button styling and click event handling.",
+                "level": 2,
+                "is_actionable": true,
+                "execution_category": "development",
+                "state": "not_started",
+                "needs_revision": false,
+                "llm_prompt": "What are the best practices for designing an effective call-to-action button?",
+                "associated_files": [
+                  "landing-page.component.html",
+                  "landing-page.component.css"
+                ],
+                "estimated_time": 2,
+                "dependencies": [
+                  "LP-1"
+                ],
+                "assigned_to": "Angular Developer",
+                "review_required": true,
+                "priority": "medium",
+                "complexity": "simple",
+                "tags": [
+                  "call-to-action",
+                  "landing-page"
+                ],
+                "acceptance_criteria": [
+                  "The call-to-action button is implemented",
+                  "The button styling is correct",
+                  "The click event is handled correctly"
+                ],
+                "resources": [
+                  "Angular documentation on event handling",
+                  "CSS styling guides"
+                ],
+                "subtask_strategy": "Focus on creating a reusable button component"
+              },
+              "prompts_and_responses": []
+            },
+            {
+              "id": "node-16",
+              "text": "Test and Debug Landing Page Component",
+              "description": "Test the landing page component, including the hero section, featured products section, and call-to-action button, and debug any issues.",
+              "children": [],
+              "properties": {
+                "taskDivisionType": "default",
+                "id": "LP-5",
+                "text": "Test and Debug Landing Page Component",
+                "description": "Test the landing page component, including the hero section, featured products section, and call-to-action button, and debug any issues.",
+                "level": 2,
+                "is_actionable": true,
+                "execution_category": "testing",
+                "state": "not_started",
+                "needs_revision": false,
+                "llm_prompt": "What are the key scenarios to test on the landing page?",
+                "associated_files": [
+                  "landing-page.component.spec.ts"
+                ],
+                "estimated_time": 4,
+                "dependencies": [
+                  "LP-2",
+                  "LP-3",
+                  "LP-4"
+                ],
+                "assigned_to": "Angular Developer",
+                "review_required": true,
+                "priority": "high",
+                "complexity": "moderate",
+                "tags": [
+                  "testing",
+                  "debugging",
+                  "landing-page"
+                ],
+                "acceptance_criteria": [
+                  "The landing page component is tested",
+                  "All issues are debugged and resolved"
+                ],
+                "resources": [
+                  "Angular documentation on testing",
+                  "Jasmine testing framework"
+                ],
+                "subtask_strategy": "Create separate test cases for each section of the landing page"
+              },
+              "prompts_and_responses": []
+            }
+          ],
+          "properties": {
+            "taskDivisionType": "default",
+            "id": 3,
+            "text": "Implement Landing Page Component",
+            "description": "Create a landing page component that displays essential information to users, including a hero section, features, and call-to-action buttons.",
+            "level": 2,
+            "is_actionable": true,
+            "execution_category": "development",
+            "state": "not_started",
+            "needs_revision": false,
+            "llm_prompt": "What are the key elements required on the landing page?",
+            "associated_files": [
+              "landing-page.component.ts"
+            ],
+            "estimated_time": 6,
+            "dependencies": [
+              2
+            ],
+            "assigned_to": "Angular Developer",
+            "review_required": true,
+            "priority": "high",
+            "complexity": "moderate",
+            "tags": [
+              "landing-page-component",
+              "angular-ui"
+            ],
+            "acceptance_criteria": [
+              "The landing page component is implemented correctly",
+              "It displays the required information and call-to-actions"
+            ],
+            "resources": [
+              "https://angular.io/guide/component-interaction"
+            ],
+            "subtask_strategy": "Break down into smaller tasks for each section of the landing page"
+          },
+          "prompts_and_responses": [
+            {
+              "prompt": {
+                "prompt": "[{\"role\":\"user\",\"content\":\"\\nYou are an expert in Angular development and project management. We are working on a frontend UI development project using Angular. I need you to break down a specific task into its subtasks. Here's the context and the task to break down:\\n\\n\\n[Project Context]\\nWeb Application for generic ECommerce portal\\n\\n\\n\\n[Parent Task]\\ncreate a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features\\n\\n\\n\\n[Sibling Tasks]\\n\\n\\n\\n\\n[Task to Break Down]\\nImplement Landing Page Component}\\n\\n\\n\\n[Task Description]\\nundefined\\n\\n\\n\\nPlease provide the next level of subtasks for the [Task to Break Down] using [Task Description] to get more details on task. \\n\\nFor each subtask, include the following properties:\\n\\n1. id: A unique identifier for the subtask\\n2. text: A brief, descriptive title for the subtask\\n3. description: A more detailed explanation of what the subtask entails\\n4. level: The level of this subtask (parent task level + 1)\\n5. is_actionable: Boolean (true/false) indicating if this subtask represents an action item\\n6. execution_category: The type of task (e.g., \\\"development\\\", \\\"testing\\\", \\\"documentation\\\")\\n7. state: The current status (\\\"not_started\\\")\\n8. needs_revision: Boolean (initially set to false)\\n9. llm_prompt: A suggested prompt to generate further subtasks or get more details\\n10. associated_files: List of files that are likely to be related to this subtask\\n11. estimated_time: An approximate time to complete this subtask\\n12. dependencies: List of other subtasks (if any) that need to be completed before this one\\n13. assigned_to: The role responsible for this subtask\\n14. review_required: Boolean indicating if the subtask output needs review\\n15. priority: Subtask priority (\\\"high\\\", \\\"medium\\\", \\\"low\\\")\\n16. complexity: Subtask difficulty (\\\"simple\\\", \\\"moderate\\\", \\\"complex\\\")\\n17. tags: Array of relevant keywords\\n18. acceptance_criteria: List of criteria that define subtask completion\\n19. resources: Links or references to helpful documentation or tools\\n20. subtask_strategy: Approach for potentially breaking down this subtask further\\n\\nPlease provide the result as a JSON array, where each object in the array represents a subtask with all the properties listed above.\\n\\nFocus on creating a comprehensive but manageable set of subtasks that directly contribute to completing the [Task to Break Down]. Ensure that the subtasks are specific, actionable, and aligned with Angular development best practices.\\n\\nRemember to consider the following in your breakdown:\\n1. The specific requirements of the [Task to Break Down]\\n2. The context provided by the [Parent Task] and [Sibling Tasks]\\n3. The overall project context\\n4. Standard Angular development workflows and best practices\\n5. Potential dependencies between subtasks\\n\\nAim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.\\nPlease provide output only in json and don't add any extra text or character outside json.\\n\"}]",
+                "provider": "Groq",
+                "model": "llama3-70b-8192"
+              },
+              "response": "[\n  {\n    \"id\": \"LP-1\",\n    \"text\": \"Create Landing Page Component Structure\",\n    \"description\": \"Create the basic structure for the landing page component, including the HTML and CSS files.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the essential sections of an ecommerce landing page?\",\n    \"associated_files\": [\"landing-page.component.html\", \"landing-page.component.css\"],\n    \"estimated_time\": 2,\n    \"dependencies\": [],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"simple\",\n    \"tags\": [\"landing-page\", \"component-structure\"],\n    \"acceptance_criteria\": [\"The component structure is created\", \"The HTML file has the basic layout\", \"The CSS file is linked to the component\"],\n    \"resources\": [\"Angular documentation on component structure\"],\n    \"subtask_strategy\": \"Separate into smaller tasks for each section of the landing page\"\n  },\n  {\n    \"id\": \"LP-2\",\n    \"text\": \"Implement Hero Section\",\n    \"description\": \"Implement the hero section of the landing page, including the background image, headline, and call-to-action button.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the key elements of a compelling hero section?\",\n    \"associated_files\": [\"landing-page.component.html\", \"landing-page.component.css\"],\n    \"estimated_time\": 4,\n    \"dependencies\": [\"LP-1\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"hero-section\", \"landing-page\"],\n    \"acceptance_criteria\": [\"The hero section is implemented\", \"The background image is displayed correctly\", \"The call-to-action button is functional\"],\n    \"resources\": [\"Angular documentation on image handling\", \"CSS styling guides\"],\n    \"subtask_strategy\": \"Break down into smaller tasks for each element of the hero section\"\n  },\n  {\n    \"id\": \"LP-3\",\n    \"text\": \"Implement Featured Products Section\",\n    \"description\": \"Implement the featured products section of the landing page, including the product grid and carousel.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What is the ideal layout for featured products on an ecommerce landing page?\",\n    \"associated_files\": [\"landing-page.component.html\", \"landing-page.component.css\"],\n    \"estimated_time\": 6,\n    \"dependencies\": [\"LP-1\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"featured-products\", \"landing-page\"],\n    \"acceptance_criteria\": [\"The featured products section is implemented\", \"The product grid is displayed correctly\", \"The carousel is functional\"],\n    \"resources\": [\"Angular documentation on grid layout\", \"CSS styling guides\"],\n    \"subtask_strategy\": \"Break down into smaller tasks for each element of the featured products section\"\n  },\n  {\n    \"id\": \"LP-4\",\n    \"text\": \"Implement Call-to-Action Button\",\n    \"description\": \"Implement the call-to-action button on the landing page, including the button styling and click event handling.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the best practices for designing an effective call-to-action button?\",\n    \"associated_files\": [\"landing-page.component.html\", \"landing-page.component.css\"],\n    \"estimated_time\": 2,\n    \"dependencies\": [\"LP-1\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"medium\",\n    \"complexity\": \"simple\",\n    \"tags\": [\"call-to-action\", \"landing-page\"],\n    \"acceptance_criteria\": [\"The call-to-action button is implemented\", \"The button styling is correct\", \"The click event is handled correctly\"],\n    \"resources\": [\"Angular documentation on event handling\", \"CSS styling guides\"],\n    \"subtask_strategy\": \"Focus on creating a reusable button component\"\n  },\n  {\n    \"id\": \"LP-5\",\n    \"text\": \"Test and Debug Landing Page Component\",\n    \"description\": \"Test the landing page component, including the hero section, featured products section, and call-to-action button, and debug any issues.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"testing\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the key scenarios to test on the landing page?\",\n    \"associated_files\": [\"landing-page.component.spec.ts\"],\n    \"estimated_time\": 4,\n    \"dependencies\": [\"LP-2\", \"LP-3\", \"LP-4\"],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"testing\", \"debugging\", \"landing-page\"],\n    \"acceptance_criteria\": [\"The landing page component is tested\", \"All issues are debugged and resolved\"],\n    \"resources\": [\"Angular documentation on testing\", \"Jasmine testing framework\"],\n    \"subtask_strategy\": \"Create separate test cases for each section of the landing page\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "id": "node-11",
+          "text": "Develop Authentication Components",
+          "description": "Create components for login, registration, and user profile management, including form validation and error handling.",
+          "children": [],
+          "properties": {
+            "taskDivisionType": "default",
+            "id": 4,
+            "text": "Develop Authentication Components",
+            "description": "Create components for login, registration, and user profile management, including form validation and error handling.",
+            "level": 2,
+            "is_actionable": true,
+            "execution_category": "development",
+            "state": "not_started",
+            "needs_revision": false,
+            "llm_prompt": "What are the essential features required for authentication components?",
+            "associated_files": [
+              "login.component.ts",
+              "register.component.ts",
+              "profile.component.ts"
+            ],
+            "estimated_time": 8,
+            "dependencies": [
+              2
+            ],
+            "assigned_to": "Angular Developer",
+            "review_required": true,
+            "priority": "high",
+            "complexity": "complex",
+            "tags": [
+              "authentication-components",
+              "angular-security"
+            ],
+            "acceptance_criteria": [
+              "The authentication components are implemented correctly",
+              "They handle form validation and errors correctly"
+            ],
+            "resources": [
+              "https://angular.io/guide/forms",
+              "https://angular.io/guide/security"
+            ],
+            "subtask_strategy": "Break down into smaller tasks for each authentication component"
+          },
+          "prompts_and_responses": []
+        }
+      ],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 2,
+        "text": "Component Development",
+        "description": "Develop reusable UI components for the ecommerce website, including landing page, login/register, user profile, dashboard, orders, and billing features.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "development",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "What components are required for an ecommerce website?",
+        "associated_files": [
+          "src/app/components"
+        ],
+        "estimated_time": 40,
+        "dependencies": [
+          1
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "component development",
+          "UI components"
+        ],
+        "acceptance_criteria": [
+          "Components are developed and tested",
+          "Components are reusable"
+        ],
+        "resources": [
+          "https://angular.io/guide/component-overview"
+        ],
+        "subtask_strategy": "decompose into smaller component tasks"
+      },
+      "prompts_and_responses": [
+        {
+          "prompt": {
+            "prompt": "[{\"role\":\"user\",\"content\":\"\\nYou are an expert in Angular development and project management. We are working on a frontend UI development project using Angular. I need you to break down a specific task into its subtasks. Here's the context and the task to break down:\\n\\n\\n[Project Context]\\nWeb Application for generic ECommerce portal\\n\\n\\n\\n[Parent Task]\\ncreate a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features\\n\\n\\n\\n[Sibling Tasks]\\n\\n\\n\\n\\n[Task to Break Down]\\nComponent Development}\\n\\n\\n\\n[Task Description]\\nundefined\\n\\n\\n\\nPlease provide the next level of subtasks for the [Task to Break Down] using [Task Description] to get more details on task. \\n\\nFor each subtask, include the following properties:\\n\\n1. id: A unique identifier for the subtask\\n2. text: A brief, descriptive title for the subtask\\n3. description: A more detailed explanation of what the subtask entails\\n4. level: The level of this subtask (parent task level + 1)\\n5. is_actionable: Boolean (true/false) indicating if this subtask represents an action item\\n6. execution_category: The type of task (e.g., \\\"development\\\", \\\"testing\\\", \\\"documentation\\\")\\n7. state: The current status (\\\"not_started\\\")\\n8. needs_revision: Boolean (initially set to false)\\n9. llm_prompt: A suggested prompt to generate further subtasks or get more details\\n10. associated_files: List of files that are likely to be related to this subtask\\n11. estimated_time: An approximate time to complete this subtask\\n12. dependencies: List of other subtasks (if any) that need to be completed before this one\\n13. assigned_to: The role responsible for this subtask\\n14. review_required: Boolean indicating if the subtask output needs review\\n15. priority: Subtask priority (\\\"high\\\", \\\"medium\\\", \\\"low\\\")\\n16. complexity: Subtask difficulty (\\\"simple\\\", \\\"moderate\\\", \\\"complex\\\")\\n17. tags: Array of relevant keywords\\n18. acceptance_criteria: List of criteria that define subtask completion\\n19. resources: Links or references to helpful documentation or tools\\n20. subtask_strategy: Approach for potentially breaking down this subtask further\\n\\nPlease provide the result as a JSON array, where each object in the array represents a subtask with all the properties listed above.\\n\\nFocus on creating a comprehensive but manageable set of subtasks that directly contribute to completing the [Task to Break Down]. Ensure that the subtasks are specific, actionable, and aligned with Angular development best practices.\\n\\nRemember to consider the following in your breakdown:\\n1. The specific requirements of the [Task to Break Down]\\n2. The context provided by the [Parent Task] and [Sibling Tasks]\\n3. The overall project context\\n4. Standard Angular development workflows and best practices\\n5. Potential dependencies between subtasks\\n\\nAim to provide 3-7 subtasks unless the complexity of the [Task to Break Down] clearly warrants more or fewer.\\nPlease provide output only in json and don't add any extra text or character outside json.\\n\"}]",
+            "provider": "Groq",
+            "model": "llama3-70b-8192"
+          },
+          "response": "[\n  {\n    \"id\": 1,\n    \"text\": \"Create Component Hierarchy\",\n    \"description\": \"Determine the component structure and organization for the ecommerce application, including top-level components, feature modules, and reusable UI components.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the key features and UI components required for an ecommerce application?\",\n    \"associated_files\": [\"component-hierarchy.md\"],\n    \"estimated_time\": 2,\n    \"dependencies\": [],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"component-hierarchy\", \"angular-architecture\"],\n    \"acceptance_criteria\": [\"A clear component hierarchy is defined\", \"The hierarchy is aligned with Angular best practices\"],\n    \"resources\": [\"https://angular.io/guide/component-hierarchy\"],\n    \"subtask_strategy\": \"Divide into smaller tasks for each feature module\"\n  },\n  {\n    \"id\": 2,\n    \"text\": \"Develop Header and Footer Components\",\n    \"description\": \"Create reusable header and footer components that can be used throughout the application, including navigation, logo, and other essential elements.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the essential elements required in the header and footer components?\",\n    \"associated_files\": [\"header.component.ts\", \"footer.component.ts\"],\n    \"estimated_time\": 4,\n    \"dependencies\": [1],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"header-component\", \"footer-component\", \"angular-ui\"],\n    \"acceptance_criteria\": [\"The header and footer components are implemented correctly\", \"They are reusable across the application\"],\n    \"resources\": [\"https://angular.io/api/common/NgComponent\"],\n    \"subtask_strategy\": \"Break down into smaller tasks for each component\"\n  },\n  {\n    \"id\": 3,\n    \"text\": \"Implement Landing Page Component\",\n    \"description\": \"Create a landing page component that displays essential information to users, including a hero section, features, and call-to-action buttons.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the key elements required on the landing page?\",\n    \"associated_files\": [\"landing-page.component.ts\"],\n    \"estimated_time\": 6,\n    \"dependencies\": [2],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"landing-page-component\", \"angular-ui\"],\n    \"acceptance_criteria\": [\"The landing page component is implemented correctly\", \"It displays the required information and call-to-actions\"],\n    \"resources\": [\"https://angular.io/guide/component-interaction\"],\n    \"subtask_strategy\": \"Break down into smaller tasks for each section of the landing page\"\n  },\n  {\n    \"id\": 4,\n    \"text\": \"Develop Authentication Components\",\n    \"description\": \"Create components for login, registration, and user profile management, including form validation and error handling.\",\n    \"level\": 2,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the essential features required for authentication components?\",\n    \"associated_files\": [\"login.component.ts\", \"register.component.ts\", \"profile.component.ts\"],\n    \"estimated_time\": 8,\n    \"dependencies\": [2],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"complex\",\n    \"tags\": [\"authentication-components\", \"angular-security\"],\n    \"acceptance_criteria\": [\"The authentication components are implemented correctly\", \"They handle form validation and errors correctly\"],\n    \"resources\": [\"https://angular.io/guide/forms\", \"https://angular.io/guide/security\"],\n    \"subtask_strategy\": \"Break down into smaller tasks for each authentication component\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "id": "node-3",
+      "text": "Routing and Navigation",
+      "description": "Implement routing and navigation for the ecommerce website, including setting up routes for different features.",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 3,
+        "text": "Routing and Navigation",
+        "description": "Implement routing and navigation for the ecommerce website, including setting up routes for different features.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "development",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "How to implement routing in an Angular application?",
+        "associated_files": [
+          "src/app/app-routing.module.ts"
+        ],
+        "estimated_time": 8,
+        "dependencies": [
+          2
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "routing",
+          "navigation"
+        ],
+        "acceptance_criteria": [
+          "Routing is set up correctly",
+          "Navigation works as expected"
+        ],
+        "resources": [
+          "https://angular.io/guide/router"
+        ],
+        "subtask_strategy": "decompose into smaller routing tasks"
+      },
+      "prompts_and_responses": []
+    },
+    {
+      "id": "node-4",
+      "text": "State Management",
+      "description": "Implement state management for the ecommerce website using a state management library (e.g., NgRx, Redux).",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 4,
+        "text": "State Management",
+        "description": "Implement state management for the ecommerce website using a state management library (e.g., NgRx, Redux).",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "development",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "What are the state management options for an Angular application?",
+        "associated_files": [
+          "src/app/state"
+        ],
+        "estimated_time": 16,
+        "dependencies": [
+          2
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "state management",
+          "NgRx",
+          "Redux"
+        ],
+        "acceptance_criteria": [
+          "State management is implemented correctly",
+          "State is managed efficiently"
+        ],
+        "resources": [
+          "https://ngrx.io/"
+        ],
+        "subtask_strategy": "decompose into smaller state management tasks"
+      },
+      "prompts_and_responses": []
+    },
+    {
+      "id": "node-5",
+      "text": "API Integration",
+      "description": "Integrate the ecommerce website with backend APIs for login, registration, orders, billing, and other features.",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 5,
+        "text": "API Integration",
+        "description": "Integrate the ecommerce website with backend APIs for login, registration, orders, billing, and other features.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "development",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "How to integrate APIs in an Angular application?",
+        "associated_files": [
+          "src/app/api"
+        ],
+        "estimated_time": 24,
+        "dependencies": [
+          2
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "API integration",
+          "backend APIs"
+        ],
+        "acceptance_criteria": [
+          "APIs are integrated correctly",
+          "Data is fetched and displayed correctly"
+        ],
+        "resources": [
+          "https://angular.io/guide/http"
+        ],
+        "subtask_strategy": "decompose into smaller API integration tasks"
+      },
+      "prompts_and_responses": []
+    },
+    {
+      "id": "node-6",
+      "text": "Testing and Debugging",
+      "description": "Write unit tests, integration tests, and end-to-end tests for the ecommerce website, and debug any issues.",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 6,
+        "text": "Testing and Debugging",
+        "description": "Write unit tests, integration tests, and end-to-end tests for the ecommerce website, and debug any issues.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "testing",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "What types of tests are required for an Angular application?",
+        "associated_files": [
+          "src/app/testing"
+        ],
+        "estimated_time": 24,
+        "dependencies": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "testing",
+          "debugging"
+        ],
+        "acceptance_criteria": [
+          "Tests are written and passed",
+          "No bugs are found"
+        ],
+        "resources": [
+          "https://angular.io/guide/testing"
+        ],
+        "subtask_strategy": "decompose into smaller testing tasks"
+      },
+      "prompts_and_responses": []
+    },
+    {
+      "id": "node-7",
+      "text": "Deployment",
+      "description": "Deploy the ecommerce website to a production environment, including setting up a build process and configuring environments.",
+      "children": [],
+      "properties": {
+        "taskDivisionType": "default",
+        "id": 7,
+        "text": "Deployment",
+        "description": "Deploy the ecommerce website to a production environment, including setting up a build process and configuring environments.",
+        "level": 1,
+        "is_actionable": true,
+        "execution_category": "deployment",
+        "state": "not_started",
+        "needs_revision": false,
+        "llm_prompt": "What are the deployment options for an Angular application?",
+        "associated_files": [
+          "angular.json",
+          "package.json"
+        ],
+        "estimated_time": 8,
+        "dependencies": [
+          6
+        ],
+        "assigned_to": "Angular Developer",
+        "review_required": true,
+        "priority": "high",
+        "complexity": "moderate",
+        "tags": [
+          "deployment",
+          "production environment"
+        ],
+        "acceptance_criteria": [
+          "Application is deployed correctly",
+          "Environment is configured correctly"
+        ],
+        "resources": [
+          "https://angular.io/guide/deployment"
+        ],
+        "subtask_strategy": "decompose into smaller deployment tasks"
+      },
+      "prompts_and_responses": []
+    }
+  ],
+  "properties": {},
+  "prompts_and_responses": [
+    {
+      "prompt": {
+        "prompt": "[{\"role\":\"user\",\"content\":\"\\nYou are an expert in Angular development and project management. I need you to break down the task of \\\"Frontend UI Development using Angular\\\" into its main high-level components. Please provide the first-level nodes of this task breakdown.\\n\\n\\n\\n[Task Summary]\\ncreate a simple webapp for an ecommerce website with landing page, login/register, user profile, dashboard, orders, billing features\\n\\n\\n\\n[Task Description]\\nundefined\\n\\n\\n\\nUse the [Task Summary] and [Task Description] provided by user to formulate task specific break down applying all the given conditions.\\n\\nFor each first-level node, include the following properties:\\n\\n1. id: A unique identifier for the node\\n2. text: A brief, descriptive title for the task\\n3. description: A more detailed explanation of what the task entails\\n4. level: Should be 1 for all first-level nodes\\n5. is_actionable: Boolean (true/false) indicating if this node represents an action item or just a category\\n6. execution_category: The type of task (e.g., \\\"planning\\\", \\\"development\\\", \\\"testing\\\", \\\"documentation\\\")\\n7. state: The current status (\\\"not_started\\\", \\\"in_progress\\\", \\\"completed\\\")\\n8. needs_revision: Boolean indicating if the task needs to be reviewed or updated\\n9. llm_prompt: A suggested prompt to generate subtasks or get more details about this task\\n10. associated_files: List of files that are related to this task\\n11. estimated_time: An approximate time to complete this task\\n12. dependencies: List of tasks (if any) that need to be completed before this one can start\\n13. assigned_to: The role responsible for this task\\n14. review_required: Boolean indicating if the task output needs review\\n15. priority: Task priority (\\\"high\\\", \\\"medium\\\", \\\"low\\\")\\n16. complexity: Task difficulty (\\\"simple\\\", \\\"moderate\\\", \\\"complex\\\")\\n17. tags: Array of relevant keywords\\n18. acceptance_criteria: List of criteria that define task completion\\n19. resources: Links or references to helpful documentation or tools\\n20. subtask_strategy: Approach for breaking down this task further\\n\\nPlease provide the result as a JSON array, where each object in the array represents a first-level node with all the properties listed above.\\n\\nFocus on creating a comprehensive but manageable set of first-level tasks that cover all major aspects of Angular frontend UI development, including but not limited to project setup, component development, routing, state management, API integration, testing, and deployment.\\nPlease provide output only in json and don't add any extra text or character outside json.\\n\"}]",
+        "provider": "Groq",
+        "model": "llama3-70b-8192"
+      },
+      "response": "[\n  {\n    \"id\": 1,\n    \"text\": \"Project Setup and Configuration\",\n    \"description\": \"Set up a new Angular project with necessary configurations, including environment settings, dependencies, and build configurations.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"planning\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the necessary configurations for an Angular project?\",\n    \"associated_files\": [\"angular.json\", \"package.json\"],\n    \"estimated_time\": 2,\n    \"dependencies\": [],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"simple\",\n    \"tags\": [\"project setup\", \"configuration\"],\n    \"acceptance_criteria\": [\"Angular project is created\", \"Configurations are set up correctly\"],\n    \"resources\": [\"https://angular.io/cli\"],\n    \"subtask_strategy\": \"decompose into smaller config tasks\"\n  },\n  {\n    \"id\": 2,\n    \"text\": \"Component Development\",\n    \"description\": \"Develop reusable UI components for the ecommerce website, including landing page, login/register, user profile, dashboard, orders, and billing features.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What components are required for an ecommerce website?\",\n    \"associated_files\": [\"src/app/components\"],\n    \"estimated_time\": 40,\n    \"dependencies\": [1],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"component development\", \"UI components\"],\n    \"acceptance_criteria\": [\"Components are developed and tested\", \"Components are reusable\"],\n    \"resources\": [\"https://angular.io/guide/component-overview\"],\n    \"subtask_strategy\": \"decompose into smaller component tasks\"\n  },\n  {\n    \"id\": 3,\n    \"text\": \"Routing and Navigation\",\n    \"description\": \"Implement routing and navigation for the ecommerce website, including setting up routes for different features.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"How to implement routing in an Angular application?\",\n    \"associated_files\": [\"src/app/app-routing.module.ts\"],\n    \"estimated_time\": 8,\n    \"dependencies\": [2],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"routing\", \"navigation\"],\n    \"acceptance_criteria\": [\"Routing is set up correctly\", \"Navigation works as expected\"],\n    \"resources\": [\"https://angular.io/guide/router\"],\n    \"subtask_strategy\": \"decompose into smaller routing tasks\"\n  },\n  {\n    \"id\": 4,\n    \"text\": \"State Management\",\n    \"description\": \"Implement state management for the ecommerce website using a state management library (e.g., NgRx, Redux).\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the state management options for an Angular application?\",\n    \"associated_files\": [\"src/app/state\"],\n    \"estimated_time\": 16,\n    \"dependencies\": [2],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"state management\", \"NgRx\", \"Redux\"],\n    \"acceptance_criteria\": [\"State management is implemented correctly\", \"State is managed efficiently\"],\n    \"resources\": [\"https://ngrx.io/\"],\n    \"subtask_strategy\": \"decompose into smaller state management tasks\"\n  },\n  {\n    \"id\": 5,\n    \"text\": \"API Integration\",\n    \"description\": \"Integrate the ecommerce website with backend APIs for login, registration, orders, billing, and other features.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"development\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"How to integrate APIs in an Angular application?\",\n    \"associated_files\": [\"src/app/api\"],\n    \"estimated_time\": 24,\n    \"dependencies\": [2],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"API integration\", \"backend APIs\"],\n    \"acceptance_criteria\": [\"APIs are integrated correctly\", \"Data is fetched and displayed correctly\"],\n    \"resources\": [\"https://angular.io/guide/http\"],\n    \"subtask_strategy\": \"decompose into smaller API integration tasks\"\n  },\n  {\n    \"id\": 6,\n    \"text\": \"Testing and Debugging\",\n    \"description\": \"Write unit tests, integration tests, and end-to-end tests for the ecommerce website, and debug any issues.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"testing\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What types of tests are required for an Angular application?\",\n    \"associated_files\": [\"src/app/testing\"],\n    \"estimated_time\": 24,\n    \"dependencies\": [2, 3, 4, 5],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"testing\", \"debugging\"],\n    \"acceptance_criteria\": [\"Tests are written and passed\", \"No bugs are found\"],\n    \"resources\": [\"https://angular.io/guide/testing\"],\n    \"subtask_strategy\": \"decompose into smaller testing tasks\"\n  },\n  {\n    \"id\": 7,\n    \"text\": \"Deployment\",\n    \"description\": \"Deploy the ecommerce website to a production environment, including setting up a build process and configuring environments.\",\n    \"level\": 1,\n    \"is_actionable\": true,\n    \"execution_category\": \"deployment\",\n    \"state\": \"not_started\",\n    \"needs_revision\": false,\n    \"llm_prompt\": \"What are the deployment options for an Angular application?\",\n    \"associated_files\": [\"angular.json\", \"package.json\"],\n    \"estimated_time\": 8,\n    \"dependencies\": [6],\n    \"assigned_to\": \"Angular Developer\",\n    \"review_required\": true,\n    \"priority\": \"high\",\n    \"complexity\": \"moderate\",\n    \"tags\": [\"deployment\", \"production environment\"],\n    \"acceptance_criteria\": [\"Application is deployed correctly\", \"Environment is configured correctly\"],\n    \"resources\": [\"https://angular.io/guide/deployment\"],\n    \"subtask_strategy\": \"decompose into smaller deployment tasks\"\n  }\n]"
+    }
+  ]
+}

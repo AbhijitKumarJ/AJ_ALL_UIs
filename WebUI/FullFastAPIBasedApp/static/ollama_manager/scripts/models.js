@@ -3,16 +3,20 @@ window.AJ_GPT.models = {
     currentModel: null,
 
     initialize: function() {
-        this.loadModels();
-        this.setupEventListeners();
-        this.displayUserInfo();
+        window.AJ_GPT.models.loadModels();
+        window.AJ_GPT.models.setupEventListeners();
+        window.AJ_GPT.models.displayUserInfo();
         window.AJ_GPT.ui.updateNavigation();
     },
 
     loadModels: async function() {
         try {
-            const models = await window.AJ_GPT.api.listModels();
-            this.displayModels(models);
+            var models = await window.AJ_GPT.api.listModels("",function(response){
+                window.AJ_GPT.models.displayModels(response.models);
+            }, function(xhr, status, error){
+
+            });
+            
         } catch (error) {
             console.error('Error loading models:', error);
             window.AJ_GPT.ui.showToast('Error loading models', 'error');
@@ -20,21 +24,21 @@ window.AJ_GPT.models = {
     },
 
     displayModels: function(models) {
-        const modelsContainer = document.getElementById('modelsList');
+        var modelsContainer = document.getElementById('modelsList');
         modelsContainer.innerHTML = models.map(model => `
             <div class="col">
                 <div class="card model-card h-100">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-light">${model}</h5>
-                        <p class="card-text flex-grow-1">A powerful language model for various tasks.</p>
+                        <h5 class="card-title text-light">${model.name} (${Math.round(model.size / (1024*1024))} MB)</h5>
+                        <p class="card-text flex-grow-1">${ JSON.stringify(model.details)}</p>
                         <div class="model-actions mt-auto">
-                            <button class="btn btn-primary btn-sm chat-btn" data-model="${model}" title="Chat">
+                            <button class="btn btn-primary btn-sm chat-btn" data-model="${model.name}" title="Chat">
                                 <i class="fas fa-comment"></i>
                             </button>
-                            <button class="btn btn-secondary btn-sm edit-btn" data-model="${model}" title="Edit">
+                            <button class="btn btn-secondary btn-sm edit-btn" data-model="${model.name}" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm delete-btn" data-model="${model}" title="Delete">
+                            <button class="btn btn-danger btn-sm delete-btn" data-model="${model.name}" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -44,20 +48,91 @@ window.AJ_GPT.models = {
         `).join('');
     },
 
+    // [
+    //     {
+    //         "name": "qwen2:1.5b",
+    //         "model": "qwen2:1.5b",
+    //         "modified_at": "2024-07-02T22:09:58.82476146+05:30",
+    //         "size": 934964102,
+    //         "digest": "f6daf2b25194025ae2d5288f2afd041997ce48116807a3b612c1a96b09bec03a",
+    //         "details": {
+    //             "parent_model": "",
+    //             "format": "gguf",
+    //             "family": "qwen2",
+    //             "families": [
+    //                 "qwen2"
+    //             ],
+    //             "parameter_size": "1.5B",
+    //             "quantization_level": "Q4_0"
+    //         }
+    //     },
+    //     {
+    //         "name": "nomic-embed-text:latest",
+    //         "model": "nomic-embed-text:latest",
+    //         "modified_at": "2024-05-15T16:20:04.120512748+05:30",
+    //         "size": 274302450,
+    //         "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    //         "details": {
+    //             "parent_model": "",
+    //             "format": "gguf",
+    //             "family": "nomic-bert",
+    //             "families": [
+    //                 "nomic-bert"
+    //             ],
+    //             "parameter_size": "137M",
+    //             "quantization_level": "F16"
+    //         }
+    //     },
+    //     {
+    //         "name": "crewaitinyllama:latest",
+    //         "model": "crewaitinyllama:latest",
+    //         "modified_at": "2024-05-13T18:58:07.328013469+05:30",
+    //         "size": 1170782017,
+    //         "digest": "c6e31e7b2e89196d566005d4171af15302d858e1aa391bbb8b5b8689fd43e0f5",
+    //         "details": {
+    //             "parent_model": "",
+    //             "format": "gguf",
+    //             "family": "llama",
+    //             "families": [
+    //                 "llama"
+    //             ],
+    //             "parameter_size": "1.1B",
+    //             "quantization_level": "Q8_0"
+    //         }
+    //     },
+    //     {
+    //         "name": "phi3mini4kinstructq4:latest",
+    //         "model": "phi3mini4kinstructq4:latest",
+    //         "modified_at": "2024-05-13T02:55:49.743953747+05:30",
+    //         "size": 2318919465,
+    //         "digest": "ca4020004285b291b94ab9ea84fb93ff6a4c121be57839ccba798091a4b305e1",
+    //         "details": {
+    //             "parent_model": "",
+    //             "format": "gguf",
+    //             "family": "llama",
+    //             "families": [
+    //                 "llama"
+    //             ],
+    //             "parameter_size": "3.8B",
+    //             "quantization_level": "Q4_K_M"
+    //         }
+    //     }
+    // ]
+
     setupEventListeners: function() {
-        document.getElementById('pullModelBtn').addEventListener('click', this.handlePullModel.bind(this));
-        document.getElementById('modelsList').addEventListener('click', this.handleModelAction.bind(this));
-        document.getElementById('sendMessage').addEventListener('click', this.sendMessage.bind(this));
-        document.getElementById('saveModelChanges').addEventListener('click', this.saveModelChanges.bind(this));
+        document.getElementById('pullModelBtn').addEventListener('click', window.AJ_GPT.models.handlePullModel);
+        document.getElementById('modelsList').addEventListener('click', window.AJ_GPT.models.handleModelAction);
+        document.getElementById('sendMessage').addEventListener('click', window.AJ_GPT.models.sendMessage);
+        document.getElementById('saveModelChanges').addEventListener('click', window.AJ_GPT.models.saveModelChanges);
     },
 
     handlePullModel: async function() {
-        const modelName = prompt('Enter the name of the model to pull:');
+        var modelName = prompt('Enter the name of the model to pull:');
         if (modelName) {
             try {
-                const result = await window.AJ_GPT.api.pullModel(modelName);
+                var result = await window.AJ_GPT.api.pullModel(modelName);
                 window.AJ_GPT.ui.showToast(result.message, 'success');
-                this.loadModels();
+                window.AJ_GPT.models.loadModels();
             } catch (error) {
                 console.error('Error pulling model:', error);
                 window.AJ_GPT.ui.showToast('Error pulling model', 'error');
@@ -66,36 +141,44 @@ window.AJ_GPT.models = {
     },
 
     handleModelAction: function(event) {
-        const target = event.target.closest('button');
+        var target = event.target.closest('button');
         if (!target) return;
 
-        const model = target.dataset.model;
+        var model = target.dataset.model;
         if (target.classList.contains('chat-btn')) {
-            this.openChatModal(model);
+            window.AJ_GPT.models.openChatModal(model);
         } else if (target.classList.contains('edit-btn')) {
-            this.openEditModal(model);
+            window.AJ_GPT.models.openEditModal(model);
         } else if (target.classList.contains('delete-btn')) {
-            this.deleteModel(model);
+            window.AJ_GPT.models.deleteModel(model);
         }
     },
 
     openChatModal: function(model) {
-        this.currentModel = model;
+        window.AJ_GPT.models.currentModel = model;
         document.getElementById('chatModalLabel').textContent = `Chat with ${model}`;
         document.getElementById('chatMessages').innerHTML = '';
         new bootstrap.Modal(document.getElementById('chatModal')).show();
     },
 
     sendMessage: async function() {
-        const userMessage = document.getElementById('userMessage').value.trim();
+        var userMessage = document.getElementById('userMessage').value.trim();
         if (!userMessage) return;
 
-        this.appendMessage('user', userMessage);
+        window.AJ_GPT.models.appendMessage('user', userMessage);
         document.getElementById('userMessage').value = '';
 
         try {
-            const response = await window.AJ_GPT.api.generateCompletion(this.currentModel, userMessage);
-            this.appendMessage('model', response.completion);
+            var response = await window.AJ_GPT.api.generateCompletion(
+                "",
+                window.AJ_GPT.models.currentModel,
+                userMessage,
+                false,
+                function (response) {
+                    window.AJ_GPT.models.appendMessage('model', response);
+                },
+                function (xhr, status, error) {}
+            );            
         } catch (error) {
             console.error('Error generating completion:', error);
             window.AJ_GPT.ui.showToast('Error generating response', 'error');
@@ -103,8 +186,8 @@ window.AJ_GPT.models = {
     },
 
     appendMessage: function(sender, message) {
-        const chatMessages = document.getElementById('chatMessages');
-        const messageElement = document.createElement('div');
+        var chatMessages = document.getElementById('chatMessages');
+        var messageElement = document.createElement('div');
         messageElement.classList.add('chat-message', sender === 'user' ? 'user-message' : 'model-message');
         messageElement.textContent = message;
         chatMessages.appendChild(messageElement);
@@ -118,14 +201,14 @@ window.AJ_GPT.models = {
     },
 
     saveModelChanges: async function() {
-        const modelName = document.getElementById('modelName').value;
-        const modelConfig = JSON.parse(document.getElementById('modelConfig').value);
+        var modelName = document.getElementById('modelName').value;
+        var modelConfig = JSON.parse(document.getElementById('modelConfig').value);
 
         try {
-            const result = await window.AJ_GPT.api.updateModel(modelName, modelConfig);
+            var result = await window.AJ_GPT.api.updateModel(modelName, modelConfig);
             window.AJ_GPT.ui.showToast(result.message, 'success');
             bootstrap.Modal.getInstance(document.getElementById('editModelModal')).hide();
-            this.loadModels();
+            window.AJ_GPT.models.loadModels();
         } catch (error) {
             console.error('Error updating model:', error);
             window.AJ_GPT.ui.showToast('Error updating model', 'error');
@@ -135,9 +218,9 @@ window.AJ_GPT.models = {
     deleteModel: async function(model) {
         if (confirm(`Are you sure you want to delete the model "${model}"?`)) {
             try {
-                const result = await window.AJ_GPT.api.deleteModel(model);
+                var result = await window.AJ_GPT.api.deleteModel(model);
                 window.AJ_GPT.ui.showToast(result.message, 'success');
-                this.loadModels();
+                window.AJ_GPT.models.loadModels();
             } catch (error) {
                 console.error('Error deleting model:', error);
                 window.AJ_GPT.ui.showToast('Error deleting model', 'error');
@@ -146,7 +229,7 @@ window.AJ_GPT.models = {
     },
 
     displayUserInfo: function() {
-        const currentSession = window.AJ_GPT.utils.getFromLocalStorage('currentSession');
+        var currentSession = window.AJ_GPT.utils.getFromLocalStorage('currentSession');
         if (currentSession) {
             document.getElementById('userInfo').textContent = `Logged in as ${currentSession.username} (${currentSession.personaName})`;
         }

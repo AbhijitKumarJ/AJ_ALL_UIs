@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,8 @@
             --accent-color: #e74c3c;
         }
 
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
@@ -154,9 +156,10 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <div class="sidebar">
+        <div class="sidebar" style="display: none;">
             <div class="logo">ModuleHub</div>
             <div class="nav-item" onclick="showModule('dashboard')">
                 <i class="fas fa-home"></i> Dashboard
@@ -192,24 +195,24 @@
         let isLoggedIn = false;
 
         function showModule(module) {
-            const moduleTitle = document.getElementById('module-title');
-            const moduleContent = document.getElementById('module-content');
+            var moduleTitle = document.getElementById('module-title');
+            var moduleContent = document.getElementById('module-content');
 
             moduleTitle.textContent = module.charAt(0).toUpperCase() + module.slice(1);
 
-            if (!isLoggedIn && module !== 'dashboard') {
-                moduleContent.innerHTML = `
-                    <div class="login-form">
-                        <h2>Login Required</h2>
-                        <input type="text" placeholder="Username" id="username-input">
-                        <input type="password" placeholder="Password" id="password-input">
-                        <button onclick="login()">Login</button>
-                    </div>
-                `;
-            } else {
-                switch (module) {
-                    case 'dashboard':
-                        moduleContent.innerHTML = `
+            // if (!isLoggedIn && module !== 'dashboard') {
+            //     moduleContent.innerHTML = `
+            //         <div class="login-form">
+            //             <h2>Login Required</h2>
+            //             <input type="text" placeholder="Username" id="username-input">
+            //             <input type="password" placeholder="Password" id="password-input">
+            //             <button onclick="login()">Login</button>
+            //         </div>
+            //     `;
+            // } else {
+            switch (module) {
+                case 'dashboard':
+                    moduleContent.innerHTML = `
                             <div class="module-grid">
                                 <div class="module-card" onclick="showModule('ollama')">
                                     <div class="module-icon"><i class="fas fa-robot"></i></div>
@@ -233,29 +236,29 @@
                                 </div>
                             </div>
                         `;
-                        break;
-                    case 'ollama':
-                        window.location.href="/static/ollama_manager/index.html";
-                        moduleContent.innerHTML = '<h2>Ollama Manager</h2><p>Manage your Ollama models and interactions here.</p>';
-                        break;
-                    case 'chat':
-                        window.location.href="/static/generic_chat/index.html";
-                        moduleContent.innerHTML = '<h2>Chat Manager</h2><p>Manage your chat sessions and conversations here.</p>';
-                        break;
-                    case 'task':
-                        window.location.href="/static/task_analyser/index.html";
-                        moduleContent.innerHTML = '<h2>Task Analyzer</h2><p>Analyze and manage your tasks and projects here.</p>';
-                        break;
-                    case 'profile':
-                        moduleContent.innerHTML = '<h2>User Profile</h2><p>Manage your user profile and settings here.</p>';
-                        break;
-                }
+                    break;
+                case 'ollama':
+                    window.location.href = "/static/ollama_manager/index.html";
+                    moduleContent.innerHTML = '<h2>Ollama Manager</h2><p>Manage your Ollama models and interactions here.</p>';
+                    break;
+                case 'chat':
+                    window.location.href = "/static/generic_chat/index.html";
+                    moduleContent.innerHTML = '<h2>Chat Manager</h2><p>Manage your chat sessions and conversations here.</p>';
+                    break;
+                case 'task':
+                    window.location.href = "/static/task_analyser/index.html";
+                    moduleContent.innerHTML = '<h2>Task Analyzer</h2><p>Analyze and manage your tasks and projects here.</p>';
+                    break;
+                case 'profile':
+                    moduleContent.innerHTML = '<h2>User Profile</h2><p>Manage your user profile and settings here.</p>';
+                    break;
             }
+            // }
         }
 
         function login() {
-            const username = document.getElementById('username-input').value;
-            const password = document.getElementById('password-input').value;
+            var username = document.getElementById('username-input').value;
+            var password = document.getElementById('password-input').value;
 
             // Simulate login (replace with actual authentication logic)
             if (username && password) {
@@ -271,4 +274,5 @@
         showModule('dashboard');
     </script>
 </body>
+
 </html>

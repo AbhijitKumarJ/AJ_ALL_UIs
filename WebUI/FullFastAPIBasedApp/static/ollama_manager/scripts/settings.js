@@ -8,7 +8,7 @@ window.AJ_GPT.settings = {
     },
 
     loadGlobalSettings: function() {
-        const globalSettings = window.AJ_GPT.utils.getFromLocalStorage('globalSettings') || {
+        var globalSettings = window.AJ_GPT.utils.getFromLocalStorage('globalSettings') || {
             defaultModel: 'GPT-4',
             maxTokens: 2048,
             temperature: 0.7
@@ -21,13 +21,13 @@ window.AJ_GPT.settings = {
     },
 
     loadPersonas: function() {
-        const personas = window.AJ_GPT.utils.getFromLocalStorage('personas') || [
+        var personas = window.AJ_GPT.utils.getFromLocalStorage('personas') || [
             { id: 'default', name: 'Default', systemPrompt: 'You are a helpful assistant.' },
             { id: 'coder', name: 'Coder', systemPrompt: 'You are an expert programmer.' },
             { id: 'creative', name: 'Creative', systemPrompt: 'You are a creative writer.' }
         ];
 
-        const personasList = document.getElementById('personasList');
+        var personasList = document.getElementById('personasList');
         personasList.innerHTML = personas.map(persona => `
             <div class="persona-card" data-id="${persona.id}">
                 <h3>${persona.name}</h3>
@@ -49,13 +49,13 @@ window.AJ_GPT.settings = {
     },
 
     updateTemperatureValue: function() {
-        const temperature = document.getElementById('temperature').value;
+        var temperature = document.getElementById('temperature').value;
         document.getElementById('temperatureValue').textContent = temperature;
     },
 
     saveGlobalSettings: function(event) {
         event.preventDefault();
-        const globalSettings = {
+        var globalSettings = {
             defaultModel: document.getElementById('defaultModel').value,
             maxTokens: parseInt(document.getElementById('maxTokens').value),
             temperature: parseFloat(document.getElementById('temperature').value)
@@ -66,12 +66,12 @@ window.AJ_GPT.settings = {
     },
 
     openPersonaModal: function(personaId = null) {
-        const modalTitle = document.getElementById('personaModalLabel');
-        const personaForm = document.getElementById('personaForm');
+        var modalTitle = document.getElementById('personaModalLabel');
+        var personaForm = document.getElementById('personaForm');
         
         if (personaId) {
-            const personas = window.AJ_GPT.utils.getFromLocalStorage('personas');
-            const persona = personas.find(p => p.id === personaId);
+            var personas = window.AJ_GPT.utils.getFromLocalStorage('personas');
+            var persona = personas.find(p => p.id === personaId);
             modalTitle.textContent = 'Edit Persona';
             personaForm.elements.personaId.value = persona.id;
             personaForm.elements.personaName.value = persona.name;
@@ -86,22 +86,22 @@ window.AJ_GPT.settings = {
     },
 
     savePersona: function() {
-        const personaForm = document.getElementById('personaForm');
-        const personaId = personaForm.elements.personaId.value;
-        const personaName = personaForm.elements.personaName.value;
-        const systemPrompt = personaForm.elements.systemPrompt.value;
+        var personaForm = document.getElementById('personaForm');
+        var personaId = personaForm.elements.personaId.value;
+        var personaName = personaForm.elements.personaName.value;
+        var systemPrompt = personaForm.elements.systemPrompt.value;
 
         let personas = window.AJ_GPT.utils.getFromLocalStorage('personas') || [];
 
         if (personaId) {
             // Edit existing persona
-            const index = personas.findIndex(p => p.id === personaId);
+            var index = personas.findIndex(p => p.id === personaId);
             if (index !== -1) {
                 personas[index] = { id: personaId, name: personaName, systemPrompt };
             }
         } else {
             // Add new persona
-            const newId = 'persona_' + Date.now();
+            var newId = 'persona_' + Date.now();
             personas.push({ id: newId, name: personaName, systemPrompt });
         }
 
@@ -112,11 +112,11 @@ window.AJ_GPT.settings = {
     },
 
     handlePersonaAction: function(event) {
-        const target = event.target;
-        const personaCard = target.closest('.persona-card');
+        var target = event.target;
+        var personaCard = target.closest('.persona-card');
         if (!personaCard) return;
 
-        const personaId = personaCard.dataset.id;
+        var personaId = personaCard.dataset.id;
 
         if (target.classList.contains('edit-persona-btn')) {
             this.openPersonaModal(personaId);

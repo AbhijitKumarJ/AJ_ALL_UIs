@@ -7,7 +7,7 @@ window.AJ_GPT.login = {
     },
 
     loadPersonas: function() {
-        const personas = window.AJ_GPT.utils.getFromLocalStorage("personas");
+        var personas = window.AJ_GPT.utils.getFromLocalStorage("personas");
         if (personas == null) {
             personas = [
                 {
@@ -30,7 +30,7 @@ window.AJ_GPT.login = {
             window.AJ_GPT.utils.saveToLocalStorage("personas", personas);
         }
         
-        const personaSelect = document.getElementById('personaSelect');
+        var personaSelect = document.getElementById('personaSelect');
         personaSelect.innerHTML = personas.map(persona => 
             `<option value="${persona.id}">${persona.name}</option>`
         ).join('');
@@ -45,21 +45,21 @@ window.AJ_GPT.login = {
 
     handleLogin: function(event) {
         event.preventDefault();
-        const username = document.getElementById('username').value;
-        const personaId = document.getElementById('personaSelect').value;
+        var username = document.getElementById('username').value;
+        var personaId = document.getElementById('personaSelect').value;
         this.startSession(username, personaId);
     },
 
     startSession: function(username, personaId) {
-        const personas = window.AJ_GPT.utils.getFromLocalStorage('personas')??[];
-        const selectedPersona = personas.find(p => p.id === personaId);
+        var personas = window.AJ_GPT.utils.getFromLocalStorage('personas')??[];
+        var selectedPersona = personas.find(p => p.id === personaId);
         
         if (!selectedPersona) {
             window.AJ_GPT.ui.showToast('Selected persona not found', 'error');
             return;
         }
 
-        const sessionData = {
+        var sessionData = {
             username: username,
             personaId: personaId,
             personaName: selectedPersona.name,
@@ -75,11 +75,11 @@ window.AJ_GPT.login = {
     },
 
     handleFileImport: function(event) {
-        const file = event.target.files[0];
+        var file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = (e) => {
-                const success = window.AJ_GPT.utils.importConfig(e.target.result);
+                var success = window.AJ_GPT.utils.importConfig(e.target.result);
                 if (success) {
                     window.AJ_GPT.ui.showToast('Configuration imported successfully', 'success');
                     this.loadPersonas();

@@ -1,0 +1,24 @@
+.persona-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color:black;
+}
+
+.persona-card h3 {
+    margin-top: 0;
+}
+
+.persona-actions {
+    margin-top: 1rem;
+}
+
+#temperatureValue {
+    margin-left: 0.5rem;
+}
+
+.form-range {
+    width: 100%;
+}

@@ -1,0 +1,168 @@
+/* Dark theme styles */
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.navbar {
+    background-color: #2c2c2c;
+}
+
+.card {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Improved model cards */
+.model-card {
+    transition: transform 0.2s;
+}
+
+.model-card:hover {
+    transform: translateY(-5px);
+}
+
+.model-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.model-actions button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.model-actions i {
+    font-size: 0.875rem;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2c2c;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Dark theme for modals */
+.modal-content {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.modal-header, .modal-footer {
+    border-color: #444;
+}
+
+/* Form controls in dark theme */
+.form-control, .form-select {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #444;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* Toast notifications in dark theme */
+.toast {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.toast-header {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.card {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    color: #e0e0e0;
+}
+
+.modal-content {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.form-control, .form-select {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #444;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.nav-link {
+    color: rgba(255,255,255,.55);
+}
+
+.nav-link:hover, .nav-link:focus {
+    color: rgba(255,255,255,.75);
+}
+
+.nav-link.active {
+    color: #fff;
+}
+
+.navbar-brand {
+    color: #fff;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Update toast styles */
+.toast {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.toast-header {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+/* Update button text colors */
+.btn-primary, .btn-secondary, .btn-danger {
+    color: #fff;
+}
+
+.btn-primary:hover, .btn-secondary:hover, .btn-danger:hover {
+    color: #f8f9fa;
+}

@@ -1,0 +1,40 @@
+.model-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.model-card .card-body {
+    flex: 1 0 auto;
+}
+
+.model-actions {
+    margin-top: auto;
+}
+
+#chatMessages {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.user-message {
+    background-color: #e9ecef;
+    text-align: right;
+}
+
+.model-message {
+    background-color: #f8f9fa;
+}
+
+#userInfo {
+    font-style: italic;
+}

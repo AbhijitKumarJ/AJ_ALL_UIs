@@ -1,6 +1,8 @@
 window.AJ_GPT = window.AJ_GPT || {};
 window.AJ_GPT.models = {
     currentModel: null,
+    modelcategories:[],
+    categoryModels:[],
 
     initialize: function() {
         window.AJ_GPT.models.loadModels();
@@ -120,14 +122,32 @@ window.AJ_GPT.models = {
     // ]
 
     setupEventListeners: function() {
-        document.getElementById('pullModelBtn').addEventListener('click', window.AJ_GPT.models.handlePullModel);
+        document.getElementById("ddlPullModelCategory").addEventListener('change',window.AJ_GPT.models.onModelCategoryChange);
+        document.getElementById('pullModelBtn').addEventListener('click', window.AJ_GPT.models.showPullModal);
+        document.getElementById('btnPullModelSubmit').addEventListener('click', window.AJ_GPT.models.handlePullModel);
         document.getElementById('modelsList').addEventListener('click', window.AJ_GPT.models.handleModelAction);
         document.getElementById('sendMessage').addEventListener('click', window.AJ_GPT.models.sendMessage);
         document.getElementById('saveModelChanges').addEventListener('click', window.AJ_GPT.models.saveModelChanges);
     },
 
+    onModelCategoryChange: function(){
+        window.open('https://ollama.com/library/' + $("#ddlPullModelCategory").val());
+    },
+
+    showPullModal: async function(){
+        new bootstrap.Modal(document.getElementById('ollamaPullModal')).show();
+        modelcategories= await window.AJ_GPT.api.getModelcategories();
+
+        var catsddl = document.getElementById("ddlPullModelCategory");
+        catsddl.innerHTML = `<option value="$">  ---Select---  </option>` + 
+            modelcategories
+            .map((modelcategory) => {
+                    return `<option value="${modelcategory}">${modelcategory}</option>`;
+            })
+            .join("");
+    },
     handlePullModel: async function() {
-        var modelName = prompt('Enter the name of the model to pull:');
+        var modelName = document.getElementById('txtPullModelName').value.trim();
         if (modelName) {
             try {
                 var result = await window.AJ_GPT.api.pullModel(modelName);

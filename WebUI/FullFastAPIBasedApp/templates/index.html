@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ModuleHub Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -182,7 +183,8 @@
                 <h1 id="module-title">Dashboard</h1>
                 <div class="user-info" id="user-info">
                     <div class="user-avatar"></div>
-                    <span id="username">Guest</span>
+                    <span id="username">Guest</span>&nbsp;
+                    <span id="lnkLogout" onclick="logout()">Logout</span>
                 </div>
             </div>
             <div id="module-content">
@@ -191,8 +193,42 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="/static/task_analyser/vendor/jquery-3.7.1.min.js"></script>
+
     <script>
         let isLoggedIn = false;
+        window.AJ_GPT={};
+        var defaultUserStr='{"id":0,"":"Guest", "persona":"Default"}';
+        window.AJ_GPT.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") ?? defaultUserStr);
+        // {
+        //     "persona": "Programmer",
+        //     "id": 1,
+        //     "username": "a"
+        //   }
+
+        if(window.AJ_GPT.loggedInUser.id>0)
+        {
+            isLoggedIn=true;
+            $('#lnkLogout').show();
+        }
+        else
+        {
+            $('#lnkLogout').hide();
+            localStorage.clear();
+        }
+
+        function logout(){
+            var doLogout=confirm('do you want to logout?');
+            if(doLogout)
+            {
+                localStorage.clear();
+                isLoggedIn = false;
+                window.AJ_GPT.loggedInUser=JSON.parse(defaultUserStr);
+                $('#lnkLogout').hide();
+            }
+        }
 
         function showModule(module) {
             var moduleTitle = document.getElementById('module-title');
@@ -200,19 +236,19 @@
 
             moduleTitle.textContent = module.charAt(0).toUpperCase() + module.slice(1);
 
-            // if (!isLoggedIn && module !== 'dashboard') {
-            //     moduleContent.innerHTML = `
-            //         <div class="login-form">
-            //             <h2>Login Required</h2>
-            //             <input type="text" placeholder="Username" id="username-input">
-            //             <input type="password" placeholder="Password" id="password-input">
-            //             <button onclick="login()">Login</button>
-            //         </div>
-            //     `;
-            // } else {
-            switch (module) {
-                case 'dashboard':
-                    moduleContent.innerHTML = `
+            if (!isLoggedIn && module !== 'dashboard') {
+                moduleContent.innerHTML = `
+                    <div class="login-form">
+                        <h2>Login Required</h2>
+                        <input type="text" placeholder="Username" id="username-input">
+                        <input type="password" placeholder="Password" id="password-input">
+                        <button onclick="login()">Login</button>
+                    </div>
+                `;
+            } else {
+                switch (module) {
+                    case 'dashboard':
+                        moduleContent.innerHTML = `
                             <div class="module-grid">
                                 <div class="module-card" onclick="showModule('ollama')">
                                     <div class="module-icon"><i class="fas fa-robot"></i></div>
@@ -236,42 +272,78 @@
                                 </div>
                             </div>
                         `;
-                    break;
-                case 'ollama':
-                    window.location.href = "/static/ollama_manager/index.html";
-                    moduleContent.innerHTML = '<h2>Ollama Manager</h2><p>Manage your Ollama models and interactions here.</p>';
-                    break;
-                case 'chat':
-                    window.location.href = "/static/generic_chat/index.html";
-                    moduleContent.innerHTML = '<h2>Chat Manager</h2><p>Manage your chat sessions and conversations here.</p>';
-                    break;
-                case 'task':
-                    window.location.href = "/static/task_analyser/index.html";
-                    moduleContent.innerHTML = '<h2>Task Analyzer</h2><p>Analyze and manage your tasks and projects here.</p>';
-                    break;
-                case 'profile':
-                    moduleContent.innerHTML = '<h2>User Profile</h2><p>Manage your user profile and settings here.</p>';
-                    break;
+                        break;
+                    case 'ollama':
+                        window.location.href = "/static/ollama_manager/index.html";
+                        moduleContent.innerHTML = '<h2>Ollama Manager</h2><p>Manage your Ollama models and interactions here.</p>';
+                        break;
+                    case 'chat':
+                        window.location.href = "/static/generic_chat/index.html";
+                        moduleContent.innerHTML = '<h2>Chat Manager</h2><p>Manage your chat sessions and conversations here.</p>';
+                        break;
+                    case 'task':
+                        window.location.href = "/static/task_analyser/index.html";
+                        moduleContent.innerHTML = '<h2>Task Analyzer</h2><p>Analyze and manage your tasks and projects here.</p>';
+                        break;
+                    case 'profile':
+                        moduleContent.innerHTML = '<h2>User Profile</h2><p>Manage your user profile and settings here.</p>';
+                        break;
+                }
             }
-            // }
         }
-
+        window.AJ_GPT = {};
         function login() {
             var username = document.getElementById('username-input').value;
             var password = document.getElementById('password-input').value;
 
             // Simulate login (replace with actual authentication logic)
             if (username && password) {
-                isLoggedIn = true;
-                document.getElementById('username').textContent = username;
-                showModule('dashboard');
+
+                let msg = {
+                    username: username,
+                    password: password,
+                };
+                $.ajax({
+                    url: "/user/login_user",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(msg),
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status === "success") {
+                            //alert("Login successful!");
+                            console.log("User data:", response.data);
+
+                            isLoggedIn = true;
+                            document.getElementById('username').textContent = username;
+                            showModule('dashboard');
+                            window.AJ_GPT.loggedInUser = response.data;
+                            localStorage.setItem('loggedInUser', JSON.stringify(response.data));
+                            $('#lnkLogout').show();
+
+                        } else {
+                            alert("Login failed: " + response.message);
+                        }
+
+                        //simulateBotResponse(response.message);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + xhr.responseJSON.error);
+                        alert('Please enter correct username and password.');
+                    },
+                });
             } else {
-                alert('Please enter both username and password.');
+                alert('Please enter correct username and password.');
             }
         }
 
         // Initialize dashboard
         showModule('dashboard');
+
+
+        const modal = new bootstrap.Modal(document.getElementById("authModal"));
+
+        $("#openAuthModal").click(() => modal.show());
     </script>
 </body>
 

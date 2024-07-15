@@ -1,7 +1,11 @@
 $(document).ready(function () {
     const modal = new bootstrap.Modal(document.getElementById("authModal"));
 
-    $("#lnkLogin,#openAuthModal").click(() => modal.show());
+    $("#lnkLogin,#openAuthModal").click(() => {
+        modal.show();
+        onLoginSuccess(window.AJ_GPT.loggedInUser);
+}
+);
 
     $("#toggleRegister").click(function () {
         isRegistering = !isRegistering;
@@ -202,12 +206,12 @@ $(document).ready(function () {
 
     function onLoginSuccess(response) {
         window.AJ_GPT.userData.isLoggedIn = true;
-        window.AJ_GPT.userData.userId = response.data.id;
-        window.AJ_GPT.userData.userName = response.data.username;
-        window.AJ_GPT.userData.userPersona = response.data.persona;
+        window.AJ_GPT.userData.userId = response.id;
+        window.AJ_GPT.userData.userName = response.username;
+        window.AJ_GPT.userData.userPersona = response.persona;
 
         // Simulated successful authentication
-        $("#loginForm").addClass("hidden");
+        //$("#loginForm").addClass("hidden");
         $("#topicSelection").removeClass("hidden");
 
         populateTopics(window.AJ_GPT.topics);

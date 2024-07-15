@@ -32,12 +32,19 @@ var userProjects = [
     //  }
 ];
 
+window.AJ_GPT.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") ?? '{"id":0,"":"Guest", "persona":"Default"}');
+// {
+//     "persona": "Programmer",
+//     "id": 1,
+//     "username": "a"
+//   }
+
 window.AJ_GPT.userData = {
     isRegistering: false,
-    isLoggedIn: false,
-    userId: 0,
-    userName: "",
-    userPersona: "Programmer",
+    isLoggedIn: window.AJ_GPT.loggedInUser.id>0,
+    userId: window.AJ_GPT.loggedInUser.id,
+    userName: window.AJ_GPT.loggedInUser.username,
+    userPersona: window.AJ_GPT.loggedInUser.persona,
     userProjects: userProjects,
     userSessions: [],
     topicId: 0,

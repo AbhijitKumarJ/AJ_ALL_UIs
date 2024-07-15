@@ -3,12 +3,11 @@
 ## File Structure
 
 ```
-ollama-dashboard/
+ollama_manager/
 │
-├── views/
-│   ├── index.html
-│   ├── models.html
-│   ├── settings.html
+├── index.html
+├── models.html
+├── settings.html
 │
 ├── styles/
 │   ├── common.css

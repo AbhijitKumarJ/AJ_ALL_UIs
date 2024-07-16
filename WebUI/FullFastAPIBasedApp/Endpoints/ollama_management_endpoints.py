@@ -97,10 +97,10 @@ async def list_models(message:SelectedOllamaConfig):
     except OllamaError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/show_model")
+@router.post("/show_model")
 async def show_model_info(message: ModelShowEntity):
     try:
-        manager = OllamaModelManager(message.ollama_host)
+        manager = OllamaModelManager(message.ollama_config.ollama_host)
         return await manager.show_model_info(message.model)
     except OllamaError as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -116,7 +116,7 @@ async def show_model_info(message: ModelShowEntity):
 @router.post("/delete_model")
 async def delete_model(message:ModelShowEntity):
     try:
-        manager = OllamaModelManager(message.ollama_host)
+        manager = OllamaModelManager(message.ollama_config.ollama_host)
         return await manager.delete_model(message.model)
     except OllamaError as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -124,7 +124,7 @@ async def delete_model(message:ModelShowEntity):
 @router.post("/pull_model")
 async def pull_model(message:ModelShowEntity):
     try:
-        manager = OllamaModelManager(message.ollama_host)
+        manager = OllamaModelManager(message.ollama_config.ollama_host)
         return StreamingResponse(manager.pull_model(message.model), media_type="text/event-stream")
     except OllamaError as e:
         raise HTTPException(status_code=500, detail=str(e))

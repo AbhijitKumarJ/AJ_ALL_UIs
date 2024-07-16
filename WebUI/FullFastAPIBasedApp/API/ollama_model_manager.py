@@ -62,7 +62,7 @@ class OllamaModelManager:
 
     async def pull_model(self, name: str) -> AsyncGenerator[Dict[str, Any], None]:
         try:
-            async for progress in self.client.pull(name):
+            async for progress in self.client.pull(name,False, True):
                 yield progress
         except Exception as e:
             raise OllamaError(f"Error pulling model: {str(e)}")

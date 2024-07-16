@@ -105,15 +105,17 @@
         <div class="modal-body">
           <form id="ollamaPullForm">
             <div class="mb-3">
-              <label for="ddlPullModelCategory" class="form-label">Model Category</label>
+              <label for="ddlPullModelCategory" class="form-label">Model Category(Opens Ollama Website - To manually get relevant model name)</label>
               <select class="form-select" id="ddlPullModelCategory">
-                <option value="">Select a category</option>
-                <option value="llm">Language Models</option>
-                <option value="cv">Computer Vision</option>
-                <option value="audio">Audio Processing</option>
+                <option value="">  ---Select---  </option>
               </select>
+              
             </div>
             <div class="mb-3">
+                <label id="lblPullModelCategoryDesc" class="form-label"></label><br/>
+                <a id="ancPullModelCategoryDesc" href="#">Open Site to get exact details</a>
+            </div>
+            <!-- <div class="mb-3">
                 <label for="ddlPullModel" class="form-label">Model Category</label>
                 <select class="form-select" id="ddlPullModel">
                   <option value="">Select a category</option>
@@ -121,7 +123,7 @@
                   <option value="cv">Computer Vision</option>
                   <option value="audio">Audio Processing</option>
                 </select>
-              </div>
+              </div> -->
             <div class="mb-3">
               <label for="txtPullModelName" class="form-label">Model Name</label>
               <input type="text" class="form-control" id="txtPullModelName" placeholder="Enter model name">
@@ -134,7 +136,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="pullAnother" style="display: none;">Pull Another</button>
+          <!-- <button type="button" class="btn btn-primary" id="pullAnother" style="display: none;">Pull Another</button> -->
         </div>
       </div>
     </div>

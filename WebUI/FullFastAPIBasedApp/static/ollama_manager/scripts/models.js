@@ -148,7 +148,10 @@ window.AJ_GPT.models = {
             .addEventListener("click", window.AJ_GPT.models.showPullModal);
         document
             .getElementById("btnPullModelSubmit")
-            .addEventListener("click", window.AJ_GPT.models.handlePullModel);
+            .addEventListener("click", window.AJ_GPT.models.handlePullModel);            
+        document
+            .getElementById("btnStopPullModelSubmit")
+            .addEventListener("click", window.AJ_GPT.models.handleStopPullModel);   
         document
             .getElementById("modelsList")
             .addEventListener("click", window.AJ_GPT.models.handleModelAction);
@@ -182,6 +185,8 @@ window.AJ_GPT.models = {
 
     showPullModal: async function () {
         new bootstrap.Modal(document.getElementById("ollamaPullModal")).show();
+        $("#pullLogs").text('');
+        $('#txtPullModelName').val('');
         if (window.AJ_GPT.models.modelcategories.names.length == 0)
             window.AJ_GPT.models.modelcategories =
                 await window.AJ_GPT.api.getModelcategories();
@@ -196,19 +201,39 @@ window.AJ_GPT.models = {
                 .join("");
     },
 
+    fullResponse: "",
+
+    handleStopPullModel: async function(){
+        try {
+            var result = await window.AJ_GPT.api.interruptCommand(
+                function (eventType, eventData) {
+                    fullResponse += eventData + "\n";
+                    $("#pullLogs").text(fullResponse);
+                    if (eventType == "Close") {
+                        alert('done');
+                    }
+                }
+            );
+        } catch (error) {
+            console.error("Error pulling model:", error);
+            window.AJ_GPT.ui.showToast("Error pulling model", "error");
+        }
+    },
+
     handlePullModel: async function () {
         var modelName = document
             .getElementById("txtPullModelName")
             .value.trim();
         if (modelName) {
             try {
-                let fullResponse = "";
-                var result = await window.AJ_GPT.api.pullModel(
-                    modelName,
-                    function (response) {
-                        fullResponse += response + "\n";
+                fullResponse = "";
+                var result = await window.AJ_GPT.api.terminalCommand(
+                    "ollama pull " + modelName,
+                    function (eventType, eventData) {
+                        fullResponse += eventData + "\n";
                         $("#pullLogs").text(fullResponse);
-                        if (response == "Stream completed") {
+                        if (eventType == "Close") {
+                            alert('done')
                             //window.AJ_GPT.ui.showToast(result.message, "success");
                             window.AJ_GPT.models.loadModels();
                         }

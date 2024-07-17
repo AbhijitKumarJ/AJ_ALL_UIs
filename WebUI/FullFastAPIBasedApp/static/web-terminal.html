@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Terminal and Monitor</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            height: 100vh;
+        }
+        .terminal-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 10px;
+        }
+        .monitor-container {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        .toggle-input {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .terminal, .monitor {
+            background-color: #000;
+            border-radius: 5px;
+            padding: 10px;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .output {
+            flex-grow: 1;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .input-line {
+            display: flex;
+            margin-top: 10px;
+        }
+        .prompt {
+            color: #0f0;
+            margin-right: 5px;
+        }
+        .command-input {
+            flex-grow: 1;
+            background-color: transparent;
+            border: none;
+            color: #f0f0f0;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="controls">
+            <button class="toggle-input" id="toggle-input">Hide Input</button>
+        </div>
+        <div class="terminal" id="terminal">
+            <div class="output" id="terminal-output"></div>
+            <div class="input-line" id="input-line">
+                <span class="prompt">$</span>
+                <input type="text" class="command-input" id="command-input" autofocus>
+            </div>
+        </div>
+    </div>
+    <div class="monitor-container">
+        <h3>System Monitor</h3>
+        <div class="monitor" id="monitor">
+            <div class="output" id="monitor-output"></div>
+        </div>
+    </div>
+
+    <script>
+        const terminalOutput = document.getElementById('terminal-output');
+        const monitorOutput = document.getElementById('monitor-output');
+        const commandInput = document.getElementById('command-input');
+        const inputLine = document.getElementById('input-line');
+        const toggleButton = document.getElementById('toggle-input');
+        let terminalSocket, monitorSocket;
+        let inputVisible = true;
+
+        function connectWebSocket(url, outputElement, messageHandler) {
+            const socket = new WebSocket(url);
+            
+            socket.onopen = function(e) {
+                appendOutput(outputElement, "Connected to server\n");
+            };
+
+            socket.onmessage = messageHandler;
+
+            socket.onclose = function(event) {
+                if (event.wasClean) {
+                    appendOutput(outputElement, `Connection closed cleanly, code=${event.code} reason=${event.reason}\n`);
+                } else {
+                    appendOutput(outputElement, 'Connection died\n');
+                }
+                setTimeout(() => connectWebSocket(url, outputElement, messageHandler), 1000);
+            };
+
+            socket.onerror = function(error) {
+                appendOutput(outputElement, `Error: ${error.message}\n`);
+            };
+
+            return socket;
+        }
+
+        function initializeWebSockets() {
+            terminalSocket = connectWebSocket('ws://localhost:8000/ws/terminal', terminalOutput, 
+                function(event) {
+                    appendOutput(terminalOutput, event.data);
+                    scrollToBottom(terminalOutput);
+                }
+            );
+
+            monitorSocket = connectWebSocket('ws://localhost:8000/ws/monitor', monitorOutput, 
+                function(event) {
+                    monitorOutput.textContent = event.data;  // Replace content instead of appending
+                    scrollToBottom(monitorOutput);
+                }
+            );
+        }
+
+        initializeWebSockets();
+
+        commandInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const command = this.value.trim();
+                executeCommand(command);
+                this.value = '';
+            }
+        });
+
+        function executeCommand(command) {
+            appendOutput(terminalOutput, `$ ${command}\n`);
+            if (terminalSocket.readyState === WebSocket.OPEN) {
+                terminalSocket.send(command);
+            } else {
+                appendOutput(terminalOutput, 'WebSocket is not connected. Trying to reconnect...\n');
+                initializeWebSockets();
+            }
+        }
+
+        function appendOutput(outputElement, text) {
+            outputElement.textContent += text;
+        }
+
+        function scrollToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+
+        toggleButton.addEventListener('click', function() {
+            inputVisible = !inputVisible;
+            if (inputVisible) {
+                inputLine.style.display = 'flex';
+                this.textContent = 'Hide Input';
+            } else {
+                inputLine.style.display = 'none';
+                this.textContent = 'Show Input';
+            }
+        });
+
+        // Initial message
+        appendOutput(terminalOutput, 'Welcome to the Web Terminal! Type any system command to execute.\n\n');
+    </script>
+</body>
+</html>

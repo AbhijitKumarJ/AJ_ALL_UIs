@@ -63,78 +63,7 @@ window.AJ_GPT.models = {
         `
             )
             .join("");
-    },
-
-    // [
-    //     {
-    //         "name": "qwen2:1.5b",
-    //         "model": "qwen2:1.5b",
-    //         "modified_at": "2024-07-02T22:09:58.82476146+05:30",
-    //         "size": 934964102,
-    //         "digest": "f6daf2b25194025ae2d5288f2afd041997ce48116807a3b612c1a96b09bec03a",
-    //         "details": {
-    //             "parent_model": "",
-    //             "format": "gguf",
-    //             "family": "qwen2",
-    //             "families": [
-    //                 "qwen2"
-    //             ],
-    //             "parameter_size": "1.5B",
-    //             "quantization_level": "Q4_0"
-    //         }
-    //     },
-    //     {
-    //         "name": "nomic-embed-text:latest",
-    //         "model": "nomic-embed-text:latest",
-    //         "modified_at": "2024-05-15T16:20:04.120512748+05:30",
-    //         "size": 274302450,
-    //         "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
-    //         "details": {
-    //             "parent_model": "",
-    //             "format": "gguf",
-    //             "family": "nomic-bert",
-    //             "families": [
-    //                 "nomic-bert"
-    //             ],
-    //             "parameter_size": "137M",
-    //             "quantization_level": "F16"
-    //         }
-    //     },
-    //     {
-    //         "name": "crewaitinyllama:latest",
-    //         "model": "crewaitinyllama:latest",
-    //         "modified_at": "2024-05-13T18:58:07.328013469+05:30",
-    //         "size": 1170782017,
-    //         "digest": "c6e31e7b2e89196d566005d4171af15302d858e1aa391bbb8b5b8689fd43e0f5",
-    //         "details": {
-    //             "parent_model": "",
-    //             "format": "gguf",
-    //             "family": "llama",
-    //             "families": [
-    //                 "llama"
-    //             ],
-    //             "parameter_size": "1.1B",
-    //             "quantization_level": "Q8_0"
-    //         }
-    //     },
-    //     {
-    //         "name": "phi3mini4kinstructq4:latest",
-    //         "model": "phi3mini4kinstructq4:latest",
-    //         "modified_at": "2024-05-13T02:55:49.743953747+05:30",
-    //         "size": 2318919465,
-    //         "digest": "ca4020004285b291b94ab9ea84fb93ff6a4c121be57839ccba798091a4b305e1",
-    //         "details": {
-    //             "parent_model": "",
-    //             "format": "gguf",
-    //             "family": "llama",
-    //             "families": [
-    //                 "llama"
-    //             ],
-    //             "parameter_size": "3.8B",
-    //             "quantization_level": "Q4_K_M"
-    //         }
-    //     }
-    // ]
+    },    
 
     setupEventListeners: function () {
         document
@@ -146,9 +75,17 @@ window.AJ_GPT.models = {
         document
             .getElementById("pullModelBtn")
             .addEventListener("click", window.AJ_GPT.models.showPullModal);
+            
+        document
+            .getElementById("createModelBtn")
+            .addEventListener("click", window.AJ_GPT.models.showCreateModel);
+
         document
             .getElementById("btnPullModelSubmit")
-            .addEventListener("click", window.AJ_GPT.models.handlePullModel);            
+            .addEventListener("click", window.AJ_GPT.models.handlePullModel);      
+        document
+            .getElementById("btnCreateModelSubmit")
+            .addEventListener("click", window.AJ_GPT.models.handleCreateModel);         
         document
             .getElementById("btnStopPullModelSubmit")
             .addEventListener("click", window.AJ_GPT.models.handleStopPullModel);   
@@ -181,6 +118,42 @@ window.AJ_GPT.models = {
                 $("#ddlPullModelCategory").val() +
                 "')"
         );
+    },
+
+    showCreateModel: async function () {
+        new bootstrap.Modal(document.getElementById("createModelModal")).show();
+        $("#txtCreateModelName").val('newllama');
+        $('#txtCreateModelConfig').val('FROM llama3\nSYSTEM You are mario from Super Mario Bros.');
+    },
+
+    handleCreateModel: async function () {
+        var modelName = document
+            .getElementById("txtCreateModelName")
+            .value.trim();
+
+        var modelConfig = document
+            .getElementById("txtCreateModelConfig")
+            .value.trim();
+        if (modelName && modelConfig) {
+            try {
+                var result = await window.AJ_GPT.api.createModel(
+                    modelName,
+                    modelConfig,
+                    "",
+                    function (response) {
+                        window.AJ_GPT.ui.showToast(response.status, "success");
+                        window.AJ_GPT.models.loadModels();
+                    },
+                    function (xhr, status, error) {
+                        console.error("Error creating model:", error);
+                        window.AJ_GPT.ui.showToast("Error creating model", "error");
+                    }
+                );
+            } catch (error) {
+                console.error("Error creating model:", error);
+                window.AJ_GPT.ui.showToast("Error creating model", "error");
+            }
+        }
     },
 
     showPullModal: async function () {
@@ -340,9 +313,19 @@ window.AJ_GPT.models = {
     deleteModel: async function (model) {
         if (confirm(`Are you sure you want to delete the model "${model}"?`)) {
             try {
-                var result = await window.AJ_GPT.api.deleteModel(model);
-                window.AJ_GPT.ui.showToast(result.message, "success");
-                window.AJ_GPT.models.loadModels();
+                var result = await window.AJ_GPT.api.deleteModel(
+                    model, 
+                    "",
+                    function(response) {
+                        window.AJ_GPT.ui.showToast(response.status, "success");
+                        window.AJ_GPT.models.loadModels();
+                    },
+                    function (xhr, status, error) {
+                        console.error("Error deleting model:", error);
+                        window.AJ_GPT.ui.showToast("Error deleting model", "error");
+                    }
+                );
+                
             } catch (error) {
                 console.error("Error deleting model:", error);
                 window.AJ_GPT.ui.showToast("Error deleting model", "error");

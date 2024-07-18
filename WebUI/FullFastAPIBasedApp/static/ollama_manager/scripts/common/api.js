@@ -19,114 +19,84 @@ window.AJ_GPT.api = {
                 error_callback();
             },
         });
-        // async function() {
-        //     return new Promise((resolve) => {
-        //         setTimeout(() => {
-        //             resolve(['GPT-4', 'BERT', 'CodeLlama', 'Stable Diffusion', 'Whisper', 'LLaMA', 'DALL-E', 'T5', 'RoBERTa']);
-        //         }, 500);
-        //     });
-        // }
     },
 
-    connectWebSocket: function(url, command, wsOutputHandler) {
+    connectWebSocket: function (url, command, wsOutputHandler) {
         //var url='ws://localhost:8000/ws/terminal';
         const socket = new WebSocket(url);
-        
-        socket.onopen = function(e) {
+
+        socket.onopen = function (e) {
             wsOutputHandler("Open", "Connected to server\n");
             socket.send(command);
         };
 
-        socket.onmessage = function(event) {
+        socket.onmessage = function (event) {
             wsOutputHandler("Message", event.data);
         };
 
-        socket.onclose = function(event) {
+        socket.onclose = function (event) {
             if (event.wasClean) {
-                wsOutputHandler("Close", `Connection closed cleanly, code=${event.code} reason=${event.reason}\n`);
+                wsOutputHandler(
+                    "Close",
+                    `Connection closed cleanly, code=${event.code} reason=${event.reason}\n`
+                );
             } else {
-                wsOutputHandler("Close", 'Connection died\n');
+                wsOutputHandler("Close", "Connection died\n");
             }
-            setTimeout(() => connectWebSocket(url, command, wsOutputHandler), 1000);
+            setTimeout(
+                () => connectWebSocket(url, command, wsOutputHandler),
+                1000
+            );
         };
 
-        socket.onerror = function(error) {
+        socket.onerror = function (error) {
             wsOutputHandler("Error", `Error: ${error.message}\n`);
         };
 
         return socket;
     },
 
-    terminalCommand:function(command, wsOutputHandler){
-        var commandurl='ws://localhost:8000/ws/terminal';        
-        commandsocket=window.AJ_GPT.api.connectWebSocket(commandurl, command, wsOutputHandler);
+    terminalCommand: function (command, wsOutputHandler) {
+        var commandurl = "ws://localhost:8000/ws/terminal";
+        commandsocket = window.AJ_GPT.api.connectWebSocket(
+            commandurl,
+            command,
+            wsOutputHandler
+        );
         return commandsocket;
     },
 
-    interruptCommand:function(wsOutputHandler){
-        var commandurl='ws://localhost:8000/ws/interrupt';        
-        commandsocket=window.AJ_GPT.api.connectWebSocket(commandurl, 'interrupt', wsOutputHandler);
+    interruptCommand: function (wsOutputHandler) {
+        var commandurl = "ws://localhost:8000/ws/interrupt";
+        commandsocket = window.AJ_GPT.api.connectWebSocket(
+            commandurl,
+            "interrupt",
+            wsOutputHandler
+        );
         return commandsocket;
     },
-    
 
-    // pullModel: async function (name, wsOutputHandler) {
-
-    //     var commandurl='ws://localhost:8000/ws/terminal';
-        
-    //     commandsocket=window.AJ_GPT.api.connectWebSocket(commandurl, wsOutputHandler);
-
-    //     var commandurl='ws://localhost:8000/ws/interrupt';
-
-    //     interruptsocket=window.AJ_GPT.api.connectWebSocket(commandurl, wsOutputHandler);
-        
-        // Simulated API call
-        // return new Promise((resolve) => {
-        //     setTimeout(() => {
-        //         resolve({ success: true, message: `Model ${name} pulled successfully` });
-        //     }, 1500);
-        // });
-        // const eventSource = new EventSource(`/ollama/pull_model`, {
-        //     headers: { "Content-Type": "application/json" },
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         ollama_config: { ollama_host: "http://localhost:11434/" },
-        //         model: name,
-        //     }),
-        // });
-        // $.ajax({
-        //     url: '/ollama/pull_model',
-        //     method: 'POST',
-        //     data: JSON.stringify({ 
-        //         ollama_config: { ollama_host: "http://localhost:11434/" },
-        //         model: name,
-        //     }),
-        //     contentType: 'application/json',
-        //     xhrFields: {
-        //         onprogress: function(e) {
-        //             var response = e.currentTarget.response;
-        //             handleStreamingResponse(response);
-        //         }
-        //     },
-        //     success: function(data) {
-        //         handleStreamingResponse('Stream completed');
-        //     },
-        //     error: function(xhr, status, error) {
-        //         handleStreamingResponse('Error: ' + error);
-        //     }
-        // });
-        // handleStreamingResponse(eventSource);
-    //},
-
-    deleteModel: async function (name) {
-        // Simulated API call
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    success: true,
-                    message: `Model ${name} deleted successfully`,
-                });
-            }, 1000);
+    deleteModel: async function (name, url, success_callback, error_callback) {
+        let msg = {
+            ollama_config: {
+                ollama_host: url,
+            },
+            model: name,
+        };
+        $.ajax({
+            url: "/ollama/delete_model",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(msg),
+            success: function (response) {
+                console.log(response);
+                success_callback(response);
+                //simulateBotResponse(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + xhr.responseJSON.error);
+                error_callback();
+            },
         });
     },
 
@@ -140,21 +110,6 @@ window.AJ_GPT.api = {
     ) {
         // Simulated API call
         if (stream) {
-            // return new ReadableStream({
-            //     start(controller) {
-            //         const responses = prompt.split(' ').map(word => word + ' ');
-            //         let i = 0;
-            //         const interval = setInterval(() => {
-            //             if (i < responses.length) {
-            //                 controller.enqueue(responses[i]);
-            //                 i++;
-            //             } else {
-            //                 clearInterval(interval);
-            //                 controller.close();
-            //             }
-            //         }, 100);
-            //     }
-            // });
             let msg = {
                 ollama_config: {
                     ollama_host: url,
@@ -202,23 +157,37 @@ window.AJ_GPT.api = {
                     error_callback();
                 },
             });
-            // return new Promise((resolve) => {
-            //     setTimeout(() => {
-            //         resolve({ success: true, completion: `Completion for "${prompt}" using ${model}` });
-            //     }, 1000);
-            // });
         }
     },
 
-    createModel: async function (name, config) {
-        // Simulated API call
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    success: true,
-                    message: `Model ${name} created successfully`,
-                });
-            }, 1500);
+    createModel: async function (
+        name,
+        modelfile,
+        url,
+        success_callback,
+        error_callback
+    ) {
+        let msg = {
+            ollama_config: {
+                ollama_host: url,
+            },
+            name: name,
+            modelfile: modelfile,
+        };
+        $.ajax({
+            url: "/ollama/create_model",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(msg),
+            success: function (response) {
+                console.log(response);
+                success_callback(response);
+                //simulateBotResponse(response.message);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + xhr.responseJSON.error);
+                error_callback();
+            },
         });
     },
 

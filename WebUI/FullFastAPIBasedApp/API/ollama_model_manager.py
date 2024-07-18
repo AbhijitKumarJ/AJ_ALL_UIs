@@ -8,6 +8,8 @@ class OllamaError(Exception):
 
 class OllamaModelManager:
     def __init__(self, host):
+        if host=="":
+            host="http://localhost:11434/"
         self.client = AsyncClient(host)
 
     async def generate(self, model: str, prompt: str, stream: bool = False, **kwargs) -> Any:
@@ -32,7 +34,7 @@ class OllamaModelManager:
 
     async def create_model(self, name: str, modelfile: str) -> Dict[str, Any]:
         try:
-            return await self.client.create(name, modelfile)
+            return await self.client.create(name, None, modelfile)
         except Exception as e:
             raise OllamaError(f"Error creating model: {str(e)}")
 

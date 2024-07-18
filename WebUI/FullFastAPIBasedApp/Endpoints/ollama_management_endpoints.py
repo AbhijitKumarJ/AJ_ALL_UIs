@@ -84,6 +84,7 @@ async def chat(message: ChatMessageEntity ):
 @router.post("/create_model")
 async def create_model(message: ModelCreateEntity):
     try:
+        print(message)
         manager = OllamaModelManager(message.ollama_config.ollama_host)
         return await manager.create_model(message.name, message.modelfile)
     except OllamaError as e:
@@ -121,13 +122,13 @@ async def delete_model(message:ModelShowEntity):
     except OllamaError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/pull_model")
-async def pull_model(message:ModelShowEntity):
-    try:
-        manager = OllamaModelManager(message.ollama_config.ollama_host)
-        return StreamingResponse(manager.pull_model(message.model), media_type="text/event-stream")
-    except OllamaError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @router.post("/pull_model")
+# async def pull_model(message:ModelShowEntity):
+#     try:
+#         manager = OllamaModelManager(message.ollama_config.ollama_host)
+#         return StreamingResponse(manager.pull_model(message.model), media_type="text/event-stream")
+#     except OllamaError as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 # @router.post("/models/{name}/push")
 # async def push_model(name: str):

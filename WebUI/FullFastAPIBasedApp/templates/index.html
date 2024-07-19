@@ -195,7 +195,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="/static/task_analyser/vendor/jquery-3.7.1.min.js"></script>
+    <script src="/static/vendor/jquery-3.7.1.min.js"></script>
 
     <script>
         let isLoggedIn = false;
@@ -286,12 +286,39 @@
                         moduleContent.innerHTML = '<h2>Task Analyzer</h2><p>Analyze and manage your tasks and projects here.</p>';
                         break;
                     case 'profile':
+                        window.location.href = "/static/settings.html";
                         moduleContent.innerHTML = '<h2>User Profile</h2><p>Manage your user profile and settings here.</p>';
                         break;
                 }
             }
         }
         window.AJ_GPT = {};
+
+        function getAppSettings(){
+            $.ajax({
+                    url: "/user/get_app_settings",
+                    type: "GET",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status === "success") {
+                            console.log("Settings data:", response.data);
+                            window.AJ_GPT.AppSettings=response.data;
+                            localStorage.setItem('app_settings', JSON.stringify(response.data));
+
+                        } else {
+                            alert("App setting fetch failed: " + response.message);
+                        }
+
+                        //simulateBotResponse(response.message);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + xhr.responseJSON.error);
+                        alert('App setting fetch failed.');
+                    },
+                });
+
+        }
+
         function login() {
             var username = document.getElementById('username-input').value;
             var password = document.getElementById('password-input').value;
@@ -339,11 +366,11 @@
 
         // Initialize dashboard
         showModule('dashboard');
+        getAppSettings();
 
+        // const modal = new bootstrap.Modal(document.getElementById("authModal"));
 
-        const modal = new bootstrap.Modal(document.getElementById("authModal"));
-
-        $("#openAuthModal").click(() => modal.show());
+        // $("#openAuthModal").click(() => modal.show());
     </script>
 </body>
 

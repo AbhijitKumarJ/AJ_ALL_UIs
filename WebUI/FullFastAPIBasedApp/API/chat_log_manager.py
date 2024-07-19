@@ -36,7 +36,7 @@ class ChatLogManager(LogManager):
             provider = config.get("default_provider", "Ollama")
 
         if model == "" or model == None:
-            model = config.get("default_model", "qwen2:1.5b")
+            model = config.get("default_ollama_model", "qwen2:1.5b")
 
         if provider == "Ollama":
             is_success, resp_message = self.llmManager.ollama_provider.get_response(

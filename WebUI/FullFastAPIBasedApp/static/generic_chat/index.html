@@ -47,7 +47,7 @@
                 <button id="send-button"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
-        <div class="sidebar sidebar-right">
+        <div class="sidebar sidebar-right" style="width: 350px;">
             <div class="sidebar-section">
                 <h3><i class="fas fa-server"></i> Inference Source</h3>
                 <select id="inference-source">
@@ -60,7 +60,7 @@
 
                 </select>
             </div>
-            <div class="sidebar-section">
+            <div class="sidebar-section" style="display: none;">
                 <h3><i class="fas fa-key"></i> API Keys</h3>
                 <label for="openai-key">OpenAI Key:</label>
                 <input type="password" id="openai-key" placeholder="Enter OpenAI API Key">
@@ -82,68 +82,13 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script>
-        providers = ["Ollama", "Groq", "Claude", "OpenAI", "Gemini"];
-        models = {
-            "Ollama": [
-                {
-                    "name": "qwen2:1.5b"
-                }
-            ],
-            "Groq": [
-                {
-                    "name": "llama3-8b-8192"
-                },
-                {
-                    "name": "gemma2-9b-it"
-                },
-                {
-                    "name": "gemma-7b-it"
-                },
-                {
-                    "name": "llama3-70b-8192"
-                },
-                {
-                    "name": "mixtral-8x7b-32768"
-                }
-            ],
-            "Claude": [
-                {
-                    "name": "claude-3-haiku-20240307"
-                },
-                {
-                    "name": "claude-3-sonnet-20240229"
-                },
-                {
-                    "name": "claude-3-opus-20240229"
-                }
-            ],
-            "OpenAI": [
-                {
-                    "name": "gpt-3.5-turbo"
-                },
-                {
-                    "name": "gpt-3.5-turbo-1106"
-                },
-                {
-                    "name": "gpt-4-turbo"
-                },
-                {
-                    "name": "gpt-4"
-                },
-                {
-                    "name": "gpt-4o"
-                }
-            ],
-            "Gemini": [
-                {
-                    "name": "gemini-1.5-flash"
-                },
-                {
-                    "name": "gemini-1.0-pro"
-                }
-            ]
-        }
-
+        window.AJ_GPT={};
+        window.AJ_GPT.AppSettings=JSON.parse(localStorage.getItem("app_settings"));
+        providers = window.AJ_GPT.AppSettings.providers;
+        models = window.AJ_GPT.AppSettings.models;
+        var default_provider=window.AJ_GPT.AppSettings["default_provider"];
+        var default_model=window.AJ_GPT.AppSettings["default_" + default_provider.toLowerCase() + "_model"];
+               
         // <option value="ollama">Ollama</option>
         // <option value="transformers">Transformers</option>
         // <option value="openai">OpenAI</option>
@@ -152,26 +97,28 @@
             let provider = providers[index];
             $('#inference-source').append('<option value="' + provider + '">' + provider + '</option>')
         }
-
+        $('#inference-source').val(default_provider);
         //<option value="llama-8b">Llama 8B</option>
         // <option value="qwen-7b">Qwen 7B</option>
         // <option value="gpt-3.5">GPT-3.5</option>
         // <option value="gpt-4">GPT-4</option>
-        for (let index = 0; index < models["Ollama"].length; index++) {
-            let model_name = models["Ollama"][index]["name"];
+        for (let index = 0; index < models[default_provider].length; index++) {
+            let model_name = models[default_provider][index]["name"];
             $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
         }
+        $('#model-selection').val(default_model);
 
         $(function () {
 
-
             $("#inference-source").on("change", function () {
                 selectedProvider = $("#inference-source").val();
+                defaultSelectedModel=window.AJ_GPT.AppSettings["default_" + selectedProvider.toLowerCase() + "_model"]
                 $('#model-selection').html('');
                 for (let index = 0; index < models[selectedProvider].length; index++) {
                     let model_name = models[selectedProvider][index]["name"];
                     $('#model-selection').append('<option value="' + model_name + '">' + model_name + '</option>');
                 }
+                $('#model-selection').val(defaultSelectedModel);
             });
 
             $.get('/api/providers/ollama/models', function (data, textStatus, jqXHR) {

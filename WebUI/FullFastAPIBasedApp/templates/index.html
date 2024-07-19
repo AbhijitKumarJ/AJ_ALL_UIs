@@ -199,8 +199,8 @@
 
     <script>
         let isLoggedIn = false;
-        window.AJ_GPT={};
-        var defaultUserStr='{"id":0,"":"Guest", "persona":"Default"}';
+        window.AJ_GPT = {};
+        var defaultUserStr = '{"id":0,"":"Guest", "persona":"Default"}';
         window.AJ_GPT.loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") ?? defaultUserStr);
         // {
         //     "persona": "Programmer",
@@ -208,24 +208,21 @@
         //     "username": "a"
         //   }
 
-        if(window.AJ_GPT.loggedInUser.id>0)
-        {
-            isLoggedIn=true;
+        if (window.AJ_GPT.loggedInUser.id > 0) {
+            isLoggedIn = true;
             $('#lnkLogout').show();
         }
-        else
-        {
+        else {
             $('#lnkLogout').hide();
             localStorage.clear();
         }
 
-        function logout(){
-            var doLogout=confirm('do you want to logout?');
-            if(doLogout)
-            {
+        function logout() {
+            var doLogout = confirm('do you want to logout?');
+            if (doLogout) {
                 localStorage.clear();
                 isLoggedIn = false;
-                window.AJ_GPT.loggedInUser=JSON.parse(defaultUserStr);
+                window.AJ_GPT.loggedInUser = JSON.parse(defaultUserStr);
                 $('#lnkLogout').hide();
             }
         }
@@ -294,28 +291,29 @@
         }
         window.AJ_GPT = {};
 
-        function getAppSettings(){
+        function getAppSettings() {
             $.ajax({
-                    url: "/user/get_app_settings",
-                    type: "GET",
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status === "success") {
-                            console.log("Settings data:", response.data);
-                            window.AJ_GPT.AppSettings=response.data;
-                            localStorage.setItem('app_settings', JSON.stringify(response.data));
+                url: "/user/get_app_settings",
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status === "success") {
+                        console.log("Settings data:", response.data);
+                        window.AJ_GPT.AppSettings = response.data;
+                        getOllamaModels();
+                        localStorage.setItem('app_settings', JSON.stringify(response.data));
 
-                        } else {
-                            alert("App setting fetch failed: " + response.message);
-                        }
+                    } else {
+                        alert("App setting fetch failed: " + response.message);
+                    }
 
-                        //simulateBotResponse(response.message);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Error: " + xhr.responseJSON.error);
-                        alert('App setting fetch failed.');
-                    },
-                });
+                    //simulateBotResponse(response.message);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + xhr.responseJSON.error);
+                    alert('App setting fetch failed.');
+                },
+            });
 
         }
 
@@ -362,6 +360,28 @@
             } else {
                 alert('Please enter correct username and password.');
             }
+        }
+
+        function getOllamaModels() {
+            let msg = {
+                ollama_host: "",
+            };
+            $.ajax({
+                url: "/ollama/list_models",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(msg),
+                success: function (response) {
+                    console.log(response);
+                    window.AJ_GPT.AppSettings.models.Ollama = response.models.map(function (model) { return { "name": model.name }; })
+                    //simulateBotResponse(response.message);
+                    localStorage.setItem('app_settings', JSON.stringify(window.AJ_GPT.AppSettings));
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + xhr.responseJSON.error);
+                    error_callback();
+                },
+            });
         }
 
         // Initialize dashboard

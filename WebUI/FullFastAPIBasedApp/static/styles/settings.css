@@ -1,24 +1,132 @@
-.persona-card {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 0.25rem;
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --bg-input: #2a2a2a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-primary: #4a4a4a;
+    --accent-secondary: #3a3a3a;
+    --accent-hover: #5a5a5a;
+    --border-color: #333333;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+}
+
+.navbar {
+    background-color: var(--bg-card) !important;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: var(--accent-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+}
+
+.card-header h2 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-control, .form-select {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--bg-input);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 0.25rem rgba(74, 74, 74, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.form-label {
+    color: var(--text-secondary);
+}
+
+.form-range::-webkit-slider-thumb {
+    background: var(--accent-primary);
+}
+
+.form-range::-moz-range-thumb {
+    background: var(--accent-primary);
+}
+
+.form-range::-ms-thumb {
+    background: var(--accent-primary);
+}
+
+.collapse-toggle {
+    cursor: pointer;
+}
+
+.collapse-toggle::after {
+    content: '\F282';
+    font-family: 'Bootstrap-icons';
+    float: right;
+    transition: transform 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.collapse-toggle.collapsed::after {
+    transform: rotate(-90deg);
+}
+
+h3 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.model-settings {
+    background-color: var(--bg-input);
+    border-radius: 8px;
     padding: 1rem;
     margin-bottom: 1rem;
-    color:black;
 }
 
-.persona-card h3 {
-    margin-top: 0;
+.model-settings h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
-.persona-actions {
-    margin-top: 1rem;
+/* Toast styles */
+.toast {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
 }
 
-#temperatureValue {
-    margin-left: 0.5rem;
+.toast-header {
+    background-color: var(--accent-secondary);
+    color: var(--text-primary);
 }
 
-.form-range {
-    width: 100%;
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
 }

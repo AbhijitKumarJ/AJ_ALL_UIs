@@ -3,11 +3,19 @@ rename this file to config.json and add your keys
 */
 
 {
-  "openai_api_key": "xxx",
-  "groq_api_key": "xxx",
-  "anthropic_api_key": "xxx",
-  "google_api_key": "xxx",
-  "default_provider": "Groq",
+    "openai_api_key": "xxx",
+    "groq_api_key": "xxx",
+    "anthropic_api_key": "xxx",
+    "google_api_key": "xxx",
+    "default_provider": "Groq",
+    "default_inference_hp_settings":{
+        "temperature":0.7, 
+        "max_tokens":2048, 
+        "top_p":1,
+        "top_k":50,
+        "frequency_penalty":0, 
+        "presence_penalty":0
+    },
     "default_ollama_model": "qwen2:1.5b",
     "default_groq_model": "llama3-8b-8192",
     "default_gemini_model": "gemini-1.5-flash",
@@ -74,9 +82,21 @@ rename this file to config.json and add your keys
             }
         ]
     },
-    "personas":[
-      { "id": "default", "name": "Default", "systemPrompt": "You are a helpful assistant." },
-      { "id": "coder", "name": "Coder", "systemPrompt": "You are an expert programmer." },
-      { "id": "creative", "name": "Creative", "systemPrompt": "You are a creative writer." }
+    "personas": [
+        {
+            "id": "default",
+            "name": "Default",
+            "systemPrompt": "You are a helpful assistant."
+        },
+        {
+            "id": "coder",
+            "name": "Coder",
+            "systemPrompt": "You are an expert programmer."
+        },
+        {
+            "id": "creative",
+            "name": "Creative",
+            "systemPrompt": "You are a creative writer."
+        }
     ]
 }

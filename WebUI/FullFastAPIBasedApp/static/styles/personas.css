@@ -1,0 +1,76 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.navbar {
+    background-color: #1e1e1e !important;
+}
+
+.persona-card {
+    background-color: #1e1e1e;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.persona-card:hover {
+    box-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+}
+
+.persona-card h3 {
+    color: #BB86FC;
+    margin-top: 0;
+}
+
+.persona-actions {
+    margin-top: 1rem;
+}
+
+.btn-primary {
+    background-color: #3700B3;
+    border-color: #3700B3;
+}
+
+.btn-primary:hover {
+    background-color: #5600E8;
+    border-color: #5600E8;
+}
+
+.btn-danger {
+    background-color: #CF6679;
+    border-color: #CF6679;
+}
+
+.btn-danger:hover {
+    background-color: #A00037;
+    border-color: #A00037;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    border: 1px solid #3a3a3a;
+}
+
+.modal-header {
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.modal-footer {
+    border-top: 1px solid #3a3a3a;
+}
+
+.form-control, .form-select {
+    background-color: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #2a2a2a;
+    border-color: #4a4a4a;
+    color: #e0e0e0;
+    box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+}

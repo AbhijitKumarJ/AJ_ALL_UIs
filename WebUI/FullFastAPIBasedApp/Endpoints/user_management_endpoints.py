@@ -44,6 +44,7 @@ def get_app_settings():
         "providers": config["providers"],
         "personas":config["personas"],
         "default_provider": config["default_provider"],
+        "default_inference_hp_settings": config["default_inference_hp_settings"],
         "default_ollama_model": config["default_ollama_model"],
         "default_groq_model": config["default_groq_model"],
         "default_gemini_model": config["default_gemini_model"],

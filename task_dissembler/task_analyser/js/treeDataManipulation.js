@@ -42,9 +42,9 @@ $(document).ready(function () {
     }
 
     // Function to add a child node
-    function addChildNode(parentId, text, desc, prompt_and_response) {
+    function addChildNode(parentId, text, node_desc, prompt_and_response) { // Changed 'desc' to 'node_desc' to avoid conflict
         const newId = generateUniqueId();
-        const newNode = getNewNode(newId, text, desc, prompt_and_response);
+        const newNode = getNewNode(newId, text, node_desc, prompt_and_response);
 
         const parentNode = findNodeById(parentId);
         if (parentNode) {
@@ -58,9 +58,9 @@ $(document).ready(function () {
     }
 
     // Function to add a sibling node below
-    function addSiblingNodeBelow(siblingId, text, desc, prompt_and_response) {
+    function addSiblingNodeBelow(siblingId, text, node_desc, prompt_and_response) { // Changed 'desc' to 'node_desc'
         const newId = generateUniqueId();
-        const newNode = getNewNode(newId, text, desc, prompt_and_response);
+        const newNode = getNewNode(newId, text, node_desc, prompt_and_response);
 
         const siblingNode = findNodeById(siblingId);
         if (siblingNode) {
@@ -83,9 +83,9 @@ $(document).ready(function () {
     }
 
     // Function to add a sibling node above
-    function addSiblingNodeAbove(siblingId, text, desc, prompt_and_response) {
+    function addSiblingNodeAbove(siblingId, text, node_desc, prompt_and_response) { // Changed 'desc' to 'node_desc'
         const newId = generateUniqueId();
-        const newNode = getNewNode(newId, text, desc, prompt_and_response);
+        const newNode = getNewNode(newId, text, node_desc, prompt_and_response);
 
         const siblingNode = findNodeById(siblingId);
         if (siblingNode) {
@@ -201,22 +201,26 @@ $(document).ready(function () {
         if (node.id === id) {
             return node;
         }
-        for (let child of node.children) {
-            const found = findNodeById(id, child);
-            if (found) return found;
+        if (node.children) { // Ensure children exist before iterating
+            for (let child of node.children) {
+                const found = findNodeById(id, child);
+                if (found) return found;
+            }
         }
         return null;
     }
 
     // Helper function to find the parent of a node
     function findParentNode(id, node = window.AJ_GPT.taskTree, parent = null) {
-        console.log(node);
+        // console.log(node); // Reduced logging for cleaner console
         if (node.id === id) {
             return parent;
         }
-        for (let child of node.children) {
-            const found = findParentNode(id, child, node);
-            if (found) return found;
+        if (node.children) { // Ensure children exist
+            for (let child of node.children) {
+                const found = findParentNode(id, child, node);
+                if (found) return found;
+            }
         }
         return null;
     }
@@ -252,55 +256,81 @@ $(document).ready(function () {
             return false;
         }
 
+        // Determine parent task description
+        let parent_task_description = "";
+        if (!is_root) {
+            parent_task_description = parentNode.properties.description || parentNode.text;
+        }
+
         try {
-            const apiResponse = window.AJ_GPT.serverCalls.subDivideTask(
-                window.AJ_GPT.userData.taskType,
-                is_root,
-                parentNode.text,
-                parentNode.desc,
-                window.AJ_GPT.userData.projectName,
-                window.AJ_GPT.userData.projectDesc,
-                "",
-                parentNode.properties,
-                function (response, prompt) {
-                    //   alert(response.response)
-                    resp_json = JSON.parse(response.data);
-                    subtasks = resp_json; //resp_json["task_steps"];
-                    parentNode.prompts_and_responses.push(
-                        {prompt:prompt, response:response.data}
-                    );
-                    subtasks.forEach((subtask) => {
-                        const newChildId = addChildNode(
-                            nodeId,
-                            subtask.text,
-                            subtask.description,
-                            null
-                        );
-                        if (newChildId) {
-                            addProperty(
-                                newChildId,
-                                "taskDivisionType",
-                                useCustomOption ? "custom" : "default"
-                            );
-                            Object.entries(subtask).forEach(
-                                ([key, value]) => {
-                                    addProperty(newChildId, key, value);
-                                }
-                            );
+            // Call the new LLM service
+            window.AJ_GPT.llmService.subDivideTaskLLM(
+                window.AJ_GPT.userData.taskType,    // task_type
+                is_root,                            // is_root
+                parentNode.text,                    // task_summary
+                parentNode.properties.description || parentNode.text, // task_description
+                window.AJ_GPT.userData.projectDesc, // project_desc
+                parent_task_description,            // parent_task_desc
+                "",                                 // siblings_desc (empty for now)
+                parentNode.properties,              // options
+                function (llm_content, prompt_sent) { // success_callback
+                    try {
+                        const subtasks = JSON.parse(llm_content);
+                        
+                        if (parentNode.prompts_and_responses === undefined) {
+                            parentNode.prompts_and_responses = [];
                         }
-                    });
+                        parentNode.prompts_and_responses.push(
+                            { prompt: prompt_sent, response: llm_content }
+                        );
 
-                    updateTreeView();
+                        if (Array.isArray(subtasks)) {
+                            subtasks.forEach((subtask) => {
+                                const newChildId = addChildNode(
+                                    nodeId,
+                                    subtask.text || subtask.summary || "Untitled Subtask", // Accommodate different possible key names for summary
+                                    subtask.desc || subtask.description || "", // Accommodate different possible key names for description
+                                    null
+                                );
+                                if (newChildId) {
+                                    addProperty(
+                                        newChildId,
+                                        "taskDivisionType",
+                                        useCustomOption ? "custom" : "default"
+                                    );
+                                    // Add all properties from the subtask object returned by LLM
+                                    Object.entries(subtask).forEach(
+                                        ([key, value]) => {
+                                            if (key !== 'children') { // Avoid overwriting children array if present
+                                                addProperty(newChildId, key, value);
+                                            }
+                                        }
+                                    );
+                                    // Ensure 'description' property is set if 'desc' was primary
+                                    if (subtask.desc && !subtask.description) {
+                                        addProperty(newChildId, "description", subtask.desc);
+                                    }
+                                }
+                            });
+                        } else {
+                            console.error("LLM response is not an array of subtasks:", subtasks);
+                            alert("Error: LLM response was not in the expected format (array of subtasks). Check console for details.");
+                        }
+                        updateTreeView();
+                    } catch (e) {
+                        console.error("Error parsing LLM response or processing subtasks:", e);
+                        console.error("Raw LLM content:", llm_content);
+                        alert("Error: Could not parse the subtasks from LLM response. Check console for details. Raw response: " + llm_content);
+                    }
                 },
-                function (xhr, status, error) {}
+                function (error_message) { // error_callback
+                    console.error("LLM API Error in createSubnodesFromTaskDivision:", error_message);
+                    alert("Failed to get subtasks from LLM: " + error_message);
+                }
             );
-            // const subtasks = useCustomOption
-            //     ? apiResponse.custom
-            //     : apiResponse.default;
-
             return true;
         } catch (error) {
-            console.error("Error in task division:", error);
+            console.error("Error calling subDivideTaskLLM:", error);
             return false;
         }
     }
